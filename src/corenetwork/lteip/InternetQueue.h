@@ -12,7 +12,7 @@
 
 #include <omnetpp.h>
 
-using namespace omnetpp;
+//using namespace omnetpp;
 
 /**
  * @class InternetQueue

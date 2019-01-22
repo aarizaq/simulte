@@ -8,9 +8,10 @@
 //
 
 #include "apps/alert/AlertReceiver.h"
-#include "inet/common/ModuleAccess.h"  // for multicast support
+#include <inet/common/ModuleAccess.h>  // for multicast support
 
 Define_Module(AlertReceiver);
+using namespace inet;
 
 void AlertReceiver::initialize(int stage)
 {

@@ -24,8 +24,6 @@
 #include "inet/common/geometry/common/Coord.h"
 #include "stack/phy/packet/AirFrame_m.h"
 
-using namespace inet;
-
 // Forward declarations
 class AirFrame;
 

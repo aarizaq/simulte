@@ -8,12 +8,14 @@
 //
 
 #include <cmath>
+#include <inet/common/ModuleAccess.h>  // for multicast support
+
 #include "apps/alert/AlertSender.h"
-#include "inet/common/ModuleAccess.h"  // for multicast support
 
 #define round(x) floor((x) + 0.5)
 
 Define_Module(AlertSender);
+using namespace inet;
 
 AlertSender::AlertSender()
 {

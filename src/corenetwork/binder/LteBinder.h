@@ -20,8 +20,6 @@
 #include "corenetwork/nodes/ExtCell.h"
 #include "stack/mac/layer/LteMacBase.h"
 
-using namespace inet;
-
 /**
  * The LTE Binder module has one instance in the whole network.
  * It stores global mapping tables with OMNeT++ module IDs,

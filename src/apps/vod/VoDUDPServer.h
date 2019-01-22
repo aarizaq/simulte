@@ -20,9 +20,6 @@
 #include "inet/transportlayer/contract/udp/UDPSocket.h"
 #include "inet/networklayer/common/L3AddressResolver.h"
 
-using namespace std;
-using namespace inet;
-
 class VoDUDPServer : public cSimpleModule
 {
   protected:

@@ -14,8 +14,6 @@
 #include <list>
 #include "inet/networklayer/common/L3Address.h"
 
-using namespace inet;
-
 enum EpcNodeType
 {
     ENB,

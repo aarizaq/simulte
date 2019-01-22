@@ -13,7 +13,7 @@
 #include <omnetpp.h>
 #include "stack/rlc/packet/LteRlcPdu_m.h"
 
-using namespace omnetpp;
+//using namespace omnetpp;
 
 /**
  * @class LteMacQueue

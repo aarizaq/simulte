@@ -15,8 +15,6 @@
 #include "epc/gtp/TftControlInfo.h"
 #include "epc/gtp_common.h"
 
-using namespace inet;
-
 /**
  * Objective of the Traffic Flow Filter is mapping IP 4-Tuples to TFT identifiers. This commonly means identifying a bearer and
  * associating it to an ID that will be recognized by the first GTP-U entity

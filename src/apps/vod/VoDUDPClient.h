@@ -21,8 +21,6 @@
 #include "inet/transportlayer/contract/udp/UDPSocket.h"
 #include "inet/networklayer/common/L3AddressResolver.h"
 
-using namespace std;
-
 class VoDUDPClient : public cSimpleModule
 {
     inet::UDPSocket socket;

@@ -32,7 +32,7 @@
 #include "inet/common/geometry/common/Coord.h"
 #include "common/features.h"
 
-using namespace omnetpp;
+//using namespace omnetpp;
 
 class LteBinder;
 class LteDeployer;

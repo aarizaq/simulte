@@ -13,8 +13,6 @@
 
 #include "CbrPacket_m.h"
 
-using namespace inet;
-
 class CbrSender : public cSimpleModule
 {
     UDPSocket socket;

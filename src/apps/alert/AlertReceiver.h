@@ -13,22 +13,22 @@
 #include <string.h>
 #include <omnetpp.h>
 
-#include "inet/networklayer/common/L3AddressResolver.h"
-#include "inet/transportlayer/contract/udp/UDPSocket.h"
+#include <inet/networklayer/common/L3AddressResolver.h>
+#include <inet/transportlayer/contract/udp/UdpSocket.h>
 #include "apps/alert/AlertPacket_m.h"
 
-class AlertReceiver : public cSimpleModule
+class AlertReceiver : public inet::cSimpleModule
 {
-    inet::UDPSocket socket;
+    inet::UdpSocket socket;
 
-    simsignal_t alertDelay_;
-    simsignal_t alertRcvdMsg_;
+    inet::simsignal_t alertDelay_;
+    inet::simsignal_t alertRcvdMsg_;
 
   protected:
 
-    virtual int numInitStages() const { return inet::NUM_INIT_STAGES; }
-    void initialize(int stage);
-    void handleMessage(cMessage *msg);
+    virtual int numInitStages() const override { return inet::NUM_INIT_STAGES; }
+    void initialize(int stage) override;
+    void handleMessage(inet::cMessage *msg) override;
 };
 
 #endif
