@@ -16,7 +16,7 @@
 //using namespace omnetpp;
 
 //! Generic timer interface
-class TTimer : public cObject
+class TTimer : public omnetpp::cObject
 {
   public:
     /*! Build an idle timer.
@@ -24,7 +24,7 @@ class TTimer : public cObject
      * @param module - the connected module
      * @return the idle timer
      */
-    TTimer(cSimpleModule* module)
+    TTimer(inet::cSimpleModule* module)
     {
         module_ = module;
         busy_ = false;
@@ -46,7 +46,7 @@ class TTimer : public cObject
      * a programming error. Thus, we abort execution immediately.
      * @param t interval before timer is triggered
      */
-    void start(simtime_t t);
+    void start(inet::simtime_t t);
 
     /*! Stop the timer, if busy. The timer is now idle.
      *
@@ -99,7 +99,7 @@ class TTimer : public cObject
      *
      * @return the elapsed time
      */
-    simtime_t elapsed()
+    inet::simtime_t elapsed()
     {
         return NOW - start_;
     }
@@ -108,7 +108,7 @@ class TTimer : public cObject
      *
      * @return the remaining time
      */
-    simtime_t remaining()
+    inet::simtime_t remaining()
     {
         return expire_ - NOW;
     }
@@ -118,7 +118,7 @@ class TTimer : public cObject
     unsigned int timerId_;
 
     //! Object for handling the event.
-    cSimpleModule* module_;
+    inet::cSimpleModule* module_;
 
     //! Used for scheduling an event into the Omnet++ event scheduler
     TTimerMsg * intr_;
@@ -127,10 +127,10 @@ class TTimer : public cObject
     bool busy_;
 
     //! Last time the timer was started.
-    simtime_t start_;
+    inet::simtime_t start_;
 
     //! Expire time.
-    simtime_t expire_;
+    inet::simtime_t expire_;
 };
 
 /*!
@@ -141,11 +141,11 @@ class TTimer : public cObject
  *  To distinguish between different events, the module handler will receive a message
  *  with an event id specified by user.
  */
-class TMultiTimer : public cObject
+class TMultiTimer : public omnetpp::cObject
 {
   public:
     //! Build an idle multi-timer.
-    TMultiTimer(cSimpleModule* module)
+    TMultiTimer(inet::cSimpleModule* module)
     {
         module_ = module;
         busy_ = false;
@@ -162,7 +162,7 @@ class TMultiTimer : public cObject
      * @param t the scheduled event time
      * @param event the event id
      */
-    virtual void add(simtime_t t, unsigned int event);
+    virtual void add(inet::simtime_t t, unsigned int event);
 
     /*!
      * Gets the timer identifier which is inserted into each timer message
@@ -225,7 +225,7 @@ class TMultiTimer : public cObject
     unsigned int timerId_;
 
     //! Object for handling the event.
-    cSimpleModule* module_;
+    inet::cSimpleModule* module_;
 
     //! Used for scheduling an event into the Omnet++ event scheduler
     TMultiTimerMsg* intr_;
@@ -236,16 +236,16 @@ class TMultiTimer : public cObject
     //! The event list.
     /** More than one event can have the same finish time.
      */
-    std::multimap<const simtime_t, const unsigned int> directList_;
+    std::multimap<const inet::simtime_t, const unsigned int> directList_;
 
     //! Event iterator
-    typedef std::multimap<const simtime_t, const unsigned int>::iterator Event_it;
+    typedef std::multimap<const inet::simtime_t, const unsigned int>::iterator Event_it;
 
     //! The removable list. Each event id matches with a iterator.
     std::map<const unsigned int, const Event_it> reverseList_;
 
     //! Direct list iterator type
-    typedef std::multimap<const simtime_t, const unsigned int>::iterator iterator_d;
+    typedef std::multimap<const inet::simtime_t, const unsigned int>::iterator iterator_d;
 
     //! Reverse list iterator type
     typedef std::map<const unsigned int, const Event_it>::iterator iterator_r;

@@ -13,6 +13,8 @@
 
 Define_Module(InternetMux);
 
+using namespace inet;
+
 InternetMux::InternetMux()
 {
     // TODO Auto-generated constructor stub

@@ -13,7 +13,9 @@
 #include <string.h>
 #include <omnetpp.h>
 #include <math.h>
-#include "inet/networklayer/contract/ipv4/IPv4Address.h"
+
+#include <inet4_compat/networklayer/contract/ipv4/IPv4Address.h>
+
 #include "stack/phy/das/RemoteAntennaSet.h"
 #include "corenetwork/binder/LteBinder.h"
 #include "common/LteCommon.h"
@@ -31,7 +33,7 @@ class DasFilter;
  * Keeps general information about the cell
  */
 // TODO move all the parameters to their own modules
-class LteDeployer : public cSimpleModule
+class LteDeployer : public inet::cSimpleModule
 {
   private:
     /// reference to the global module binder
@@ -122,9 +124,9 @@ class LteDeployer : public cSimpleModule
     std::map<MacNodeId, Lambda> lambdaMap_;
     protected:
 
-    virtual void initialize();
+    virtual void initialize() override;
 
-    virtual void handleMessage(cMessage *msg)
+    virtual void handleMessage(inet::cMessage *msg) override
     {
     }
 

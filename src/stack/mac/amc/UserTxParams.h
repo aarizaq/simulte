@@ -15,6 +15,8 @@
 #define _LTE_USERTXPARAMS_H_
 
 //#include "common/LteCommon.h"
+#include <omnetpp.h>
+
 #include "stack/mac/amc/LteMcs.h"
 
 /**
@@ -197,46 +199,49 @@ class UserTxParams
         {
         try
         {
-            EV << NOW << " " << s << " --------------------------\n";
-            EV << NOW << " " << s << "           UserTxParams\n";
-            EV << NOW << " " << s << " --------------------------\n";
-            EV << NOW << " " << s << " TxMode: " << txModeToA(txMode_) << "\n";
-            EV << NOW << " " << s << " RI: " << ri_ << "\n";
+            /**
+             * cannot print yet. Fix this ASAP
+             */
+            //EV << NOW << " " << s << " --------------------------\n";
+            //EV << NOW << " " << s << "           UserTxParams\n";
+            //EV << NOW << " " << s << " --------------------------\n";
+            //EV << NOW << " " << s << " TxMode: " << txModeToA(txMode_) << "\n";
+            //EV << NOW << " " << s << " RI: " << ri_ << "\n";
 
-            //*** CQIs *********************************************
-            unsigned int codewords = cqiVector_.size();
-            EV << NOW << " " << s << " CQI = {";
-            if(codewords > 0)
-            {
-                EV << cqiVector_.at(0);
-                for(Codeword cw = 1; cw < codewords; ++cw)
-                EV << ", " << cqiVector_.at(cw);
-            }
-            EV << "}\n";
-            //******************************************************
+            ////*** CQIs *********************************************
+            //unsigned int codewords = cqiVector_.size();
+            //EV << NOW << " " << s << " CQI = {";
+            //if(codewords > 0)
+            //{
+            //    EV << cqiVector_.at(0);
+            //    for(Codeword cw = 1; cw < codewords; ++cw)
+            //    EV << ", " << cqiVector_.at(cw);
+            //}
+            //EV << "}\n";
+            ////******************************************************
 
-            EV << NOW << " " << s << " PMI: " << pmi_ << "\n";
+            //EV << NOW << " " << s << " PMI: " << pmi_ << "\n";
 
-            //*** Bands ********************************************
-            std::set<Band>::const_iterator it = allowedBands_.begin();
-            std::set<Band>::const_iterator et = allowedBands_.end();
+            ////*** Bands ********************************************
+            //std::set<Band>::const_iterator it = allowedBands_.begin();
+            //std::set<Band>::const_iterator et = allowedBands_.end();
 
-            EV << NOW << " " << s << " Bands = {";
-            if(it != et)
-            {
-                EV << *it;
-                ++it;
-                for(; it != et; ++it)
-                EV << ", " << *it;
-            }
-            EV << "}\n";
-            //******************************************************
+            //EV << NOW << " " << s << " Bands = {";
+            //if(it != et)
+            //{
+            //    EV << *it;
+            //    ++it;
+            //    for(; it != et; ++it)
+            //    EV << ", " << *it;
+            //}
+            //EV << "}\n";
+            ////******************************************************
 
-            EV << NOW << " " << s << " --------------------------\n";
+            //EV << NOW << " " << s << " --------------------------\n";
         }
         catch(std::exception& e)
         {
-            throw cRuntimeError("Exception in UserTxParams::print(): %s", e.what());
+            throw omnetpp::cRuntimeError("Exception in UserTxParams::print(): %s", e.what());
         }
     }
 };

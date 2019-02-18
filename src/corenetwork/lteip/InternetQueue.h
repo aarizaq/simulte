@@ -28,15 +28,15 @@
  * The size of the queue is configurable ( 0 = infinite ).
  *
  */
-class InternetQueue : public cSimpleModule
+class InternetQueue : public inet::cSimpleModule
 {
   protected:
 
     cQueue txQueue_;                     /// Transmission queue
     int queueSize_;                         /// Size of the transmission queue ( 0 = infinite)
-    cMessage *endTransmissionEvent_;     /// Self message that notifies the end of a transmission
-    cGate *queueOutGate_;                /// Output gate towards the datarate channel
-    cChannel *datarateChannel_;          /// Datarate Channel
+    inet::cMessage *endTransmissionEvent_;     /// Self message that notifies the end of a transmission
+    inet::cGate *queueOutGate_;                /// Output gate towards the datarate channel
+    inet::cChannel *datarateChannel_;          /// Datarate Channel
 
     // statistics
     int numSent_;       /// number of packets sent

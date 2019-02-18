@@ -25,7 +25,7 @@ typedef enum {
     FULL_ALLOC, RANDOM_ALLOC, CONTIGUOUS_ALLOC
 } BandAllocationType;
 
-class ExtCell : public cSimpleModule
+class ExtCell : public inet::cSimpleModule
 {
     // playground coordinates
     inet::Coord position_;
@@ -53,7 +53,7 @@ class ExtCell : public cSimpleModule
     BandStatus prevBandStatus_;
 
     // TTI self message
-    cMessage* ttiTick_;
+    inet::cMessage* ttiTick_;
 
     /*** ALLOCATION MANAGEMENT ***/
 
@@ -76,7 +76,7 @@ class ExtCell : public cSimpleModule
 
   protected:
     virtual void initialize();
-    virtual void handleMessage(cMessage *msg);
+    virtual void handleMessage(inet::cMessage *msg);
 
   public:
 

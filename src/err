@@ -1,0 +1,164 @@
+In file included from common/LteCommon.cc:13:
+In file included from ./stack/mac/layer/LteMacEnb.h:15:
+./stack/mac/amc/LteAmc.h:38:33: error: unknown type name 'cPar'; did you mean 'char'?
+    AmcPilot *getAmcPilot(const cPar& amcMode);
+                                ^~~~
+                                char
+./stack/mac/amc/LteAmc.h:84:5: error: unknown type name 'simtime_t'; did you mean 'inet::simtime_t'?
+    simtime_t lb_;
+    ^~~~~~~~~
+    inet::simtime_t
+/home/ich/libs/omnet/5.4.1/include/omnetpp/simtime_t.h:36:17: note: 'inet::simtime_t' declared here
+typedef SimTime simtime_t;
+                ^
+In file included from common/LteCommon.cc:13:
+In file included from ./stack/mac/layer/LteMacEnb.h:15:
+./stack/mac/amc/LteAmc.h:85:5: error: unknown type name 'simtime_t'; did you mean 'inet::simtime_t'?
+    simtime_t ub_;
+    ^~~~~~~~~
+    inet::simtime_t
+/home/ich/libs/omnet/5.4.1/include/omnetpp/simtime_t.h:36:17: note: 'inet::simtime_t' declared here
+typedef SimTime simtime_t;
+                ^
+In file included from common/LteCommon.cc:13:
+./stack/mac/layer/LteMacEnb.h:38:5: error: unknown type name 'simsignal_t'; did you mean 'inet::simsignal_t'?
+    simsignal_t activatedFrames_;
+    ^~~~~~~~~~~
+    inet::simsignal_t
+/home/ich/libs/omnet/5.4.1/include/omnetpp/clistener.h:34:13: note: 'inet::simsignal_t' declared here
+typedef int simsignal_t;
+            ^
+In file included from common/LteCommon.cc:13:
+./stack/mac/layer/LteMacEnb.h:39:5: error: unknown type name 'simsignal_t'; did you mean 'inet::simsignal_t'?
+    simsignal_t sleepFrames_;
+    ^~~~~~~~~~~
+    inet::simsignal_t
+/home/ich/libs/omnet/5.4.1/include/omnetpp/clistener.h:34:13: note: 'inet::simsignal_t' declared here
+typedef int simsignal_t;
+            ^
+In file included from common/LteCommon.cc:13:
+./stack/mac/layer/LteMacEnb.h:40:5: error: unknown type name 'simsignal_t'; did you mean 'inet::simsignal_t'?
+    simsignal_t wastedFrames_;
+    ^~~~~~~~~~~
+    inet::simsignal_t
+/home/ich/libs/omnet/5.4.1/include/omnetpp/clistener.h:34:13: note: 'inet::simsignal_t' declared here
+typedef int simsignal_t;
+            ^
+In file included from common/LteCommon.cc:13:
+./stack/mac/layer/LteMacEnb.h:90:32: error: unknown type name 'cMessage'; did you mean 'inet::cMessage'?
+    virtual void handleMessage(cMessage *msg);
+                               ^~~~~~~~
+                               inet::cMessage
+/home/ich/libs/omnet/5.4.1/include/omnetpp/envirext.h:34:7: note: 'inet::cMessage' declared here
+class cMessage;
+      ^
+In file included from common/LteCommon.cc:13:
+./stack/mac/layer/LteMacEnb.h:116:31: error: unknown type name 'cPacket'; did you mean 'inet::cPacket'?
+    virtual void macPduUnmake(cPacket* pkt);
+                              ^~~~~~~
+                              inet::cPacket
+/home/ich/libs/omnet/5.4.1/include/omnetpp/cpacket.h:52:15: note: 'inet::cPacket' declared here
+class SIM_API cPacket : public cMessage
+              ^
+In file included from common/LteCommon.cc:13:
+./stack/mac/layer/LteMacEnb.h:133:34: error: unknown type name 'cPacket'; did you mean 'inet::cPacket'?
+    virtual bool bufferizePacket(cPacket* pkt);
+                                 ^~~~~~~
+                                 inet::cPacket
+/home/ich/libs/omnet/5.4.1/include/omnetpp/cpacket.h:52:15: note: 'inet::cPacket' declared here
+class SIM_API cPacket : public cMessage
+              ^
+In file included from common/LteCommon.cc:13:
+./stack/mac/layer/LteMacEnb.h:139:37: error: unknown type name 'cPacket'; did you mean 'inet::cPacket'?
+    virtual void handleUpperMessage(cPacket* pkt);
+                                    ^~~~~~~
+                                    inet::cPacket
+/home/ich/libs/omnet/5.4.1/include/omnetpp/cpacket.h:52:15: note: 'inet::cPacket' declared here
+class SIM_API cPacket : public cMessage
+              ^
+In file included from common/LteCommon.cc:13:
+./stack/mac/layer/LteMacEnb.h:148:39: error: unknown type name 'cPacket'; did you mean 'inet::cPacket'?
+    virtual void macHandleFeedbackPkt(cPacket* pkt);
+                                      ^~~~~~~
+                                      inet::cPacket
+/home/ich/libs/omnet/5.4.1/include/omnetpp/cpacket.h:52:15: note: 'inet::cPacket' declared here
+class SIM_API cPacket : public cMessage
+              ^
+In file included from common/LteCommon.cc:13:
+./stack/mac/layer/LteMacEnb.h:153:31: error: unknown type name 'cPacket'; did you mean 'inet::cPacket'?
+    virtual void macHandleRac(cPacket* pkt);
+                              ^~~~~~~
+                              inet::cPacket
+/home/ich/libs/omnet/5.4.1/include/omnetpp/cpacket.h:52:15: note: 'inet::cPacket' declared here
+class SIM_API cPacket : public cMessage
+              ^
+In file included from common/LteCommon.cc:13:
+./stack/mac/layer/LteMacEnb.h:158:36: error: unknown type name 'cPacket'; did you mean 'inet::cPacket'?
+    virtual void updateUserTxParam(cPacket* pkt);
+                                   ^~~~~~~
+                                   inet::cPacket
+/home/ich/libs/omnet/5.4.1/include/omnetpp/cpacket.h:52:15: note: 'inet::cPacket' declared here
+class SIM_API cPacket : public cMessage
+              ^
+common/LteCommon.cc:566:27: error: reference to 'cXMLElement' is ambiguous
+void getParametersFromXML(cXMLElement* xmlData, ParameterMap& outputMap)
+                          ^
+./common/LteCommon.h:47:7: note: candidate found by name lookup is 'cXMLElement'
+class cXMLElement;
+      ^
+/home/ich/libs/omnet/5.4.1/include/omnetpp/cxmlelement.h:73:15: note: candidate found by name lookup is 'omnetpp::cXMLElement'
+class SIM_API cXMLElement : public cObject, noncopyable
+              ^
+common/LteCommon.cc:566:27: error: reference to 'cXMLElement' is ambiguous
+void getParametersFromXML(cXMLElement* xmlData, ParameterMap& outputMap)
+                          ^
+./common/LteCommon.h:47:7: note: candidate found by name lookup is 'cXMLElement'
+class cXMLElement;
+      ^
+/home/ich/libs/omnet/5.4.1/include/omnetpp/cxmlelement.h:73:15: note: candidate found by name lookup is 'omnetpp::cXMLElement'
+class SIM_API cXMLElement : public cObject, noncopyable
+              ^
+common/LteCommon.cc:568:41: error: member access into incomplete type 'cXMLElement'
+    cXMLElementList parameters = xmlData->getElementsByTagName("Parameter");
+                                        ^
+./common/LteCommon.h:47:7: note: forward declaration of 'cXMLElement'
+class cXMLElement;
+      ^
+In file included from common/LteCommon.cc:10:
+In file included from ./common/LteCommon.h:21:
+In file included from /usr/bin/../lib64/gcc/x86_64-pc-linux-gnu/8.2.1/../../../../include/c++/8.2.1/string:48:
+/usr/bin/../lib64/gcc/x86_64-pc-linux-gnu/8.2.1/../../../../include/c++/8.2.1/bits/stl_function.h:386:20: error: invalid operands to binary expression ('const inet::IPv4Address' and 'const inet::IPv4Address')
+      { return __x < __y; }
+               ~~~ ^ ~~~
+/usr/bin/../lib64/gcc/x86_64-pc-linux-gnu/8.2.1/../../../../include/c++/8.2.1/bits/stl_tree.h:2541:11: note: in instantiation of member function 'std::less<inet::IPv4Address>::operator()' requested here
+              || _M_impl._M_key_compare(__k,
+                 ^
+/usr/bin/../lib64/gcc/x86_64-pc-linux-gnu/8.2.1/../../../../include/c++/8.2.1/bits/stl_map.h:1169:21: note: in instantiation of member function 'std::_Rb_tree<inet::IPv4Address, std::pair<const inet::IPv4Address, unsigned short>, std::_Select1st<std::pair<const inet::IPv4Address, unsigned short> >, std::less<inet::IPv4Address>, std::allocator<std::pair<const inet::IPv4Address, unsigned short> > >::find' requested here
+      { return _M_t.find(__x); }
+                    ^
+./corenetwork/binder/LteBinder.h:270:35: note: in instantiation of member function 'std::map<inet::IPv4Address, unsigned short, std::less<inet::IPv4Address>, std::allocator<std::pair<const inet::IPv4Address, unsigned short> > >::find' requested here
+        if (macNodeIdToIPAddress_.find(address) == macNodeIdToIPAddress_.end())
+                                  ^
+/home/ich/libs/omnet/5.4.1/include/omnetpp/platdep/timeutil.h:172:28: note: candidate function not viable: no known conversion from 'const inet::IPv4Address' to 'const timeval' for 1st argument
+_OPPDEPRECATED inline bool operator<(const timeval& a, const timeval& b) {return timeval_greater(b,a);}
+                           ^
+/usr/bin/../lib64/gcc/x86_64-pc-linux-gnu/8.2.1/../../../../include/c++/8.2.1/bits/stl_pair.h:454:5: note: candidate template ignored: could not match 'pair<type-parameter-0-0, type-parameter-0-1>' against 'const inet::IPv4Address'
+    operator<(const pair<_T1, _T2>& __x, const pair<_T1, _T2>& __y)
+    ^
+/usr/bin/../lib64/gcc/x86_64-pc-linux-gnu/8.2.1/../../../../include/c++/8.2.1/bits/stl_iterator.h:308:5: note: candidate template ignored: could not match 'reverse_iterator<type-parameter-0-0>' against 'const inet::IPv4Address'
+    operator<(const reverse_iterator<_Iterator>& __x,
+    ^
+/usr/bin/../lib64/gcc/x86_64-pc-linux-gnu/8.2.1/../../../../include/c++/8.2.1/bits/stl_iterator.h:346:5: note: candidate template ignored: could not match 'reverse_iterator<type-parameter-0-0>' against 'const inet::IPv4Address'
+    operator<(const reverse_iterator<_IteratorL>& __x,
+    ^
+/usr/bin/../lib64/gcc/x86_64-pc-linux-gnu/8.2.1/../../../../include/c++/8.2.1/bits/stl_iterator.h:1139:5: note: candidate template ignored: could not match 'move_iterator<type-parameter-0-0>' against 'const inet::IPv4Address'
+    operator<(const move_iterator<_IteratorL>& __x,
+    ^
+/usr/bin/../lib64/gcc/x86_64-pc-linux-gnu/8.2.1/../../../../include/c++/8.2.1/bits/stl_iterator.h:1145:5: note: candidate template ignored: could not match 'move_iterator<type-parameter-0-0>' against 'const inet::IPv4Address'
+    operator<(const move_iterator<_Iterator>& __x,
+    ^
+/home/ich/libs/inet/4.0.0/src/inet/common/IntrusivePtr.h:196:25: note: candidate template ignored: could not match 'IntrusivePtr<type-parameter-0-0>' against 'const inet::IPv4Address'
+INET_ALWAYS_INLINE bool operator<(IntrusivePtr<T> const & a, IntrusivePtr<T> const & b) noexcept
+                        ^
+17 errors generated.
+make: *** [Makefile:293: ../out/clang-release/src/common/LteCommon.o] Error 1

@@ -5,14 +5,15 @@
 #include <omnetpp.h>
 
 #include <inet/common/INETDefs.h>
-#include <inet/transportlayer/contract/udp/UDPSocket.h>
+//#include <inet/transportlayer/contract/udp/UDPSocket.h>
+#include <inet4_compat/transportlayer/contract/udp/UDPSocket.h>
 #include <inet/networklayer/common/L3AddressResolver.h>
 
 #include "CbrPacket_m.h"
 
-class CbrReceiver : public cSimpleModule
+class CbrReceiver : public inet::cSimpleModule
 {
-    UdpSocket socket;
+    inet::UDPSocket socket;
 
     ~CbrReceiver();
 
@@ -32,9 +33,9 @@ class CbrReceiver : public cSimpleModule
 
   protected:
 
-    virtual int numInitStages() const override { return NUM_INIT_STAGES; }
-    void initialize(int stage);
-    void handleMessage(inet::cMessage *msg);
+    virtual int numInitStages() const override { return inet::NUM_INIT_STAGES; }
+    void initialize(int stage) override;
+    void handleMessage(inet::cMessage *msg) override;
     virtual void finish() override;
 };
 

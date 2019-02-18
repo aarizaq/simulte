@@ -13,6 +13,7 @@
 #define round(x) floor((x) + 0.5)
 
 Define_Module(VoIPSender);
+using namespace inet;
 
 VoIPSender::VoIPSender()
 {

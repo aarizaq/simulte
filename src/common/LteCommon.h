@@ -18,18 +18,23 @@
 
 #define _NO_W32_PSEUDO_MODIFIERS
 
-#include <iostream>
-#include <omnetpp.h>
 #include <string>
-#include <fstream>
 #include <vector>
-#include <bitset>
+#include <list>
 #include <set>
+#include <bitset>
 #include <queue>
 #include <map>
-#include <list>
+#include <iostream>
+#include <omnetpp.h>
+#include <fstream>
 #include <algorithm>
-#include "inet/common/geometry/common/Coord.h"
+
+//#include <omnetpp/cxmlelement.h>
+
+#include <inet/common/packet/Packet.h>
+#include <inet/common/geometry/common/Coord.h>
+
 #include "common/features.h"
 
 //using namespace omnetpp;
@@ -39,7 +44,7 @@ class LteDeployer;
 class LteMacEnb;
 class LteMacBase;
 class LtePhyBase;
-//class cXMLElement;
+class cXMLElement;
 class LteRealisticChannelModel;
 class LteControlInfo;
 class ExtCell;
@@ -55,7 +60,7 @@ class ExtCell;
 #define TTI 0.001
 
 /// Current simulation time
-#define NOW simTime()
+#define NOW inet::simTime()
 
 /// Node Id bounds
 #define ENB_MIN_ID 1
@@ -675,13 +680,13 @@ typedef std::map<MacNodeId, unsigned int> LteMacAllocatedCws;
  * The Rlc Sdu List, a list of RLC SDUs
  * contained inside a RLC PDU
  */
-typedef std::list<cPacket*> RlcSduList;
+typedef std::list<inet::Packet*> RlcSduList;
 
 /**
  * The Mac Sdu List, a list of MAC SDUs
  * contained inside a MAC PDU
  */
-typedef cPacketQueue MacSduList;
+typedef inet::cPacketQueue MacSduList;
 
 /**
  * The Mac Control Elements List, a list
@@ -773,7 +778,7 @@ struct EnbInfo
     MacNodeId id;
     LteMacEnb * mac;
     LteRealisticChannelModel * realChan;
-    cModule * eNodeB;
+    inet::cModule * eNodeB;
     int x2;
 };
 
@@ -784,7 +789,7 @@ struct UeInfo
     MacNodeId id;
     MacNodeId cellId;
     LteRealisticChannelModel * realChan;
-    cModule * ue;
+    inet::cModule * ue;
     LtePhyBase* phy;
 };
 
@@ -805,7 +810,7 @@ typedef std::vector<Pmi> PmiVector;
 typedef std::set<Band> BandSet;
 typedef std::set<Remote> RemoteSet;
 typedef std::map<MacNodeId, bool> ConnectedUesMap;
-typedef std::pair<int, simtime_t> PacketInfo;
+typedef std::pair<int, inet::simtime_t> PacketInfo;
 typedef std::vector<RemoteUnitPhyData> RemoteUnitPhyDataVector;
 typedef std::set<MacNodeId> ActiveUser;
 typedef std::set<MacCid> ActiveSet;
@@ -816,7 +821,7 @@ typedef std::set<MacCid> ActiveSet;
  *
  * Parameters read from xml file are stored in this map.
  */
-typedef std::map<std::string, cMsgPar> ParameterMap;
+typedef std::map<std::string, inet::cMsgPar> ParameterMap;
 
 /*********************
  * Utility functions
@@ -857,8 +862,8 @@ GrantType aToGrantType(std::string a);
 const std::string grantTypeToA(GrantType gType);
 LteBinder* getBinder();
 LteDeployer* getDeployer(MacNodeId nodeId);
-cModule* getMacByMacNodeId(MacNodeId nodeId);
-cModule* getRlcByMacNodeId(MacNodeId nodeId, LteRlcType rlcType);
+inet::cModule* getMacByMacNodeId(MacNodeId nodeId);
+inet::cModule* getRlcByMacNodeId(MacNodeId nodeId, LteRlcType rlcType);
 LteMacBase* getMacUe(MacNodeId nodeId);
 FeedbackGeneratorType getFeedbackGeneratorType(std::string s);
 const std::string fbGeneratorTypeToA(FeedbackGeneratorType type);
@@ -900,7 +905,7 @@ void parseStringToIntArray(std::string str, int* values, int dim, int pad);
  *
  * @param mod module whose channels needs initialization
  */
-void initializeAllChannels(cModule *mod);
+void initializeAllChannels(inet::cModule *mod);
 
 #endif
 

@@ -13,6 +13,8 @@
 #include "apps/vod/VoDUDPServer.h"
 
 Define_Module(VoDUDPServer);
+using namespace std;
+using namespace inet;
 
 VoDUDPServer::VoDUDPServer()
 {
@@ -205,7 +207,7 @@ void VoDUDPServer::handleSVCMessage(cMessage *msg)
     if (svcTrace_[numPkSentApp].index == LONG_MAX)
     {
         /* End of file, send finish packet */
-        cPacket* fm = new cPacket("VoDFinishPacket");
+        Packet* fm = new Packet("VoDFinishPacket");
         socket.sendTo(fm, msgNew->getClientAddr(), msgNew->getClientPort());
         return;
     }

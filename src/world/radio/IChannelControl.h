@@ -43,16 +43,16 @@ class IChannelControl
     virtual ~IChannelControl() {}
 
     /** Registers the given radio. If radioInGate==NULL, the "radioIn" gate is assumed */
-    virtual RadioRef registerRadio(cModule *radioModule, cGate *radioInGate = NULL) = 0;
+    virtual RadioRef registerRadio(inet::cModule *radioModule, inet::cGate *radioInGate = NULL) = 0;
 
     /** Unregisters the given radio */
     virtual void unregisterRadio(RadioRef r) = 0;
 
     /** Returns the host module that contains the given radio */
-    virtual cModule *getRadioModule(RadioRef r) const = 0;
+    virtual inet::cModule *getRadioModule(RadioRef r) const = 0;
 
     /** Returns the input gate of the host for receiving AirFrames */
-    virtual cGate *getRadioGate(RadioRef r) const = 0;
+    virtual inet::cGate *getRadioGate(RadioRef r) const = 0;
 
     /** Returns the channel the given radio listens on */
     virtual int getRadioChannel(RadioRef r) const = 0;

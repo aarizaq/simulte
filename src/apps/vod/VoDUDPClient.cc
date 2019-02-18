@@ -11,6 +11,7 @@
 #include "apps/vod/VoDUDPClient.h"
 
 using namespace std;
+using namespace inet;
 
 Define_Module(VoDUDPClient);
 

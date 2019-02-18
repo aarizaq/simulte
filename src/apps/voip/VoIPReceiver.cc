@@ -11,6 +11,9 @@
 
 Define_Module(VoIPReceiver);
 
+using namespace std;
+using namespace inet;
+
 VoIPReceiver::~VoIPReceiver()
 {
     while (!mPlayoutQueue_.empty())

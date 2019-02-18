@@ -14,6 +14,7 @@
 #include "corenetwork/nodes/InternetMux.h"
 
 using namespace std;
+using namespace inet;
 
 Define_Module(LteBinder);
 

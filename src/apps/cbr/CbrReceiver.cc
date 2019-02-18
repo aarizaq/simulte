@@ -2,6 +2,7 @@
 #include "CbrReceiver.h"
 
 Define_Module(CbrReceiver);
+using namespace inet;
 
 simsignal_t CbrReceiver::cbrFrameLossSignal_ = registerSignal("cbrFrameLossSignal");
 simsignal_t CbrReceiver::cbrFrameDelaySignal_ = registerSignal("cbrFrameDelaySignal");

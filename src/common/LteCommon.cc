@@ -13,6 +13,8 @@
 #include "stack/mac/layer/LteMacEnb.h"
 #include "common/LteControlInfo.h"
 
+using namespace inet;
+
 const std::string lteTrafficClassToA(LteTrafficClass type)
 {
     switch (type)
@@ -561,7 +563,7 @@ LteMacBase* getMacUe(MacNodeId nodeId)
     return check_and_cast<LteMacBase*>(getMacByMacNodeId(nodeId));
 }
 
-void getParametersFromXML(cXMLElement* xmlData, ParameterMap& outputMap)
+void getParametersFromXML(omnetpp::cXMLElement* xmlData, ParameterMap& outputMap)
 {
     cXMLElementList parameters = xmlData->getElementsByTagName("Parameter");
 

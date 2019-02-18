@@ -6,6 +6,8 @@
 #define round(x) floor((x) + 0.5)
 
 Define_Module(CbrSender);
+using namespace inet;
+using namespace std;
 
 CbrSender::CbrSender()
 {
