@@ -50,7 +50,7 @@ class AirFrame;
  * @ingroup channelControl
  * @ingroup phyLayer
  */
-class ChannelAccess : public inet::cSimpleModule, public inet::cListener
+class ChannelAccess : public omnetpp::cSimpleModule, public omnetpp::cListener
 {
   protected:
     IChannelControl* cc;  // Pointer to the ChannelControl module
@@ -68,7 +68,7 @@ class ChannelAccess : public inet::cSimpleModule, public inet::cListener
      *
      * ChannelAccess is subscribed to position changes.
      */
-    virtual void receiveSignal(omnetpp::cComponent *source, inet::simsignal_t signalID, omnetpp::cObject *obj, omnetpp::cObject *) override;
+    virtual void receiveSignal(omnetpp::cComponent *source, omnetpp::simsignal_t signalID, omnetpp::cObject *obj, omnetpp::cObject *) override;
 
     /** Finds the channelControl module in the network */
     IChannelControl *getChannelControl();
@@ -77,9 +77,9 @@ class ChannelAccess : public inet::cSimpleModule, public inet::cListener
     /** Sends a message to all radios in range */
     virtual void sendToChannel(AirFrame *msg);
 
-    virtual omnetpp::cPar& getChannelControlPar(const char *parName) { return dynamic_cast<inet::cModule *>(cc)->par(parName); }
+    virtual omnetpp::cPar& getChannelControlPar(const char *parName) { return dynamic_cast<omnetpp::cModule *>(cc)->par(parName); }
     const inet::Coord& getRadioPosition() const { return radioPos; }
-    inet::cModule *getHostModule() const { return hostModule; }
+    omnetpp::cModule *getHostModule() const { return hostModule; }
 
     /** Register with ChannelControl and subscribe to hostPos*/
     virtual void initialize(int stage) override;

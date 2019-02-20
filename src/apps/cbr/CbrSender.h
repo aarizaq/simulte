@@ -14,32 +14,32 @@
 
 #include "CbrPacket_m.h"
 
-class CbrSender : public inet::cSimpleModule
+class CbrSender : public omnetpp::cSimpleModule
 {
     inet::UDPSocket socket;
     //has the sender been initialized?
     bool initialized_;
 
-    inet::cMessage* selfSource_;
+    omnetpp::cMessage* selfSource_;
     //sender
     int iDtalk_;
     int nframes_;
     int iDframe_;
     int nframesTmp_;
     int size_;
-    inet::simtime_t sampling_time;
-    inet::simtime_t startTime_;
-    inet::simtime_t finishTime_;
+    omnetpp::simtime_t sampling_time;
+    omnetpp::simtime_t startTime_;
+    omnetpp::simtime_t finishTime_;
 
     bool silences_;
 
-    inet::simsignal_t cbrGeneratedThroughtput_;
+    omnetpp::simsignal_t cbrGeneratedThroughtput_;
     // ----------------------------
 
-    inet::cMessage *selfSender_;
-    inet::cMessage *initTraffic_;
+    omnetpp::cMessage *selfSender_;
+    omnetpp::cMessage *initTraffic_;
 
-    inet::simtime_t timestamp_;
+    omnetpp::simtime_t timestamp_;
     int localPort_;
     int destPort_;
     inet::L3Address destAddress_;
@@ -55,7 +55,7 @@ class CbrSender : public inet::cSimpleModule
 
     virtual int numInitStages() const override { return inet::NUM_INIT_STAGES; }
     void initialize(int stage) override;
-    void handleMessage(inet::cMessage *msg) override;
+    void handleMessage(omnetpp::cMessage *msg) override;
 };
 
 #endif

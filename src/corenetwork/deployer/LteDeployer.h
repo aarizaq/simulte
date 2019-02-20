@@ -33,7 +33,7 @@ class DasFilter;
  * Keeps general information about the cell
  */
 // TODO move all the parameters to their own modules
-class LteDeployer : public inet::cSimpleModule
+class LteDeployer : public omnetpp::cSimpleModule
 {
   private:
     /// reference to the global module binder
@@ -126,7 +126,7 @@ class LteDeployer : public inet::cSimpleModule
 
     virtual void initialize() override;
 
-    virtual void handleMessage(inet::cMessage *msg) override
+    virtual void handleMessage(omnetpp::cMessage *msg) override
     {
     }
 

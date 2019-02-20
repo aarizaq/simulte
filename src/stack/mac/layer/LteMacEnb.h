@@ -35,9 +35,9 @@ class LteMacEnb : public LteMacBase
 
     int eNodeBCount;
     //Statistics
-    inet::simsignal_t activatedFrames_;
-    inet::simsignal_t sleepFrames_;
-    inet::simsignal_t wastedFrames_;
+    omnetpp::simsignal_t activatedFrames_;
+    omnetpp::simsignal_t sleepFrames_;
+    omnetpp::simsignal_t wastedFrames_;
 
     /**
      * Variable used for Downlink energy consumption computation
@@ -87,7 +87,7 @@ class LteMacEnb : public LteMacBase
      * Analyze gate of incoming packet
      * and call proper handler
      */
-    virtual void handleMessage(inet::cMessage *msg) override;
+    virtual void handleMessage(omnetpp::cMessage *msg) override;
 
     /**
      * creates scheduling grants (one for each nodeId) according to the Schedule List.
@@ -113,7 +113,7 @@ class LteMacEnb : public LteMacBase
      *
      * @param pkt container packet
      */
-    virtual void macPduUnmake(inet::Packet* pkt) override;
+    virtual void macPduUnmake(omnetpp::cPacket* pkt) override;
 
     /**
      * bufferizeBsr() works much alike bufferizePacket()
@@ -130,13 +130,13 @@ class LteMacEnb : public LteMacBase
      * bufferizePacket() is called every time a packet is
      * received from the upper layer
      */
-    virtual bool bufferizePacket(inet::Packet* pkt) override;
+    virtual bool bufferizePacket(omnetpp::cPacket* pkt) override;
 
     /**
      * handleUpperMessage() is called every time a packet is
      * received from the upper layer
      */
-    virtual void handleUpperMessage(inet::Packet* pkt) override;
+    virtual void handleUpperMessage(omnetpp::cPacket* pkt) override;
 
     /**
      * Main loop
@@ -145,17 +145,17 @@ class LteMacEnb : public LteMacBase
     /**
      * macHandleFeedbackPkt is called every time a feedback pkt arrives on MAC
      */
-    virtual void macHandleFeedbackPkt(inet::Packet* pkt) override;
+    virtual void macHandleFeedbackPkt(omnetpp::cPacket* pkt) override;
 
     /*
      * Receives and handles RAC requests
      */
-    virtual void macHandleRac(inet::Packet* pkt) override;
+    virtual void macHandleRac(omnetpp::cPacket* pkt) override;
 
     /*
      * Update UserTxParam stored in every lteMacPdu when an rtx change this information
      */
-    virtual void updateUserTxParam(inet::Packet* pkt) override;
+    virtual void updateUserTxParam(omnetpp::cPacket* pkt) override;
 
   public:
 

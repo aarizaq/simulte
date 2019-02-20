@@ -17,44 +17,44 @@
 #include <inet4_compat/transportlayer/contract/udp/UDPSocket.h>
 #include "apps/voip/VoipPacket_m.h"
 
-class VoIPSender : public inet::cSimpleModule
+class VoIPSender : public omnetpp::cSimpleModule
 {
     inet::UDPSocket socket;
 
     //source
-    inet::simtime_t durTalk_;
-    inet::simtime_t durSil_;
+    omnetpp::simtime_t durTalk_;
+    omnetpp::simtime_t durSil_;
     double scaleTalk_;
     double shapeTalk_;
     double scaleSil_;
     double shapeSil_;
     bool isTalk_;
-    inet::cMessage* selfSource_;
+    omnetpp::cMessage* selfSource_;
     //sender
     int iDtalk_;
     int nframes_;
     int iDframe_;
     int nframesTmp_;
     int size_;
-    inet::simtime_t sampling_time;
+    omnetpp::simtime_t sampling_time;
 
     bool silences_;
 
 
-    inet::simsignal_t voIPGeneratedThroughtput_;
+    omnetpp::simsignal_t voIPGeneratedThroughtput_;
     // ----------------------------
 
-    inet::cMessage *selfSender_;
+    omnetpp::cMessage *selfSender_;
 
-    inet::cMessage *initTraffic_;
+    omnetpp::cMessage *initTraffic_;
 
-    inet::simtime_t timestamp_;
+    omnetpp::simtime_t timestamp_;
     int localPort_;
     int destPort_;
     inet::L3Address destAddress_;
 
     void initTraffic();
-    void talkspurt(inet::simtime_t dur);
+    void talkspurt(omnetpp::simtime_t dur);
     void selectPeriodTime();
     void sendVoIPPacket();
 
@@ -66,7 +66,7 @@ class VoIPSender : public inet::cSimpleModule
 
     virtual int numInitStages() const  override { return inet::NUM_INIT_STAGES; }
     void initialize(int stage) override;
-    void handleMessage(inet::cMessage *msg) override;
+    void handleMessage(omnetpp::cMessage *msg) override;
 
 };
 

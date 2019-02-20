@@ -18,7 +18,7 @@
 class LteFeedback;
 typedef std::vector<LteFeedback> LteFeedbackVector;
 typedef std::vector<LteFeedbackVector> LteFeedbackDoubleVector;
-inet::simtime_t simTime();
+omnetpp::simtime_t simTime();
 
 //! LTE feedback message exchanged between PHY and AMC.
 class LteFeedback
@@ -410,9 +410,9 @@ class LteFeedback
 class LteSummaryFeedback
 {
     //! confidence function lower bound
-    inet::simtime_t confidenceLowerBound_;
+    omnetpp::simtime_t confidenceLowerBound_;
     //! confidence function upper bound
-    inet::simtime_t confidenceUpperBound_;
+    omnetpp::simtime_t confidenceUpperBound_;
 
   protected:
 
@@ -429,20 +429,20 @@ class LteSummaryFeedback
     PmiVector pmi_;
 
     //! time elapsed from last refresh of RI.
-    inet::simtime_t tRi_;
+    omnetpp::simtime_t tRi_;
     //! time elapsed from last refresh of CQI.
-    std::vector<std::vector<inet::simtime_t> > tCqi_;
+    std::vector<std::vector<omnetpp::simtime_t> > tCqi_;
     //! time elapsed from last refresh of PMI.
-    std::vector<inet::simtime_t> tPmi_;
+    std::vector<omnetpp::simtime_t> tPmi_;
     // valid flag
     bool valid_;
 
     /** Calculate the confidence factor.
      *  @param n the feedback age in tti
      */
-    double confidence(inet::simtime_t creationTime) const
+    double confidence(omnetpp::simtime_t creationTime) const
         {
-            inet::simtime_t delta = simTime() - creationTime;
+            omnetpp::simtime_t delta = simTime() - creationTime;
 
         if (delta < confidenceLowerBound_)
             return 1.0;
@@ -454,7 +454,7 @@ class LteSummaryFeedback
   public:
 
     //! Create an empty feedback message.
-    LteSummaryFeedback(unsigned char cw, unsigned int b, inet::simtime_t lb, inet::simtime_t ub)
+    LteSummaryFeedback(unsigned char cw, unsigned int b, omnetpp::simtime_t lb, omnetpp::simtime_t ub)
     {
         totCodewords_ = cw;
         logicalBandsTot_ = b;
@@ -470,11 +470,11 @@ class LteSummaryFeedback
         tRi_ = simTime();
 
         cqi_ = std::vector<CqiVector>(totCodewords_, CqiVector(logicalBandsTot_, NOSIGNALCQI)); // XXX DUMMY VALUE USED FOR TESTING: replace with NOSIGNALCQI
-        tCqi_ = std::vector<std::vector<inet::simtime_t> >(totCodewords_,
-            std::vector<inet::simtime_t>(logicalBandsTot_, simTime()));
+        tCqi_ = std::vector<std::vector<omnetpp::simtime_t> >(totCodewords_,
+            std::vector<omnetpp::simtime_t>(logicalBandsTot_, simTime()));
 
         pmi_ = PmiVector(logicalBandsTot_, NOPMI);
-        tPmi_ = std::vector<inet::simtime_t>(logicalBandsTot_, simTime());
+        tPmi_ = std::vector<omnetpp::simtime_t>(logicalBandsTot_, simTime());
         valid_ = false;
     }
 
@@ -663,7 +663,7 @@ class LteSummaryBuffer
 
   public:
 
-    LteSummaryBuffer(unsigned char dim, unsigned char cw, unsigned int b, inet::simtime_t lb, inet::simtime_t ub) :
+    LteSummaryBuffer(unsigned char dim, unsigned char cw, unsigned int b, omnetpp::simtime_t lb, omnetpp::simtime_t ub) :
         cumulativeSummary_(cw, b, lb, ub)
     {
         bufferSize_ = dim;

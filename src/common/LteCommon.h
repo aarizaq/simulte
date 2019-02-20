@@ -60,7 +60,7 @@ class ExtCell;
 #define TTI 0.001
 
 /// Current simulation time
-#define NOW inet::simTime()
+#define NOW omnetpp::simTime()
 
 /// Node Id bounds
 #define ENB_MIN_ID 1
@@ -680,13 +680,13 @@ typedef std::map<MacNodeId, unsigned int> LteMacAllocatedCws;
  * The Rlc Sdu List, a list of RLC SDUs
  * contained inside a RLC PDU
  */
-typedef std::list<inet::Packet*> RlcSduList;
+typedef std::list<omnetpp::cPacket*> RlcSduList;
 
 /**
  * The Mac Sdu List, a list of MAC SDUs
  * contained inside a MAC PDU
  */
-typedef inet::cPacketQueue MacSduList;
+typedef omnetpp::cPacketQueue MacSduList;
 
 /**
  * The Mac Control Elements List, a list
@@ -778,7 +778,7 @@ struct EnbInfo
     MacNodeId id;
     LteMacEnb * mac;
     LteRealisticChannelModel * realChan;
-    inet::cModule * eNodeB;
+    omnetpp::cModule * eNodeB;
     int x2;
 };
 
@@ -789,7 +789,7 @@ struct UeInfo
     MacNodeId id;
     MacNodeId cellId;
     LteRealisticChannelModel * realChan;
-    inet::cModule * ue;
+    omnetpp::cModule * ue;
     LtePhyBase* phy;
 };
 
@@ -810,7 +810,7 @@ typedef std::vector<Pmi> PmiVector;
 typedef std::set<Band> BandSet;
 typedef std::set<Remote> RemoteSet;
 typedef std::map<MacNodeId, bool> ConnectedUesMap;
-typedef std::pair<int, inet::simtime_t> PacketInfo;
+typedef std::pair<int, omnetpp::simtime_t> PacketInfo;
 typedef std::vector<RemoteUnitPhyData> RemoteUnitPhyDataVector;
 typedef std::set<MacNodeId> ActiveUser;
 typedef std::set<MacCid> ActiveSet;
@@ -821,7 +821,7 @@ typedef std::set<MacCid> ActiveSet;
  *
  * Parameters read from xml file are stored in this map.
  */
-typedef std::map<std::string, inet::cMsgPar> ParameterMap;
+typedef std::map<std::string, omnetpp::cMsgPar> ParameterMap;
 
 /*********************
  * Utility functions
@@ -862,8 +862,8 @@ GrantType aToGrantType(std::string a);
 const std::string grantTypeToA(GrantType gType);
 LteBinder* getBinder();
 LteDeployer* getDeployer(MacNodeId nodeId);
-inet::cModule* getMacByMacNodeId(MacNodeId nodeId);
-inet::cModule* getRlcByMacNodeId(MacNodeId nodeId, LteRlcType rlcType);
+omnetpp::cModule* getMacByMacNodeId(MacNodeId nodeId);
+omnetpp::cModule* getRlcByMacNodeId(MacNodeId nodeId, LteRlcType rlcType);
 LteMacBase* getMacUe(MacNodeId nodeId);
 FeedbackGeneratorType getFeedbackGeneratorType(std::string s);
 const std::string fbGeneratorTypeToA(FeedbackGeneratorType type);
@@ -905,7 +905,7 @@ void parseStringToIntArray(std::string str, int* values, int dim, int pad);
  *
  * @param mod module whose channels needs initialization
  */
-void initializeAllChannels(inet::cModule *mod);
+void initializeAllChannels(omnetpp::cModule *mod);
 
 #endif
 

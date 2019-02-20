@@ -17,18 +17,18 @@
 #include <inet/transportlayer/contract/udp/UdpSocket.h>
 #include "apps/alert/AlertPacket_m.h"
 
-class AlertReceiver : public inet::cSimpleModule
+class AlertReceiver : public omnetpp::cSimpleModule
 {
     inet::UdpSocket socket;
 
-    inet::simsignal_t alertDelay_;
-    inet::simsignal_t alertRcvdMsg_;
+    omnetpp::simsignal_t alertDelay_;
+    omnetpp::simsignal_t alertRcvdMsg_;
 
   protected:
 
     virtual int numInitStages() const override { return inet::NUM_INIT_STAGES; }
     void initialize(int stage) override;
-    void handleMessage(inet::cMessage *msg) override;
+    void handleMessage(omnetpp::cMessage *msg) override;
 };
 
 #endif

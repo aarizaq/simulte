@@ -17,19 +17,19 @@
 #include <inet/networklayer/common/L3AddressResolver.h>
 #include "apps/alert/AlertPacket_m.h"
 
-class AlertSender : public inet::cSimpleModule
+class AlertSender : public omnetpp::cSimpleModule
 {
     inet::UdpSocket socket;
 
     //sender
     int nextSno_;
     int size_;
-    inet::simtime_t period_;
+    omnetpp::simtime_t period_;
 
-    inet::simsignal_t alertSentMsg_;
+    omnetpp::simsignal_t alertSentMsg_;
     // ----------------------------
 
-    inet::cMessage *selfSender_;
+    omnetpp::cMessage *selfSender_;
 
     int localPort_;
     int destPort_;
@@ -45,7 +45,7 @@ class AlertSender : public inet::cSimpleModule
 
     virtual int numInitStages() const override { return inet::NUM_INIT_STAGES; }
     void initialize(int stage) override;
-    void handleMessage(inet::cMessage *msg) override;
+    void handleMessage(omnetpp::cMessage *msg) override;
 };
 
 #endif

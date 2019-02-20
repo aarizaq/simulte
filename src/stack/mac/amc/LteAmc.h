@@ -81,8 +81,8 @@ class LteAmc
     unsigned int fbhbCapacityDl_;
     unsigned int fbhbCapacityUl_;
     unsigned int fbhbCapacityD2D_;
-    inet::simtime_t lb_;
-    inet::simtime_t ub_;
+    omnetpp::simtime_t lb_;
+    omnetpp::simtime_t ub_;
     double pmiComputationWeight_;
     double cqiComputationWeight_;
     LteMuMimoMatrix muMimoDlMatrix_;

@@ -43,7 +43,7 @@
  *
  */
 
-class LteBinder : public inet::cSimpleModule
+class LteBinder : public omnetpp::cSimpleModule
 {
   private:
     typedef std::map<MacNodeId, std::map<MacNodeId, bool> > DeployedUesMap;
@@ -107,7 +107,7 @@ class LteBinder : public inet::cSimpleModule
 
     virtual int numInitStages() const override { return inet::INITSTAGE_LAST; }
 
-    virtual void handleMessage(inet::cMessage *msg) override
+    virtual void handleMessage(omnetpp::cMessage *msg) override
     {
     };
     /**
@@ -119,7 +119,7 @@ class LteBinder : public inet::cSimpleModule
      * @param counter app index in UL direction. Always -1 in DL
      */
     void attachAppModule(cModule *parentModule, std::string IPAddr,
-        inet::cXMLAttributeMap attr, int counter);
+        omnetpp::cXMLAttributeMap attr, int counter);
 
     /*
      * connects the application module gates to the transport layer of
@@ -141,9 +141,9 @@ class LteBinder : public inet::cSimpleModule
      * @param counter offset to add to the basePort
      *
      */
-    void setTransportAppPort(cModule* module, unsigned int counter, inet::cXMLAttributeMap attr);
+    void setTransportAppPort(cModule* module, unsigned int counter, omnetpp::cXMLAttributeMap attr);
 
-    void parseParam(cModule* module, inet::cXMLAttributeMap attr);
+    void parseParam(cModule* module, omnetpp::cXMLAttributeMap attr);
 
   public:
     LteBinder()

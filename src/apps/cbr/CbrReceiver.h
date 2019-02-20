@@ -11,7 +11,7 @@
 
 #include "CbrPacket_m.h"
 
-class CbrReceiver : public inet::cSimpleModule
+class CbrReceiver : public omnetpp::cSimpleModule
 {
     inet::UDPSocket socket;
 
@@ -25,17 +25,17 @@ class CbrReceiver : public inet::cSimpleModule
 
     bool mInit_;
 
-    static inet::simsignal_t cbrFrameLossSignal_;
-    static inet::simsignal_t cbrFrameDelaySignal_;
-    static inet::simsignal_t cbrJitterSignal_;
-    static inet::simsignal_t cbrReceivedThroughtput_;
+    static omnetpp::simsignal_t cbrFrameLossSignal_;
+    static omnetpp::simsignal_t cbrFrameDelaySignal_;
+    static omnetpp::simsignal_t cbrJitterSignal_;
+    static omnetpp::simsignal_t cbrReceivedThroughtput_;
 //    static simsignal_t cbrReceivedThroughtput_rate_;
 
   protected:
 
     virtual int numInitStages() const override { return inet::NUM_INIT_STAGES; }
     void initialize(int stage) override;
-    void handleMessage(inet::cMessage *msg) override;
+    void handleMessage(omnetpp::cMessage *msg) override;
     virtual void finish() override;
 };
 

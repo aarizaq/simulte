@@ -21,7 +21,7 @@ class IP2lte;
 //
 // LteHandoverManager
 //
-class LteHandoverManager : public cSimpleModule
+class LteHandoverManager : public omnetpp::cSimpleModule
 {
 
   protected:
@@ -30,7 +30,7 @@ class LteHandoverManager : public cSimpleModule
     X2NodeId nodeId_;
 
     // reference to the gates
-    cGate* x2Manager_[2];
+    omnetpp::cGate* x2Manager_[2];
 
     // reference to the PDCP layer
     IP2lte* ip2lte_;
@@ -38,14 +38,14 @@ class LteHandoverManager : public cSimpleModule
     // flag for seamless/lossless handover
     bool losslessHandover_;
 
-    void handleX2Message(cPacket* pkt);
+    void handleX2Message(omnetpp::cPacket* pkt);
 
   public:
     LteHandoverManager() {}
     virtual ~LteHandoverManager() {}
 
-    virtual void initialize();
-    virtual void handleMessage(cMessage *msg);
+    virtual void initialize() override;
+    virtual void handleMessage(omnetpp::cMessage *msg) override;
 
     // send handover command on X2 to the eNB
     void sendHandoverCommand(MacNodeId ueId, MacNodeId enb, bool startHo);

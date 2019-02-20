@@ -91,9 +91,13 @@ void AlertSender::sendAlertPacket()
     packet->setSno(nextSno_);
     packet->setTimestamp(simTime());
     packet->setByteLength(size_);
+    /*
+     * wrapping in inet::Packet
+     */
+    inet::Packet* wrappingPacket = dynamic_cast<inet::Packet*>(packet);
     EV << "AlertSender::sendAlertPacket - Sending message [" << nextSno_ << "]\n";
 
-    socket.sendTo(packet, destAddress_, destPort_);
+    socket.sendTo(wrappingPacket, destAddress_, destPort_);
     nextSno_++;
 
     emit(alertSentMsg_, (long)1);

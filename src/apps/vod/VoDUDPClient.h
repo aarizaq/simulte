@@ -21,28 +21,28 @@
 #include <inet4_compat/transportlayer/contract/udp/UDPSocket.h>
 #include <inet/networklayer/common/L3AddressResolver.h>
 
-class VoDUDPClient : public inet::cSimpleModule
+class VoDUDPClient : public omnetpp::cSimpleModule
 {
     inet::UDPSocket socket;
     std::fstream outfile;
     unsigned int totalRcvdBytes_;
 
   public:
-    inet::simsignal_t tptLayer0_;
-    inet::simsignal_t tptLayer1_;
-    inet::simsignal_t tptLayer2_;
-    inet::simsignal_t tptLayer3_;
-    inet::simsignal_t delayLayer0_;
-    inet::simsignal_t delayLayer1_;
-    inet::simsignal_t delayLayer2_;
-    inet::simsignal_t delayLayer3_;
+    omnetpp::simsignal_t tptLayer0_;
+    omnetpp::simsignal_t tptLayer1_;
+    omnetpp::simsignal_t tptLayer2_;
+    omnetpp::simsignal_t tptLayer3_;
+    omnetpp::simsignal_t delayLayer0_;
+    omnetpp::simsignal_t delayLayer1_;
+    omnetpp::simsignal_t delayLayer2_;
+    omnetpp::simsignal_t delayLayer3_;
 
   protected:
 
     virtual void initialize(int stage) override;
     virtual int numInitStages() const override { return inet::NUM_INIT_STAGES; }
     virtual void finish() override;
-    virtual void handleMessage(inet::cMessage *msg) override;
+    virtual void handleMessage(omnetpp::cMessage *msg) override;
     virtual void receiveStream(VoDPacket *msg);
 };
 

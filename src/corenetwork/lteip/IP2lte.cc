@@ -6,23 +6,26 @@
 // The above file and the present reference are part of the software itself,
 // and cannot be removed from it.
 //
+#include <iostream>
+#include <inet4_compat/transportlayer/tcp_common/TCPSegment.h>
+#include <inet4_compat/transportlayer/udp/UDPPacket.h>
+#include <inet4_compat/transportlayer/udp/UDP.h>
+#include <inet/common/ModuleAccess.h>
+#include <inet4_compat/networklayer/ipv4/IPv4InterfaceData.h>
+#include <inet4_compat/networklayer/ipv4/IPv4Route.h>
+#include <inet/networklayer/common/InterfaceEntry.h>
+#include <inet4_compat/networklayer/configurator/ipv4/IPv4NetworkConfigurator.h>
+#include <inet4_compat/networklayer/ipv4/IIPv4RoutingTable.h>
 
 #include "corenetwork/lteip/IP2lte.h"
 #include "corenetwork/binder/LteBinder.h"
 #include "corenetwork/deployer/LteDeployer.h"
-#include "inet/transportlayer/tcp_common/TCPSegment.h"
-#include "inet/transportlayer/udp/UDPPacket.h"
-#include "inet/transportlayer/udp/UDP.h"
-#include <iostream>
 
-#include "inet/common/ModuleAccess.h"
-#include "inet/networklayer/ipv4/IPv4InterfaceData.h"
-#include "inet/networklayer/common/InterfaceEntry.h"
-#include "inet/networklayer/configurator/ipv4/IPv4NetworkConfigurator.h"
-#include "inet/networklayer/ipv4/IIPv4RoutingTable.h"
 #include "stack/mac/layer/LteMacBase.h"
 
 using namespace std;
+using namespace inet;
+using namespace omnetpp;
 
 Define_Module(IP2lte);
 
@@ -65,6 +68,9 @@ void IP2lte::initialize(int stage)
             // otherwise we are not able to reach devices outside the cellular network
             if (NOW > 0)
             {
+                /**
+                 * TODO:might need a bit more care, if interface has changed, the query might, too
+                 */
                 IIPv4RoutingTable *irt = getModuleFromPar<IIPv4RoutingTable>(par("routingTableModule"), this);
                 IPv4Route * defaultRoute = new IPv4Route();
                 defaultRoute->setDestination(IPv4Address(inet::IPv4Address::UNSPECIFIED_ADDRESS));

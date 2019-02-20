@@ -20,8 +20,8 @@
 #include <list>
 #include <set>
 
-#include "inet/common/INETDefs.h"
-#include "inet/common/geometry/common/Coord.h"
+#include <inet/common/INETDefs.h>
+#include <inet/common/geometry/common/Coord.h>
 #include "stack/phy/packet/AirFrame_m.h"
 
 // Forward declarations
@@ -43,16 +43,16 @@ class IChannelControl
     virtual ~IChannelControl() {}
 
     /** Registers the given radio. If radioInGate==NULL, the "radioIn" gate is assumed */
-    virtual RadioRef registerRadio(inet::cModule *radioModule, inet::cGate *radioInGate = NULL) = 0;
+    virtual RadioRef registerRadio(omnetpp::cModule *radioModule, omnetpp::cGate *radioInGate = NULL) = 0;
 
     /** Unregisters the given radio */
     virtual void unregisterRadio(RadioRef r) = 0;
 
     /** Returns the host module that contains the given radio */
-    virtual inet::cModule *getRadioModule(RadioRef r) const = 0;
+    virtual omnetpp::cModule *getRadioModule(RadioRef r) const = 0;
 
     /** Returns the input gate of the host for receiving AirFrames */
-    virtual inet::cGate *getRadioGate(RadioRef r) const = 0;
+    virtual omnetpp::cGate *getRadioGate(RadioRef r) const = 0;
 
     /** Returns the channel the given radio listens on */
     virtual int getRadioChannel(RadioRef r) const = 0;

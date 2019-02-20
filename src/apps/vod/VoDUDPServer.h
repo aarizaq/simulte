@@ -23,7 +23,7 @@
 #include "apps/vod/VoDPacket_m.h"
 #include "apps/vod/M1Message_m.h"
 
-class VoDUDPServer : public inet::cSimpleModule
+class VoDUDPServer : public omnetpp::cSimpleModule
 {
   protected:
       inet::UDPSocket socket;
@@ -90,9 +90,9 @@ class VoDUDPServer : public inet::cSimpleModule
     void initialize(int stage);
     virtual int numInitStages() const { return inet::NUM_INIT_STAGES; }
     virtual void finish();
-    virtual void handleMessage(inet::cMessage*);
-    virtual void handleNS2Message(inet::cMessage*);
-    virtual void handleSVCMessage(inet::cMessage*);
+    virtual void handleMessage(omnetpp::cMessage*);
+    virtual void handleNS2Message(omnetpp::cMessage*);
+    virtual void handleSVCMessage(omnetpp::cMessage*);
 };
 
 #endif

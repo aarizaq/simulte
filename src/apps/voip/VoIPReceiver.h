@@ -20,7 +20,7 @@
 
 #include "apps/voip/VoipPacket_m.h"
 
-class VoIPReceiver : public inet::cSimpleModule
+class VoIPReceiver : public omnetpp::cSimpleModule
 {
     inet::UDPSocket socket;
 
@@ -36,19 +36,19 @@ class VoIPReceiver : public inet::cSimpleModule
     PacketsList mPlayoutQueue_;
     unsigned int mCurrentTalkspurt_;
     unsigned int mBufferSpace_;
-    inet::simtime_t mSamplingDelta_;
-    inet::simtime_t mPlayoutDelay_;
+    omnetpp::simtime_t mSamplingDelta_;
+    omnetpp::simtime_t mPlayoutDelay_;
 
     bool mInit_;
 
-    inet::simsignal_t voIPFrameLossSignal_;
-    inet::simsignal_t voIPFrameDelaySignal_;
-    inet::simsignal_t voIPPlayoutDelaySignal_;
-    inet::simsignal_t voIPMosSignal_;
-    inet::simsignal_t voIPTaildropLossSignal_;
-    inet::simsignal_t voIPPlayoutLossSignal_;
-    inet::simsignal_t voIPJitterSignal_;
-    inet::simsignal_t voipReceivedThroughtput_;
+    omnetpp::simsignal_t voIPFrameLossSignal_;
+    omnetpp::simsignal_t voIPFrameDelaySignal_;
+    omnetpp::simsignal_t voIPPlayoutDelaySignal_;
+    omnetpp::simsignal_t voIPMosSignal_;
+    omnetpp::simsignal_t voIPTaildropLossSignal_;
+    omnetpp::simsignal_t voIPPlayoutLossSignal_;
+    omnetpp::simsignal_t voIPJitterSignal_;
+    omnetpp::simsignal_t voipReceivedThroughtput_;
 
     virtual void finish() override;
 
@@ -56,8 +56,8 @@ class VoIPReceiver : public inet::cSimpleModule
 
     virtual int numInitStages() const override { return inet::NUM_INIT_STAGES; }
     void initialize(int stage) override;
-    void handleMessage(inet::cMessage *msg) override;
-    double eModel(inet::simtime_t delay, double loss);
+    void handleMessage(omnetpp::cMessage *msg) override;
+    double eModel(omnetpp::simtime_t delay, double loss);
     void playout(bool finish);
 };
 
