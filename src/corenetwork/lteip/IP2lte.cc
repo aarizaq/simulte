@@ -331,7 +331,17 @@ void IP2lte::registerInterface()
     IInterfaceTable *ift = getModuleFromPar<IInterfaceTable>(par("interfaceTableModule"), this);
     if (!ift)
         return;
-    interfaceEntry = new InterfaceEntry(this);
+     /**
+      * TODO:
+      * @author wkallies
+      * @date 14.01.2019
+      * I am not sure what this is supposed to do.
+      * InterfaceEntry has a private copy constructor (which, by the way
+      * is so 2003). Since I have no idea, I just use 'default' Ctor.
+      * CHANGE THIS ASAP
+      */
+    //interfaceEntry = new InterfaceEntry(this);
+    interfaceEntry = new InterfaceEntry();  
     interfaceEntry->setName("wlan");
     // TODO configure MTE size from NED
     interfaceEntry->setMtu(1500);

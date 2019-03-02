@@ -1,0 +1,5 @@
+- adapt makefile to recognize source files in compatiblitiy
+- TCP might not work
+- InterfaceEntry IP2Lte dead sure won't work. How da**q is InterfaceEntry constructed?
+- Ipv4ControlInfo - no corresponding header file. What happened here?
+- make use of the packet tag API

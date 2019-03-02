@@ -7,14 +7,23 @@
 // and cannot be removed from it.
 //
 
-#include "inet/networklayer/ipv4/IPv4InterfaceData.h"
+#include <inet4_compat/networklayer/contract/ipv4/IPv4ControlInfo.h>
+#include <inet/common/ModuleAccess.h>
+
 #include "corenetwork/lteip/LteIp.h"
 #include "corenetwork/binder/LteBinder.h"
 #include "corenetwork/deployer/LteDeployer.h"
-#include "inet/common/ModuleAccess.h"
 
 Define_Module(LteIp);
+using namespace omnetpp;
+using namespace inet;
 
+/**
+ * @author: wolfgang kallies
+ * TODO:this entire class probably has to be rewritten, since the underlying
+ * mechanics in inet changed.
+ * Do not expect this to work
+ */
 void LteIp::initialize()
 {
     QueueBase::initialize();
@@ -23,7 +32,7 @@ void LteIp::initialize()
     peerGateOut_ = gate("ifOut");
 
     defaultTimeToLive_ = par("timeToLive");
-    mapping_.parseProtocolMapping(par("protocolMapping"));
+    //mapping_.parseProtocolMapping(par("protocolMapping"));
     setNodeType(par("nodeType").stdstringValue());
 
     numDropped_ = numForwarded_ = seqNum_ = 0;
@@ -95,24 +104,26 @@ void LteIp::endService(cPacket *msg)
             // TODO: KLUDGE: copied over from function fromTransport
             unsigned short srcPort = 0;
             unsigned short dstPort = 0;
-            int headerSize = IP_HEADER_BYTES;
+            int headerSize = 0;//IP_HEADER_BYTES;
 
             switch(ipDatagram->getTransportProtocol())
             {
                 case IP_PROT_TCP:
-                inet::tcp::TCPSegment* tcpseg;
-                tcpseg = check_and_cast<inet::tcp::TCPSegment*>(transportPacket);
-                srcPort = tcpseg->getSrcPort();
-                dstPort = tcpseg->getDestPort();
-                headerSize += tcpseg->getHeaderLength();
-                break;
+                    inet::tcp::TCPSegment* tcpseg;
+                    tcpseg = check_and_cast<inet::tcp::TCPSegment*>(transportPacket);
+                    srcPort = tcpseg->getSrcPort();
+                    dstPort = tcpseg->getDestPort();
+                    headerSize += tcpseg->getHeaderLength();
+                    break;
                 case IP_PROT_UDP:
-                inet::UDPPacket* udppacket;
-                udppacket = check_and_cast<UDPPacket*>(transportPacket);
-                srcPort = (unsigned short)udppacket->getSourcePort();
-                dstPort = (unsigned short)udppacket->getDestinationPort();
-                headerSize += UDP_HEADER_BYTES;
-                break;
+                    inet::UDPPacket* udppacket;
+                    udppacket = check_and_cast<UDPPacket*>(transportPacket);
+                    srcPort = (unsigned short)udppacket->getSourcePort();
+                    dstPort = (unsigned short)udppacket->getDestinationPort();
+                    headerSize += UDP_HEADER_BYTES;
+                    break;
+                default :
+                    throw std::runtime_error("LteIP::endService() case not implemented");
             }
 
             FlowControlInfo *controlInfo = new FlowControlInfo();
@@ -186,7 +197,15 @@ void LteIp::fromTransport(cPacket * transportPacket, cGate *outputgate)
 
     //** Create IP datagram and fill its fields **
 
+    /*
+     * @author: wolfgang kallies
+     * I am using the default ctor and hope this works.
+     */
     IPv4Datagram *datagram = new IPv4Datagram(transportPacket->getName());
+    /*
+     * since the interface changed in inet4, this might screw up
+     * TODO: write some tests. But it has to compile first!
+     */
     datagram->setByteLength(IP_HEADER_BYTES);
     datagram->encapsulate(transportPacket);
 
