@@ -12,7 +12,14 @@ namespace inet;
 //
 // Packet used by the ~VoPSender and ~VoIPReceiver modules.
 //
-packet CbrPacket
+
+cplusplus {{
+    #include <inet/common/packet/Packet.h>
+}}
+
+packet Packet;
+
+packet CbrPacket extends Packet
 {
     unsigned int nframes;
     unsigned int IDframe;

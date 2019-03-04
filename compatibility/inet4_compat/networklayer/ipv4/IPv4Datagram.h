@@ -9,14 +9,16 @@
 
 namespace inet {
     constexpr int IP_HEADER_BYTES = 20;
-    class IPv4Datagram : public Packet {
+    class IPv4Datagram : public inet::Packet {
         public:
             explicit IPv4Datagram(const char * name = nullptr, short kind = 0) : Packet(name, kind) {};
-            int getTransportProtocol() {
-                return getHeader()->getProtocolId();
+
+            int getTransportProtocol() const {
+                const auto header = getHeader();
+                return header->getProtocolId();
             }
 
-            IPv4Address getSrcAddress() {
+            IPv4Address getSrcAddress() const {
                 return getHeader()->getSrcAddress();
             }
 
@@ -30,24 +32,15 @@ namespace inet {
             }
 
             void setDestAddress(const IPv4Address& addr) {
-                /**
-                 * TODO: proper setting of IPv4 stuff. I think, the header
-                 * has to be popped from the front, modified and reattached,
-                 * with the changes that inet4 brought
-                 */
-                getHeader()->setDestAddress(addr);
+                auto header = makeShared<Ipv4Header>(*getHeader());
+                header->setDestAddress(addr);
+                this->popAtFront<Ipv4Header>();
+                this->insertAtFront(header);
             }
 
         private:
-            const Ipv4Header* getHeader() const {
-                const Ipv4Header* header =  check_and_cast<const Ipv4Header *>(getTransportProtocolHeader(this).get());
-                assert(header != nullptr);
-                return header;
-            }
-
-            Ipv4Header* getHeader() {
-                const Ipv4Header* header =  check_and_cast<Ipv4Header *>(getTransportProtocolHeader(this).get());
-                assert(header != nullptr);
+            auto getHeader() const -> decltype(peekAtFront<Ipv4Header>()) {
+                auto header = this->peekAtFront<Ipv4Header>();
                 return header;
             }
     };

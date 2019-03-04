@@ -16,10 +16,9 @@ namespace inet {
                 return getHeader()->getDestinationPort();
             }
         private:
-            const inet::UdpHeader* getHeader() {
-                const auto ptr = check_and_cast<const inet::UdpHeader*>(this);
-                assert(ptr != nullptr);
-                return ptr;
+            auto getHeader()  -> decltype(peekAtFront<UdpHeader>()) {
+                auto header = this->peekAtFront<UdpHeader>();
+                return header;
             }
     };
 };

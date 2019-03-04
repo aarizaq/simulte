@@ -10,7 +10,13 @@
 //
 // Packet used by the video-on-demand application (~VoDUDPServer, ~VoDUDPClient)
 //
-packet VoDPacket {
+
+cplusplus {{                                                                    
+    #include <inet/common/packet/Packet.h>
+}}
+
+packet inet::Packet;
+packet VoDPacket extends inet::Packet {
    int frameSeqNum;
    int frameLength;
    // temporal scalability layer

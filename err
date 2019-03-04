@@ -1,0 +1,346 @@
+In file included from common/LteCommon.cc:13:
+In file included from ./stack/mac/layer/LteMacEnb.h:15:
+In file included from ./stack/mac/amc/LteAmc.h:14:
+./stack/phy/feedback/LteFeedback.h:588:9: error: use of undeclared identifier 'getThisPtr'; did you mean 'inet::getThisPtr'?
+        EV << NOW << " " << s << "     LteSummaryFeedback\n";
+        ^
+/home/ich/libs/omnet/5.4.1/include/omnetpp/clog.h:270:19: note: expanded from macro 'EV'
+#define EV        EV_INFO
+                  ^
+/home/ich/libs/omnet/5.4.1/include/omnetpp/clog.h:294:19: note: expanded from macro 'EV_INFO'
+#define EV_INFO   EV_LOG(omnetpp::LOGLEVEL_INFO, nullptr)
+                  ^
+/home/ich/libs/omnet/5.4.1/include/omnetpp/clog.h:264:49: note: expanded from macro 'EV_LOG'
+#define EV_LOG(logLevel, category) OPP_LOGPROXY(getThisPtr(), logLevel, category).getStream()
+                                                ^
+/home/ich/libs/omnet/5.4.1/include/omnetpp/clog.h:210:14: note: 'inet::getThisPtr' declared here
+inline void *getThisPtr() {return nullptr;}
+             ^
+In file included from common/LteCommon.cc:13:
+In file included from ./stack/mac/layer/LteMacEnb.h:15:
+In file included from ./stack/mac/amc/LteAmc.h:14:
+./stack/phy/feedback/LteFeedback.h:588:9: error: use of undeclared identifier 'getThisPtr'; did you mean 'inet::getThisPtr'?
+        EV << NOW << " " << s << "     LteSummaryFeedback\n";
+        ^
+/home/ich/libs/omnet/5.4.1/include/omnetpp/clog.h:270:19: note: expanded from macro 'EV'
+#define EV        EV_INFO
+                  ^
+/home/ich/libs/omnet/5.4.1/include/omnetpp/clog.h:294:19: note: expanded from macro 'EV_INFO'
+#define EV_INFO   EV_LOG(omnetpp::LOGLEVEL_INFO, nullptr)
+                  ^
+/home/ich/libs/omnet/5.4.1/include/omnetpp/clog.h:264:49: note: expanded from macro 'EV_LOG'
+#define EV_LOG(logLevel, category) OPP_LOGPROXY(getThisPtr(), logLevel, category).getStream()
+                                                ^
+/home/ich/libs/omnet/5.4.1/include/omnetpp/clog.h:210:14: note: 'inet::getThisPtr' declared here
+inline void *getThisPtr() {return nullptr;}
+             ^
+In file included from common/LteCommon.cc:13:
+In file included from ./stack/mac/layer/LteMacEnb.h:15:
+In file included from ./stack/mac/amc/LteAmc.h:14:
+./stack/phy/feedback/LteFeedback.h:589:9: error: use of undeclared identifier 'getThisPtr'; did you mean 'inet::getThisPtr'?
+        EV << NOW << " " << s << " CellId: " << cellId << "\n";
+        ^
+/home/ich/libs/omnet/5.4.1/include/omnetpp/clog.h:270:19: note: expanded from macro 'EV'
+#define EV        EV_INFO
+                  ^
+/home/ich/libs/omnet/5.4.1/include/omnetpp/clog.h:294:19: note: expanded from macro 'EV_INFO'
+#define EV_INFO   EV_LOG(omnetpp::LOGLEVEL_INFO, nullptr)
+                  ^
+/home/ich/libs/omnet/5.4.1/include/omnetpp/clog.h:264:49: note: expanded from macro 'EV_LOG'
+#define EV_LOG(logLevel, category) OPP_LOGPROXY(getThisPtr(), logLevel, category).getStream()
+                                                ^
+/home/ich/libs/omnet/5.4.1/include/omnetpp/clog.h:210:14: note: 'inet::getThisPtr' declared here
+inline void *getThisPtr() {return nullptr;}
+             ^
+In file included from common/LteCommon.cc:13:
+In file included from ./stack/mac/layer/LteMacEnb.h:15:
+In file included from ./stack/mac/amc/LteAmc.h:14:
+./stack/phy/feedback/LteFeedback.h:589:9: error: use of undeclared identifier 'getThisPtr'; did you mean 'inet::getThisPtr'?
+        EV << NOW << " " << s << " CellId: " << cellId << "\n";
+        ^
+/home/ich/libs/omnet/5.4.1/include/omnetpp/clog.h:270:19: note: expanded from macro 'EV'
+#define EV        EV_INFO
+                  ^
+/home/ich/libs/omnet/5.4.1/include/omnetpp/clog.h:294:19: note: expanded from macro 'EV_INFO'
+#define EV_INFO   EV_LOG(omnetpp::LOGLEVEL_INFO, nullptr)
+                  ^
+/home/ich/libs/omnet/5.4.1/include/omnetpp/clog.h:264:49: note: expanded from macro 'EV_LOG'
+#define EV_LOG(logLevel, category) OPP_LOGPROXY(getThisPtr(), logLevel, category).getStream()
+                                                ^
+/home/ich/libs/omnet/5.4.1/include/omnetpp/clog.h:210:14: note: 'inet::getThisPtr' declared here
+inline void *getThisPtr() {return nullptr;}
+             ^
+In file included from common/LteCommon.cc:13:
+In file included from ./stack/mac/layer/LteMacEnb.h:15:
+In file included from ./stack/mac/amc/LteAmc.h:14:
+./stack/phy/feedback/LteFeedback.h:590:9: error: use of undeclared identifier 'getThisPtr'; did you mean 'inet::getThisPtr'?
+        EV << NOW << " " << s << " NodeId: " << nodeId << "\n";
+        ^
+/home/ich/libs/omnet/5.4.1/include/omnetpp/clog.h:270:19: note: expanded from macro 'EV'
+#define EV        EV_INFO
+                  ^
+/home/ich/libs/omnet/5.4.1/include/omnetpp/clog.h:294:19: note: expanded from macro 'EV_INFO'
+#define EV_INFO   EV_LOG(omnetpp::LOGLEVEL_INFO, nullptr)
+                  ^
+/home/ich/libs/omnet/5.4.1/include/omnetpp/clog.h:264:49: note: expanded from macro 'EV_LOG'
+#define EV_LOG(logLevel, category) OPP_LOGPROXY(getThisPtr(), logLevel, category).getStream()
+                                                ^
+/home/ich/libs/omnet/5.4.1/include/omnetpp/clog.h:210:14: note: 'inet::getThisPtr' declared here
+inline void *getThisPtr() {return nullptr;}
+             ^
+In file included from common/LteCommon.cc:13:
+In file included from ./stack/mac/layer/LteMacEnb.h:15:
+In file included from ./stack/mac/amc/LteAmc.h:14:
+./stack/phy/feedback/LteFeedback.h:590:9: error: use of undeclared identifier 'getThisPtr'; did you mean 'inet::getThisPtr'?
+        EV << NOW << " " << s << " NodeId: " << nodeId << "\n";
+        ^
+/home/ich/libs/omnet/5.4.1/include/omnetpp/clog.h:270:19: note: expanded from macro 'EV'
+#define EV        EV_INFO
+                  ^
+/home/ich/libs/omnet/5.4.1/include/omnetpp/clog.h:294:19: note: expanded from macro 'EV_INFO'
+#define EV_INFO   EV_LOG(omnetpp::LOGLEVEL_INFO, nullptr)
+                  ^
+/home/ich/libs/omnet/5.4.1/include/omnetpp/clog.h:264:49: note: expanded from macro 'EV_LOG'
+#define EV_LOG(logLevel, category) OPP_LOGPROXY(getThisPtr(), logLevel, category).getStream()
+                                                ^
+/home/ich/libs/omnet/5.4.1/include/omnetpp/clog.h:210:14: note: 'inet::getThisPtr' declared here
+inline void *getThisPtr() {return nullptr;}
+             ^
+In file included from common/LteCommon.cc:13:
+In file included from ./stack/mac/layer/LteMacEnb.h:15:
+In file included from ./stack/mac/amc/LteAmc.h:14:
+./stack/phy/feedback/LteFeedback.h:591:9: error: use of undeclared identifier 'getThisPtr'; did you mean 'inet::getThisPtr'?
+        EV << NOW << " " << s << " Direction: " << dirToA(dir) << "\n";
+        ^
+/home/ich/libs/omnet/5.4.1/include/omnetpp/clog.h:270:19: note: expanded from macro 'EV'
+#define EV        EV_INFO
+                  ^
+/home/ich/libs/omnet/5.4.1/include/omnetpp/clog.h:294:19: note: expanded from macro 'EV_INFO'
+#define EV_INFO   EV_LOG(omnetpp::LOGLEVEL_INFO, nullptr)
+                  ^
+/home/ich/libs/omnet/5.4.1/include/omnetpp/clog.h:264:49: note: expanded from macro 'EV_LOG'
+#define EV_LOG(logLevel, category) OPP_LOGPROXY(getThisPtr(), logLevel, category).getStream()
+                                                ^
+/home/ich/libs/omnet/5.4.1/include/omnetpp/clog.h:210:14: note: 'inet::getThisPtr' declared here
+inline void *getThisPtr() {return nullptr;}
+             ^
+In file included from common/LteCommon.cc:13:
+In file included from ./stack/mac/layer/LteMacEnb.h:15:
+In file included from ./stack/mac/amc/LteAmc.h:14:
+./stack/phy/feedback/LteFeedback.h:591:9: error: use of undeclared identifier 'getThisPtr'; did you mean 'inet::getThisPtr'?
+        EV << NOW << " " << s << " Direction: " << dirToA(dir) << "\n";
+        ^
+/home/ich/libs/omnet/5.4.1/include/omnetpp/clog.h:270:19: note: expanded from macro 'EV'
+#define EV        EV_INFO
+                  ^
+/home/ich/libs/omnet/5.4.1/include/omnetpp/clog.h:294:19: note: expanded from macro 'EV_INFO'
+#define EV_INFO   EV_LOG(omnetpp::LOGLEVEL_INFO, nullptr)
+                  ^
+/home/ich/libs/omnet/5.4.1/include/omnetpp/clog.h:264:49: note: expanded from macro 'EV_LOG'
+#define EV_LOG(logLevel, category) OPP_LOGPROXY(getThisPtr(), logLevel, category).getStream()
+                                                ^
+/home/ich/libs/omnet/5.4.1/include/omnetpp/clog.h:210:14: note: 'inet::getThisPtr' declared here
+inline void *getThisPtr() {return nullptr;}
+             ^
+In file included from common/LteCommon.cc:13:
+In file included from ./stack/mac/layer/LteMacEnb.h:15:
+In file included from ./stack/mac/amc/LteAmc.h:14:
+./stack/phy/feedback/LteFeedback.h:592:9: error: use of undeclared identifier 'getThisPtr'; did you mean 'inet::getThisPtr'?
+        EV << NOW << " " << s << " TxMode: " << txModeToA(txm) << "\n";
+        ^
+/home/ich/libs/omnet/5.4.1/include/omnetpp/clog.h:270:19: note: expanded from macro 'EV'
+#define EV        EV_INFO
+                  ^
+/home/ich/libs/omnet/5.4.1/include/omnetpp/clog.h:294:19: note: expanded from macro 'EV_INFO'
+#define EV_INFO   EV_LOG(omnetpp::LOGLEVEL_INFO, nullptr)
+                  ^
+/home/ich/libs/omnet/5.4.1/include/omnetpp/clog.h:264:49: note: expanded from macro 'EV_LOG'
+#define EV_LOG(logLevel, category) OPP_LOGPROXY(getThisPtr(), logLevel, category).getStream()
+                                                ^
+/home/ich/libs/omnet/5.4.1/include/omnetpp/clog.h:210:14: note: 'inet::getThisPtr' declared here
+inline void *getThisPtr() {return nullptr;}
+             ^
+In file included from common/LteCommon.cc:13:
+In file included from ./stack/mac/layer/LteMacEnb.h:15:
+In file included from ./stack/mac/amc/LteAmc.h:14:
+./stack/phy/feedback/LteFeedback.h:592:9: error: use of undeclared identifier 'getThisPtr'; did you mean 'inet::getThisPtr'?
+        EV << NOW << " " << s << " TxMode: " << txModeToA(txm) << "\n";
+        ^
+/home/ich/libs/omnet/5.4.1/include/omnetpp/clog.h:270:19: note: expanded from macro 'EV'
+#define EV        EV_INFO
+                  ^
+/home/ich/libs/omnet/5.4.1/include/omnetpp/clog.h:294:19: note: expanded from macro 'EV_INFO'
+#define EV_INFO   EV_LOG(omnetpp::LOGLEVEL_INFO, nullptr)
+                  ^
+/home/ich/libs/omnet/5.4.1/include/omnetpp/clog.h:264:49: note: expanded from macro 'EV_LOG'
+#define EV_LOG(logLevel, category) OPP_LOGPROXY(getThisPtr(), logLevel, category).getStream()
+                                                ^
+/home/ich/libs/omnet/5.4.1/include/omnetpp/clog.h:210:14: note: 'inet::getThisPtr' declared here
+inline void *getThisPtr() {return nullptr;}
+             ^
+In file included from common/LteCommon.cc:13:
+In file included from ./stack/mac/layer/LteMacEnb.h:15:
+In file included from ./stack/mac/amc/LteAmc.h:14:
+./stack/phy/feedback/LteFeedback.h:593:9: error: use of undeclared identifier 'getThisPtr'; did you mean 'inet::getThisPtr'?
+        EV << NOW << " " << s << " -------------------------\n";
+        ^
+/home/ich/libs/omnet/5.4.1/include/omnetpp/clog.h:270:19: note: expanded from macro 'EV'
+#define EV        EV_INFO
+                  ^
+/home/ich/libs/omnet/5.4.1/include/omnetpp/clog.h:294:19: note: expanded from macro 'EV_INFO'
+#define EV_INFO   EV_LOG(omnetpp::LOGLEVEL_INFO, nullptr)
+                  ^
+/home/ich/libs/omnet/5.4.1/include/omnetpp/clog.h:264:49: note: expanded from macro 'EV_LOG'
+#define EV_LOG(logLevel, category) OPP_LOGPROXY(getThisPtr(), logLevel, category).getStream()
+                                                ^
+/home/ich/libs/omnet/5.4.1/include/omnetpp/clog.h:210:14: note: 'inet::getThisPtr' declared here
+inline void *getThisPtr() {return nullptr;}
+             ^
+In file included from common/LteCommon.cc:13:
+In file included from ./stack/mac/layer/LteMacEnb.h:15:
+In file included from ./stack/mac/amc/LteAmc.h:14:
+./stack/phy/feedback/LteFeedback.h:593:9: error: use of undeclared identifier 'getThisPtr'; did you mean 'inet::getThisPtr'?
+        EV << NOW << " " << s << " -------------------------\n";
+        ^
+/home/ich/libs/omnet/5.4.1/include/omnetpp/clog.h:270:19: note: expanded from macro 'EV'
+#define EV        EV_INFO
+                  ^
+/home/ich/libs/omnet/5.4.1/include/omnetpp/clog.h:294:19: note: expanded from macro 'EV_INFO'
+#define EV_INFO   EV_LOG(omnetpp::LOGLEVEL_INFO, nullptr)
+                  ^
+/home/ich/libs/omnet/5.4.1/include/omnetpp/clog.h:264:49: note: expanded from macro 'EV_LOG'
+#define EV_LOG(logLevel, category) OPP_LOGPROXY(getThisPtr(), logLevel, category).getStream()
+                                                ^
+/home/ich/libs/omnet/5.4.1/include/omnetpp/clog.h:210:14: note: 'inet::getThisPtr' declared here
+inline void *getThisPtr() {return nullptr;}
+             ^
+In file included from common/LteCommon.cc:13:
+In file included from ./stack/mac/layer/LteMacEnb.h:15:
+In file included from ./stack/mac/amc/LteAmc.h:14:
+./stack/phy/feedback/LteFeedback.h:597:9: error: use of undeclared identifier 'getThisPtr'; did you mean 'inet::getThisPtr'?
+        EV << NOW << " " << s << " RI = " << ri << " [" << c << "]\n";
+        ^
+/home/ich/libs/omnet/5.4.1/include/omnetpp/clog.h:270:19: note: expanded from macro 'EV'
+#define EV        EV_INFO
+                  ^
+/home/ich/libs/omnet/5.4.1/include/omnetpp/clog.h:294:19: note: expanded from macro 'EV_INFO'
+#define EV_INFO   EV_LOG(omnetpp::LOGLEVEL_INFO, nullptr)
+                  ^
+/home/ich/libs/omnet/5.4.1/include/omnetpp/clog.h:264:49: note: expanded from macro 'EV_LOG'
+#define EV_LOG(logLevel, category) OPP_LOGPROXY(getThisPtr(), logLevel, category).getStream()
+                                                ^
+/home/ich/libs/omnet/5.4.1/include/omnetpp/clog.h:210:14: note: 'inet::getThisPtr' declared here
+inline void *getThisPtr() {return nullptr;}
+             ^
+In file included from common/LteCommon.cc:13:
+In file included from ./stack/mac/layer/LteMacEnb.h:15:
+In file included from ./stack/mac/amc/LteAmc.h:14:
+./stack/phy/feedback/LteFeedback.h:597:9: error: use of undeclared identifier 'getThisPtr'; did you mean 'inet::getThisPtr'?
+        EV << NOW << " " << s << " RI = " << ri << " [" << c << "]\n";
+        ^
+/home/ich/libs/omnet/5.4.1/include/omnetpp/clog.h:270:19: note: expanded from macro 'EV'
+#define EV        EV_INFO
+                  ^
+/home/ich/libs/omnet/5.4.1/include/omnetpp/clog.h:294:19: note: expanded from macro 'EV_INFO'
+#define EV_INFO   EV_LOG(omnetpp::LOGLEVEL_INFO, nullptr)
+                  ^
+/home/ich/libs/omnet/5.4.1/include/omnetpp/clog.h:264:49: note: expanded from macro 'EV_LOG'
+#define EV_LOG(logLevel, category) OPP_LOGPROXY(getThisPtr(), logLevel, category).getStream()
+                                                ^
+/home/ich/libs/omnet/5.4.1/include/omnetpp/clog.h:210:14: note: 'inet::getThisPtr' declared here
+inline void *getThisPtr() {return nullptr;}
+             ^
+In file included from common/LteCommon.cc:13:
+In file included from ./stack/mac/layer/LteMacEnb.h:15:
+In file included from ./stack/mac/amc/LteAmc.h:14:
+./stack/phy/feedback/LteFeedback.h:603:13: error: use of undeclared identifier 'getThisPtr'; did you mean 'inet::getThisPtr'?
+            EV << NOW << " " << s << " CQI[" << cw << "] = {";
+            ^
+/home/ich/libs/omnet/5.4.1/include/omnetpp/clog.h:270:19: note: expanded from macro 'EV'
+#define EV        EV_INFO
+                  ^
+/home/ich/libs/omnet/5.4.1/include/omnetpp/clog.h:294:19: note: expanded from macro 'EV_INFO'
+#define EV_INFO   EV_LOG(omnetpp::LOGLEVEL_INFO, nullptr)
+                  ^
+/home/ich/libs/omnet/5.4.1/include/omnetpp/clog.h:264:49: note: expanded from macro 'EV_LOG'
+#define EV_LOG(logLevel, category) OPP_LOGPROXY(getThisPtr(), logLevel, category).getStream()
+                                                ^
+/home/ich/libs/omnet/5.4.1/include/omnetpp/clog.h:210:14: note: 'inet::getThisPtr' declared here
+inline void *getThisPtr() {return nullptr;}
+             ^
+In file included from common/LteCommon.cc:13:
+In file included from ./stack/mac/layer/LteMacEnb.h:15:
+In file included from ./stack/mac/amc/LteAmc.h:14:
+./stack/phy/feedback/LteFeedback.h:603:13: error: use of undeclared identifier 'getThisPtr'; did you mean 'inet::getThisPtr'?
+            EV << NOW << " " << s << " CQI[" << cw << "] = {";
+            ^
+/home/ich/libs/omnet/5.4.1/include/omnetpp/clog.h:270:19: note: expanded from macro 'EV'
+#define EV        EV_INFO
+                  ^
+/home/ich/libs/omnet/5.4.1/include/omnetpp/clog.h:294:19: note: expanded from macro 'EV_INFO'
+#define EV_INFO   EV_LOG(omnetpp::LOGLEVEL_INFO, nullptr)
+                  ^
+/home/ich/libs/omnet/5.4.1/include/omnetpp/clog.h:264:49: note: expanded from macro 'EV_LOG'
+#define EV_LOG(logLevel, category) OPP_LOGPROXY(getThisPtr(), logLevel, category).getStream()
+                                                ^
+/home/ich/libs/omnet/5.4.1/include/omnetpp/clog.h:210:14: note: 'inet::getThisPtr' declared here
+inline void *getThisPtr() {return nullptr;}
+             ^
+In file included from common/LteCommon.cc:13:
+In file included from ./stack/mac/layer/LteMacEnb.h:15:
+In file included from ./stack/mac/amc/LteAmc.h:14:
+./stack/phy/feedback/LteFeedback.h:606:17: error: use of undeclared identifier 'getThisPtr'; did you mean 'inet::getThisPtr'?
+                EV << getCqi(cw, 0);
+                ^
+/home/ich/libs/omnet/5.4.1/include/omnetpp/clog.h:270:19: note: expanded from macro 'EV'
+#define EV        EV_INFO
+                  ^
+/home/ich/libs/omnet/5.4.1/include/omnetpp/clog.h:294:19: note: expanded from macro 'EV_INFO'
+#define EV_INFO   EV_LOG(omnetpp::LOGLEVEL_INFO, nullptr)
+                  ^
+/home/ich/libs/omnet/5.4.1/include/omnetpp/clog.h:264:49: note: expanded from macro 'EV_LOG'
+#define EV_LOG(logLevel, category) OPP_LOGPROXY(getThisPtr(), logLevel, category).getStream()
+                                                ^
+/home/ich/libs/omnet/5.4.1/include/omnetpp/clog.h:210:14: note: 'inet::getThisPtr' declared here
+inline void *getThisPtr() {return nullptr;}
+             ^
+In file included from common/LteCommon.cc:13:
+In file included from ./stack/mac/layer/LteMacEnb.h:15:
+In file included from ./stack/mac/amc/LteAmc.h:14:
+./stack/phy/feedback/LteFeedback.h:606:17: error: use of undeclared identifier 'getThisPtr'; did you mean 'inet::getThisPtr'?
+                EV << getCqi(cw, 0);
+                ^
+/home/ich/libs/omnet/5.4.1/include/omnetpp/clog.h:270:19: note: expanded from macro 'EV'
+#define EV        EV_INFO
+                  ^
+/home/ich/libs/omnet/5.4.1/include/omnetpp/clog.h:294:19: note: expanded from macro 'EV_INFO'
+#define EV_INFO   EV_LOG(omnetpp::LOGLEVEL_INFO, nullptr)
+                  ^
+/home/ich/libs/omnet/5.4.1/include/omnetpp/clog.h:264:49: note: expanded from macro 'EV_LOG'
+#define EV_LOG(logLevel, category) OPP_LOGPROXY(getThisPtr(), logLevel, category).getStream()
+                                                ^
+/home/ich/libs/omnet/5.4.1/include/omnetpp/clog.h:210:14: note: 'inet::getThisPtr' declared here
+inline void *getThisPtr() {return nullptr;}
+             ^
+In file included from common/LteCommon.cc:13:
+In file included from ./stack/mac/layer/LteMacEnb.h:15:
+In file included from ./stack/mac/amc/LteAmc.h:14:
+./stack/phy/feedback/LteFeedback.h:608:17: error: use of undeclared identifier 'getThisPtr'; did you mean 'inet::getThisPtr'?
+                EV << ", " << getCqi(cw, b);
+                ^
+/home/ich/libs/omnet/5.4.1/include/omnetpp/clog.h:270:19: note: expanded from macro 'EV'
+#define EV        EV_INFO
+                  ^
+/home/ich/libs/omnet/5.4.1/include/omnetpp/clog.h:294:19: note: expanded from macro 'EV_INFO'
+#define EV_INFO   EV_LOG(omnetpp::LOGLEVEL_INFO, nullptr)
+                  ^
+/home/ich/libs/omnet/5.4.1/include/omnetpp/clog.h:264:49: note: expanded from macro 'EV_LOG'
+#define EV_LOG(logLevel, category) OPP_LOGPROXY(getThisPtr(), logLevel, category).getStream()
+                                                ^
+/home/ich/libs/omnet/5.4.1/include/omnetpp/clog.h:210:14: note: 'inet::getThisPtr' declared here
+inline void *getThisPtr() {return nullptr;}
+             ^
+fatal error: too many errors emitted, stopping now [-ferror-limit=]
+20 errors generated.
+make[1]: *** [Makefile:293: ../out/clang-release/src/common/LteCommon.o] Error 1
+make: *** [Makefile:2: all] Error 2
