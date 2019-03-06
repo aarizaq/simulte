@@ -11,6 +11,7 @@ src/Makefile.vc
 *.anf
 *.qtenvrc
 .settings/
+err/
 
 # ignore binary files
 out/

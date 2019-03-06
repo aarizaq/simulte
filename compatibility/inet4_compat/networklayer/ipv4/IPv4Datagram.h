@@ -38,6 +38,20 @@ namespace inet {
                 this->insertAtFront(header);
             }
 
+            void setSrcAddress(const IPv4Address& addr) {
+                auto header = makeShared<Ipv4Header>(*getHeader());
+                header->setSrcAddress(addr);
+                this->popAtFront<Ipv4Header>();
+                this->insertAtFront(header);
+            }
+
+            void setTypeOfService(short typeOfService) {
+                auto header = makeShared<Ipv4Header>(*getHeader());
+                header->setTypeOfService(typeOfService);
+                this->popAtFront<Ipv4Header>();
+                this->insertAtFront(header);
+            }
+
         private:
             auto getHeader() const -> decltype(peekAtFront<Ipv4Header>()) {
                 auto header = this->peekAtFront<Ipv4Header>();

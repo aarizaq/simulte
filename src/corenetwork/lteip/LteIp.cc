@@ -9,20 +9,26 @@
 
 #include <inet4_compat/networklayer/contract/ipv4/IPv4ControlInfo.h>
 #include <inet/common/ModuleAccess.h>
+#include <inet/networklayer/ipv4/Ipv4InterfaceData.h>
 
 #include "corenetwork/lteip/LteIp.h"
 #include "corenetwork/binder/LteBinder.h"
 #include "corenetwork/deployer/LteDeployer.h"
 
 Define_Module(LteIp);
+using namespace std;
 using namespace omnetpp;
 using namespace inet;
 
 /**
  * @author: wolfgang kallies
- * TODO:this entire class probably has to be rewritten, since the underlying
- * mechanics in inet changed.
- * Do not expect this to work
+ * TODO:this entire class has to be rewritten, since the underlying
+ * mechanics in inet changed. mapping_ attribute was removed: the corresponding
+ * class does not exist anymore in inet4 and the underlying mechanism of passing
+ * packets has changed. 
+ * (I am still struggling understanding, how, but since this thing does not 
+ * compile, testing is somewhat tricky). The point being:
+ * DO NOT EXPECT THIS TO WORK. And it will all end in tears (hopefully not mine).
  */
 void LteIp::initialize()
 {
@@ -192,8 +198,15 @@ void LteIp::endService(cPacket *msg)
 
 void LteIp::fromTransport(cPacket * transportPacket, cGate *outputgate)
 {
+    /**
+     * @author: wolfgang kallies
+     * TODO: this needs to be largely rewritten. IPv4Controlinfo is no longer
+     * used and available. Might not work after 'fixing'
+     */
     // Remove control info from transport packet
-    IPv4ControlInfo *ipControlInfo = check_and_cast<IPv4ControlInfo*>(transportPacket->removeControlInfo());
+    //IPv4ControlInfo *ipControlInfo = check_and_cast<IPv4ControlInfo*>(transportPacket->removeControlInfo());
+    auto packetTmp = check_and_cast<inet::Packet*>(transportPacket);
+    auto ipControlInfo = make_shared<Ipv4Header>(*(packetTmp->popAtFront<Ipv4Header>()));
 
     //** Create IP datagram and fill its fields **
 
@@ -210,11 +223,11 @@ void LteIp::fromTransport(cPacket * transportPacket, cGate *outputgate)
     datagram->encapsulate(transportPacket);
 
     // set destination address
-    IPv4Address dest = ipControlInfo->getDestAddr();
+    IPv4Address dest = ipControlInfo->getDestAddress();
     datagram->setDestAddress(dest);
 
     // set source address
-    IPv4Address src = ipControlInfo->getSrcAddr();
+    IPv4Address src = ipControlInfo->getSrcAddress();
 
     // when source address was given, use it; otherwise use local Addr
     if (src.isUnspecified())
@@ -233,24 +246,24 @@ void LteIp::fromTransport(cPacket * transportPacket, cGate *outputgate)
 
     // set other fields
     datagram->setTypeOfService(ipControlInfo->getTypeOfService());
-    datagram->setTransportProtocol(ipControlInfo->getProtocol());
+    //ipControlInfo->setTransportProtocol(ipControlInfo->getProtocol());
 
     // fragmentation fields are correctly filled, but not used
-    datagram->setIdentification(curFragmentId_++);
-    datagram->setMoreFragments(false);
-    datagram->setDontFragment(ipControlInfo->getDontFragment());
-    datagram->setFragmentOffset(0);
+    ipControlInfo->setIdentification(curFragmentId_++);
+    ipControlInfo->setMoreFragments(false);
+    ipControlInfo->setDontFragment(ipControlInfo->getDontFragment());
+    ipControlInfo->setFragmentOffset(0);
 
     // ttl
     short ci_ttl = ipControlInfo->getTimeToLive();
-    datagram->setTimeToLive((ci_ttl > 0) ? ci_ttl : defaultTimeToLive_);
+    ipControlInfo->setTimeToLive((ci_ttl > 0) ? ci_ttl : defaultTimeToLive_);
 
     //** Add control info for stack **
     unsigned short srcPort = 0;
     unsigned short dstPort = 0;
     int headerSize = IP_HEADER_BYTES;
 
-    switch (ipControlInfo->getProtocol())
+    switch (ipControlInfo->getProtocolId())
     {
         case IP_PROT_TCP:
             inet::tcp::TCPSegment* tcpseg;
@@ -266,7 +279,15 @@ void LteIp::fromTransport(cPacket * transportPacket, cGate *outputgate)
             dstPort = (unsigned short) udppacket->getDestinationPort();
             headerSize += UDP_HEADER_BYTES;
             break;
+        default:
+            std::string errormessage = "";
+            errormessage += "LteIp::fromTransport() error: ";
+            errormessage += "got unhandled Protocol\n";
+            errormessage += "protocol id: " + std::to_string(ipControlInfo->getProtocolId()) + "\n";
+            throw std::runtime_error(errormessage);
     }
+
+    datagram->insertAtFront(Ptr<Ipv4Header>(ipControlInfo.get()));
 
     FlowControlInfo *controlInfo = new FlowControlInfo();
     controlInfo->setSrcAddr(src.getInt());
@@ -278,10 +299,10 @@ void LteIp::fromTransport(cPacket * transportPacket, cGate *outputgate)
     printControlInfo(controlInfo);
 
     datagram->setControlInfo(controlInfo);
+   
 
     //** Send datagram to lte stack or LteIp peer **
     send(datagram, outputgate);
-    delete ipControlInfo;
 }
 
 void LteIp::toTransport(cPacket * msg)
