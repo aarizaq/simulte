@@ -44,7 +44,9 @@ class LteDeployer;
 class LteMacEnb;
 class LteMacBase;
 class LtePhyBase;
-class cXMLElement;
+namespace omnetpp {
+    class cXMLElement;
+}
 class LteRealisticChannelModel;
 class LteControlInfo;
 class ExtCell;
@@ -880,7 +882,7 @@ bool isMulticastConnection(LteControlInfo* lteInfo);
  * @param xmlData XML parameters config element related to a specific section
  * @param[output] outputMap map to store read parameters
  */
-void getParametersFromXML(cXMLElement* xmlData, ParameterMap& outputMap);
+void getParametersFromXML(omnetpp::cXMLElement* xmlData, ParameterMap& outputMap);
 
 /**
  * Parses a CSV string parameter into an int array.

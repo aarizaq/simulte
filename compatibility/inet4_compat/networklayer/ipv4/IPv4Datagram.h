@@ -1,5 +1,5 @@
-#ifndef IPV4DATAGRAMM_H_
-#define IPV4DATAGRAMM_H_
+#ifndef INET4_COMPAT_IPV4DATAGRAMM_H_
+#define INET4_COMPAT_IPV4DATAGRAMM_H_
 
 #include <cassert>
 #include <inet/common/packet/Packet.h>
@@ -10,10 +10,15 @@
 namespace inet {
     constexpr int IP_HEADER_BYTES = 20;
     class IPv4Datagram : public inet::Packet {
+        private:
+            auto getHeader() const -> decltype(peekAtFront<Ipv4Header>()) {
+                auto header = this->peekAtFront<Ipv4Header>();
+                return header;
+            }
         public:
             explicit IPv4Datagram(const char * name = nullptr, short kind = 0) : Packet(name, kind) {};
 
-            int getTransportProtocol() const {
+            auto getTransportProtocol() const ->decltype(getHeader()->getProtocolId()) {
                 const auto header = getHeader();
                 return header->getProtocolId();
             }
@@ -50,12 +55,6 @@ namespace inet {
                 header->setTypeOfService(typeOfService);
                 this->popAtFront<Ipv4Header>();
                 this->insertAtFront(header);
-            }
-
-        private:
-            auto getHeader() const -> decltype(peekAtFront<Ipv4Header>()) {
-                auto header = this->peekAtFront<Ipv4Header>();
-                return header;
             }
     };
 }

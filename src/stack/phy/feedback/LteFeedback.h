@@ -10,15 +10,17 @@
 #ifndef _LTE_LTEFEEDBACK_H_
 #define _LTE_LTEFEEDBACK_H_
 
-#include "common/LteCommon.h"
-#include "stack/mac/amc/UserTxParams.h"
 #include <map>
 #include <vector>
+
+#include <omnetpp.h>
+
+#include "common/LteCommon.h"
+#include "stack/mac/amc/UserTxParams.h"
 
 class LteFeedback;
 typedef std::vector<LteFeedback> LteFeedbackVector;
 typedef std::vector<LteFeedbackVector> LteFeedbackDoubleVector;
-omnetpp::simtime_t simTime();
 
 //! LTE feedback message exchanged between PHY and AMC.
 class LteFeedback
@@ -442,7 +444,7 @@ class LteSummaryFeedback
      */
     double confidence(omnetpp::simtime_t creationTime) const
         {
-            omnetpp::simtime_t delta = simTime() - creationTime;
+            omnetpp::simtime_t delta = omnetpp::simTime() - creationTime;
 
         if (delta < confidenceLowerBound_)
             return 1.0;
@@ -467,14 +469,14 @@ class LteSummaryFeedback
     void reset()
     {
         ri_ = NORANK;
-        tRi_ = simTime();
+        tRi_ = omnetpp::simTime();
 
         cqi_ = std::vector<CqiVector>(totCodewords_, CqiVector(logicalBandsTot_, NOSIGNALCQI)); // XXX DUMMY VALUE USED FOR TESTING: replace with NOSIGNALCQI
         tCqi_ = std::vector<std::vector<omnetpp::simtime_t> >(totCodewords_,
-            std::vector<omnetpp::simtime_t>(logicalBandsTot_, simTime()));
+            std::vector<omnetpp::simtime_t>(logicalBandsTot_, omnetpp::simTime()));
 
         pmi_ = PmiVector(logicalBandsTot_, NOPMI);
-        tPmi_ = std::vector<omnetpp::simtime_t>(logicalBandsTot_, simTime());
+        tPmi_ = std::vector<omnetpp::simtime_t>(logicalBandsTot_, omnetpp::simTime());
         valid_ = false;
     }
 
@@ -486,7 +488,7 @@ class LteSummaryFeedback
     void setRi(Rank ri)
     {
         ri_ = ri;
-        tRi_ = simTime();
+        tRi_ = omnetpp::simTime();
         //set cw
         totCodewords_ = ri > 1 ? 2 : 1;
     }
@@ -496,7 +498,7 @@ class LteSummaryFeedback
     {
         // note: it is impossible to receive cqi == 0!
         cqi_[cw][band] = cqi;
-        tCqi_[cw][band] = simTime();
+        tCqi_[cw][band] = omnetpp::simTime();
         valid_ = true;
     }
 
@@ -504,7 +506,7 @@ class LteSummaryFeedback
     void setPmi(Pmi pmi, Band band)
     {
         pmi_[band] = pmi;
-        tPmi_[band] = simTime();
+        tPmi_[band] = omnetpp::simTime();
     }
 
     /*************
@@ -586,9 +588,10 @@ class LteSummaryFeedback
     void print(MacCellId cellId, MacNodeId nodeId, const Direction dir, TxMode txm, const char* s) const
         {
           /**
+           * TODO: enable printing
            * no printing yet
            */
-//        EV << NOW << " " << s << "     LteSummaryFeedback\n";
+//            EV << NOW << " " << s << "     LteSummaryFeedback\n";
 //        EV << NOW << " " << s << " CellId: " << cellId << "\n";
 //        EV << NOW << " " << s << " NodeId: " << nodeId << "\n";
 //        EV << NOW << " " << s << " Direction: " << dirToA(dir) << "\n";

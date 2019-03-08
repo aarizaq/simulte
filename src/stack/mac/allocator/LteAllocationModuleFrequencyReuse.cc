@@ -11,6 +11,8 @@
 #include "stack/mac/layer/LteMacEnb.h"
 #include "stack/mac/conflict_graph_utilities/meshMaster.h"
 
+using namespace inet;
+
 LteAllocationModuleFrequencyReuse::LteAllocationModuleFrequencyReuse(LteMacEnb* mac,Direction direction)
         : LteAllocationModule(mac,direction)
 {

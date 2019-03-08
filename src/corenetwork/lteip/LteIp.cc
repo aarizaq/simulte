@@ -311,43 +311,54 @@ void LteIp::toTransport(cPacket * msg)
     IPv4Datagram *datagram = check_and_cast<IPv4Datagram *>(msg);
     int protocol = datagram->getTransportProtocol();
 
-    int gateindex = 0;
-    try
-    {
-        gateindex = mapping_.getOutputGateForProtocol(protocol);
-    }
-    catch (cRuntimeError)
-    {
-        EV << "Protocol mapping failed with protocol number : " << protocol << endl;
-        EV << "Packet dropped" << endl;
-        delete msg;
-        numForwarded_--;
-        numDropped_++;
-        return;
-    }
+    /**
+     * @author: wolfgang kallies
+     * dropped, I hope this is redundant.
+     */
+    //int gateindex = 0;
+    //try
+    //{
+    //    gateindex = mapping_.getOutputGateForProtocol(protocol);
+    //}
+    //catch (cRuntimeError)
+    //{
+    //    EV << "Protocol mapping failed with protocol number : " << protocol << endl;
+    //    EV << "Packet dropped" << endl;
+    //    delete msg;
+    //    numForwarded_--;
+    //    numDropped_++;
+    //    return;
+    //}
 
         // transport packet
-    cPacket *transportPacket = datagram->decapsulate();
+    //cPacket *transportPacket = datagram->decapsulate();
+    auto header = datagram->peekAtFront<Ipv4Header>();
+    
+    
 
     // create and fill in control info
-    IPv4ControlInfo *controlInfo = new IPv4ControlInfo();
-    controlInfo->setProtocol(datagram->getTransportProtocol());
-    controlInfo->setSrcAddr(datagram->getSrcAddress());
-    controlInfo->setDestAddr(datagram->getDestAddress());
-    controlInfo->setTypeOfService(datagram->getTypeOfService());
+    auto controlInfo = make_shared<Ipv4Header>();
+    controlInfo->setProtocol(header->getProtocol());
+    controlInfo->setSrcAddress(datagram->getSrcAddress());
+    controlInfo->setDestAddress(datagram->getDestAddress());
+    controlInfo->setTypeOfService(header->getTypeOfService());
+    auto packet = make_shared<IPv4Datagram>(*datagram);
 
     // XXX these two fields (interfaceId and datagram) are not actually of interest for us..
 
     // interfaceId should be the interface on which the datagram arrived,
     // or -1 if it was created locally
-    controlInfo->setInterfaceId(-1);
+    //controlInfo->setInterfaceId(-1);
     // original IP datagram might be needed in upper layers
-    controlInfo->setOrigDatagram(datagram);
+    //controlInfo->setOrigDatagram(datagram);
 
     // attach control info
-    transportPacket->setControlInfo(controlInfo);
+    //transportPacket->setControlInfo(controlInfo);
+    packet->popAtFront<Ipv4Header>();
+    packet->insertAtFront(Ptr<Ipv4Header>(controlInfo.get()));
 
-    send(transportPacket, "transportOut", gateindex);
+    //send(transportPacket, "transportOut", gateindex);
+    send(packet.get(), "transportOut");
 }
 
 void LteIp::setNodeType(std::string s)

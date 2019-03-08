@@ -8,9 +8,9 @@
 //
 
 #include "epc/TrafficFlowFilter.h"
-#include "inet/networklayer/contract/ipv4/IPv4ControlInfo.h"
-#include "inet/networklayer/ipv4/IPv4Datagram.h"
-#include "inet/networklayer/common/L3AddressResolver.h"
+#include <inet4_compat/networklayer/contract/ipv4/IPv4ControlInfo.h>
+#include <inet4_compat/networklayer/ipv4/IPv4Datagram.h>
+#include <inet/networklayer/common/L3AddressResolver.h>
 
 using namespace inet;
 
@@ -51,8 +51,8 @@ void TrafficFlowFilter::handleMessage(cMessage *msg)
 
     // receive and read IP datagram
     IPv4Datagram * datagram = check_and_cast<IPv4Datagram *>(msg);
-    IPv4Address &destAddr = datagram->getDestAddress();
-    IPv4Address &srcAddr = datagram->getSrcAddress();
+    const IPv4Address &destAddr = datagram->getDestAddress();
+    const IPv4Address &srcAddr = datagram->getSrcAddress();
 
     // TODO check for source and dest port number
 

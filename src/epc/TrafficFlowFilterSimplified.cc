@@ -8,11 +8,14 @@
 //
 
 #include "epc/TrafficFlowFilterSimplified.h"
-#include "inet/networklayer/contract/ipv4/IPv4ControlInfo.h"
-#include "inet/networklayer/ipv4/IPv4Datagram.h"
-#include "inet/networklayer/common/L3AddressResolver.h"
+#include <inet4_compat/networklayer/contract/ipv4/IPv4ControlInfo.h>
+#include <inet4_compat/networklayer/ipv4/IPv4Datagram.h>
+#include <inet/networklayer/common/L3AddressResolver.h>
 
 Define_Module(TrafficFlowFilterSimplified);
+
+using namespace inet;
+using namespace omnetpp;
 
 void TrafficFlowFilterSimplified::initialize(int stage)
 {
@@ -47,8 +50,8 @@ void TrafficFlowFilterSimplified::handleMessage(cMessage *msg)
 
     // receive and read IP datagram
     IPv4Datagram * datagram = check_and_cast<IPv4Datagram *>(msg);
-    IPv4Address &destAddr = datagram->getDestAddress();
-    IPv4Address &srcAddr = datagram->getSrcAddress();
+    const IPv4Address &destAddr = datagram->getDestAddress();
+    const IPv4Address &srcAddr = datagram->getSrcAddress();
 
     // TODO check for source and dest port number
 
@@ -80,7 +83,7 @@ void TrafficFlowFilterSimplified::handleMessage(cMessage *msg)
 
 TrafficFlowTemplateId TrafficFlowFilterSimplified::findTrafficFlow(L3Address srcAddress, L3Address destAddress)
 {
-    MacNodeId destId = binder_->getMacNodeId(destAddress.toIPv4());
+    MacNodeId destId = binder_->getMacNodeId(destAddress.toIpv4());
     if (destId == 0)
     {
         if (ownerType_ == ENB)
@@ -93,7 +96,7 @@ TrafficFlowTemplateId TrafficFlowFilterSimplified::findTrafficFlow(L3Address src
 
     if (ownerType_ == ENB)
     {
-        MacNodeId srcMaster = binder_->getNextHop(binder_->getMacNodeId(srcAddress.toIPv4()));
+        MacNodeId srcMaster = binder_->getNextHop(binder_->getMacNodeId(srcAddress.toIpv4()));
         if (fastForwarding_ && srcMaster == destMaster)
             return 0;                 // local delivery
         return -1;   // send the packet to the PGW

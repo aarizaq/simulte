@@ -36,7 +36,7 @@ class LteMacEnbRealisticD2D : public LteMacEnbRealistic
 
     // parameters for conflict graph (needed when frequency reuse is enabled)
     bool buildConflictGraph_;
-    simtime_t conflictGraphUpdatePeriod_;
+    omnetpp::simtime_t conflictGraphUpdatePeriod_;
     double conflictGraphThreshold_;
 
     void clearBsrBuffers(MacNodeId ueId);
@@ -51,16 +51,16 @@ class LteMacEnbRealisticD2D : public LteMacEnbRealistic
      *
      * @param pkt container packet
      */
-    virtual void macPduUnmake(cPacket* pkt);
+    virtual void macPduUnmake(omnetpp::cPacket* pkt) override;
 
-    virtual void macHandleFeedbackPkt(cPacket *pkt);
+    virtual void macHandleFeedbackPkt(omnetpp::cPacket *pkt) override;
     /**
      * creates scheduling grants (one for each nodeId) according to the Schedule List.
      * It sends them to the  lower layer
      */
-    virtual void sendGrants(LteMacScheduleList* scheduleList);
+    virtual void sendGrants(LteMacScheduleList* scheduleList) override;
 
-    void macHandleD2DModeSwitch(cPacket* pkt);
+    void macHandleD2DModeSwitch(omnetpp::cPacket* pkt);
 
   public:
 
@@ -70,16 +70,16 @@ class LteMacEnbRealisticD2D : public LteMacEnbRealistic
     /**
      * Reads MAC parameters for ue and performs initialization.
      */
-    virtual void initialize(int stage);
+    virtual void initialize(int stage) override;
 
     /**
      * Main loop
      */
-    virtual void handleSelfMessage();
+    virtual void handleSelfMessage() override;
 
-    virtual void handleMessage(cMessage* msg);
+    virtual void handleMessage(omnetpp::cMessage* msg) override;
 
-    virtual bool isD2DCapable()
+    virtual bool isD2DCapable() override
     {
         return true;
     }

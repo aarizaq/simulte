@@ -8,10 +8,11 @@
 //
 
 #include "epc/gtp/GtpUser.h"
-#include "inet/networklayer/contract/ipv4/IPv4ControlInfo.h"
+#include <inet4_compat/networklayer/contract/ipv4/IPv4ControlInfo.h>
 #include <iostream>
 
 Define_Module(GtpUser);
+using namespace inet;
 
 void GtpUser::initialize(int stage)
 {

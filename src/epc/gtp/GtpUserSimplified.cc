@@ -8,11 +8,14 @@
 //
 
 #include "epc/gtp/GtpUserSimplified.h"
-#include "inet/networklayer/contract/ipv4/IPv4ControlInfo.h"
-#include "inet/networklayer/common/L3AddressResolver.h"
+#include <inet4_compat/networklayer/contract/ipv4/IPv4ControlInfo.h>
+#include <inet/networklayer/common/L3AddressResolver.h>
 #include <iostream>
 
 Define_Module(GtpUserSimplified);
+
+using namespace omnetpp;
+using namespace inet;
 
 void GtpUserSimplified::initialize(int stage)
 {
@@ -116,7 +119,7 @@ void GtpUserSimplified::handleFromUdp(GtpUserMsg * gtpMsg)
 
     if (ownerType_ == PGW)
     {
-        IPv4Address& destAddr = datagram->getDestAddress();
+        const IPv4Address& destAddr = datagram->getDestAddress();
         MacNodeId destId = binder_->getMacNodeId(destAddr);
         if (destId != 0)
         {

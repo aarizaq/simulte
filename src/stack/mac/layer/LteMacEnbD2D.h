@@ -62,12 +62,12 @@ class LteMacEnbD2D : public LteMacEnb
      *
      * @param pkt container packet
      */
-    virtual void macPduUnmake(cPacket* pkt);
+    virtual void macPduUnmake(omnetpp::cPacket* pkt);
 
     /**
      * macHandleFeedbackPkt is called every time a feedback pkt arrives on MAC
      */
-    virtual void macHandleFeedbackPkt(cPacket* pkt);
+    virtual void macHandleFeedbackPkt(omnetpp::cPacket* pkt);
 
   public:
 

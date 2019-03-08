@@ -9,6 +9,8 @@
 
 #include "stack/mac/amc/LteMcs.h"
 
+using namespace omnetpp;
+
 /**
  * <CQI Index [0-15]> , <Modulation> , <Code Rate x 1024>
  * This table contains value taken from the table 7.2.3-1 (TS 36.213)

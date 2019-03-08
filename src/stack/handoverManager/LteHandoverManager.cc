@@ -12,6 +12,9 @@
 
 Define_Module(LteHandoverManager);
 
+using namespace inet;
+using namespace omnetpp;
+
 void LteHandoverManager::initialize()
 {
     // get the node id

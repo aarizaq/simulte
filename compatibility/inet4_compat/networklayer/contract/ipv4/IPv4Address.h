@@ -6,6 +6,7 @@
 namespace inet {
     class IPv4Address : public Ipv4Address {
         public:
+            IPv4Address() : Ipv4Address() {};
             IPv4Address(const Ipv4Address& add) : Ipv4Address(add) {};
             explicit IPv4Address(const char* address) : Ipv4Address(address) {};
             explicit IPv4Address(uint32 address) : Ipv4Address(address) {};

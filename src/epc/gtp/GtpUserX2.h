@@ -10,12 +10,12 @@
 #ifndef _LTE_GTP_USER_X2_H_
 #define _LTE_GTP_USER_X2_H_
 
+#include <map>
 #include <omnetpp.h>
-#include "inet/transportlayer/contract/udp/UDPSocket.h"
+#include <inet4_compat/transportlayer/contract/udp/UDPSocket.h>
 #include "epc/gtp/GtpUserMsg_m.h"
 #include "corenetwork/binder/LteBinder.h"
 #include "x2/packet/LteX2Message.h"
-#include <map>
 #include "epc/gtp_common.h"
 
 /**
@@ -25,9 +25,9 @@
  * b) GtpUserX2Msg from UDP-IP layers.
  *
  */
-class GtpUserX2 : public cSimpleModule
+class GtpUserX2 : public omnetpp::cSimpleModule
 {
-    UDPSocket socket_;
+    inet::UDPSocket socket_;
     int localPort_;
 
     // reference to the LTE Binder module
@@ -38,9 +38,9 @@ class GtpUserX2 : public cSimpleModule
 
   protected:
 
-    virtual int numInitStages() const { return inet::NUM_INIT_STAGES; }
-    virtual void initialize(int stage);
-    virtual void handleMessage(cMessage *msg);
+    virtual int numInitStages() const override { return inet::NUM_INIT_STAGES; }
+    virtual void initialize(int stage) override;
+    virtual void handleMessage(omnetpp::cMessage *msg) override;
 
     // receive an X2 Message from the X2 Manager, encapsulates it in a GTP-U packet than forwards it to the proper next hop
     void handleFromStack(LteX2Message * x2Msg);

@@ -7,11 +7,14 @@
 // and cannot be removed from it.
 //
 
-#include "epc/gtp/GtpUserX2.h"
-#include "inet/networklayer/common/L3Address.h"
 #include <iostream>
+#include <inet/networklayer/common/L3Address.h>
+#include "epc/gtp/GtpUserX2.h"
 
 Define_Module(GtpUserX2);
+
+using namespace inet;
+using namespace omnetpp;
 
 void GtpUserX2::initialize(int stage)
 {
