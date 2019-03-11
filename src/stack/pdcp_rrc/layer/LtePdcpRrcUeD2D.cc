@@ -8,10 +8,13 @@
 //
 
 #include "stack/pdcp_rrc/layer/LtePdcpRrcUeD2D.h"
-#include "inet/networklayer/common/L3AddressResolver.h"
+#include <inet/networklayer/common/L3AddressResolver.h>
 #include "stack/d2dModeSelection/D2DModeSwitchNotification_m.h"
 
 Define_Module(LtePdcpRrcUeD2D);
+
+using namespace inet;
+using namespace omnetpp;
 
 /*
  * Upper Layer handlers

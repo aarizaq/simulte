@@ -21,6 +21,8 @@
 
 Define_Module(LteMacUeD2D);
 
+using namespace inet;
+
 LteMacUeD2D::LteMacUeD2D() : LteMacUe()
 {
     racD2DMulticastRequested_ = false;

@@ -20,6 +20,8 @@
 // and tolerating the maximum distance violation is enabled
 #define ATT_MAXDISTVIOLATED 1000
 
+using namespace inet;
+
 LteRealisticChannelModel::LteRealisticChannelModel(ParameterMap& params,
         const Coord& myCoord, unsigned int band) :
         LteChannelModel(band), myCoord_(myCoord)

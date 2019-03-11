@@ -11,6 +11,8 @@
 
 Define_Module(LtePhyRelay);
 
+using namespace omnetpp;
+
 LtePhyRelay::~LtePhyRelay()
 {
     cancelAndDelete(bdcStarter_);

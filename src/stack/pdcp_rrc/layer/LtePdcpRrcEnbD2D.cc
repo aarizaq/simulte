@@ -6,12 +6,15 @@
 // The above file and the present reference are part of the software itself,
 // and cannot be removed from it.
 //
+#include <inet/networklayer/common/L3AddressResolver.h>
 
 #include "stack/pdcp_rrc/layer/LtePdcpRrcEnbD2D.h"
-#include "inet/networklayer/common/L3AddressResolver.h"
 #include "stack/d2dModeSelection/D2DModeSwitchNotification_m.h"
 
 Define_Module(LtePdcpRrcEnbD2D);
+
+using namespace omnetpp;
+using namespace inet;
 
 /*
  * Upper Layer handlers

@@ -15,6 +15,8 @@
 
 Define_Module(LtePhyUe);
 
+using namespace inet;
+
 LtePhyUe::LtePhyUe()
 {
     handoverStarter_ = NULL;

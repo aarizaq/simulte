@@ -1,4 +1,5 @@
 //
+#include "common/LteControlInfo.h"
 //                           SimuLTE
 //
 // This file is part of a software released under the license included in file
@@ -72,7 +73,7 @@ class LteDummyChannelModel : public LteChannelModel
     //TODO
     virtual bool errorDas(LteAirFrame *frame, UserControlInfo* lteI)
     {
-        throw cRuntimeError("DAS PHY LAYER TO BE IMPLEMENTED");
+        throw omnetpp::cRuntimeError("DAS PHY LAYER TO BE IMPLEMENTED");
         return false;
     }
 };

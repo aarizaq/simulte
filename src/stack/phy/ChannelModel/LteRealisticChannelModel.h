@@ -10,6 +10,7 @@
 #ifndef _LTE_LTEREALISTICCHANNELMODEL_H_
 #define _LTE_LTEREALISTICCHANNELMODEL_H_
 
+#include <omnetpp.h>
 #include "stack/phy/ChannelModel/LteChannelModel.h"
 
 class LteBinder;
@@ -50,7 +51,7 @@ class LteRealisticChannelModel : public LteChannelModel
     bool enableMultiCellInterference_;
     bool enableD2DInCellInterference_;
 
-    typedef std::pair<simtime_t, inet::Coord> Position;
+    typedef std::pair<inet::simtime_t, inet::Coord> Position;
 
     // last position of current user
     std::map<MacNodeId, std::queue<Position> > positionHistory_;
@@ -62,7 +63,7 @@ class LteRealisticChannelModel : public LteChannelModel
     std::map<MacNodeId, bool> losMap_;
 
     // Store the last computed shadowing for each user
-    std::map<MacNodeId, std::pair<simtime_t, double> > lastComputedSF_;
+    std::map<MacNodeId, std::pair<omnetpp::simtime_t, double> > lastComputedSF_;
 
     //correlation distance used in shadowing computation and
     //also used to recompute the probability of LOS
@@ -116,7 +117,7 @@ class LteRealisticChannelModel : public LteChannelModel
     struct JakesFadingData
     {
         std::vector<double> angleOfArrival;
-        std::vector<simtime_t> delaySpread;
+        std::vector<omnetpp::simtime_t> delaySpread;
     };
 
     // for each node and for each band we store information about jakes fading
@@ -211,7 +212,7 @@ class LteRealisticChannelModel : public LteChannelModel
      */
     virtual bool errorDas(LteAirFrame *frame, UserControlInfo* lteI)
     {
-        throw cRuntimeError("DAS PHY LAYER TO BE IMPLEMENTED");
+        throw omnetpp::cRuntimeError("DAS PHY LAYER TO BE IMPLEMENTED");
         return -1;
     }
     /*

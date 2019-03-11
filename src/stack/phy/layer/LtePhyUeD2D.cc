@@ -13,6 +13,7 @@
 #include "stack/d2dModeSelection/D2DModeSelectionBase.h"
 
 Define_Module(LtePhyUeD2D);
+using namespace inet;
 
 LtePhyUeD2D::LtePhyUeD2D()
 {

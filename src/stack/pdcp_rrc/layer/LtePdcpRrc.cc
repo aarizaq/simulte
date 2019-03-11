@@ -14,6 +14,9 @@ Define_Module(LtePdcpRrcEnb);
 Define_Module(LtePdcpRrcRelayUe);
 Define_Module(LtePdcpRrcRelayEnb);
 
+using namespace omnetpp;
+using namespace inet;
+
 LtePdcpRrcBase::LtePdcpRrcBase()
 {
     ht_ = new ConnectionsTable();

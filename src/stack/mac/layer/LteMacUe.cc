@@ -6,6 +6,9 @@
 // The above file and the present reference are part of the software itself,
 // and cannot be removed from it.
 //
+#include <inet/networklayer/common/InterfaceEntry.h>
+#include <inet/common/ModuleAccess.h>
+#include <inet4_compat/networklayer/ipv4/IPv4InterfaceData.h>
 
 #include "stack/mac/layer/LteMacUe.h"
 #include "stack/mac/buffer/harq/LteHarqBufferRx.h"
@@ -15,13 +18,12 @@
 #include "stack/mac/packet/LteRac_m.h"
 #include "stack/mac/buffer/LteMacBuffer.h"
 #include "stack/mac/amc/UserTxParams.h"
-#include "inet/networklayer/common/InterfaceEntry.h"
-#include "inet/common/ModuleAccess.h"
-#include "inet/networklayer/ipv4/IPv4InterfaceData.h"
 #include "corenetwork/binder/LteBinder.h"
 #include "stack/phy/layer/LtePhyBase.h"
 
 Define_Module(LteMacUe);
+
+using namespace inet;
 
 LteMacUe::LteMacUe() :
     LteMacBase()
@@ -121,7 +123,7 @@ void LteMacUe::initialize(int stage)
         // TODO: how do we find the LTE interface?
         InterfaceEntry * interfaceEntry = interfaceTable->getInterfaceByName("wlan");
 
-        IPv4InterfaceData* ipv4if = interfaceEntry->ipv4Data();
+        Ipv4InterfaceData* ipv4if = interfaceEntry->ipv4Data();
         if(ipv4if == NULL)
             throw new cRuntimeError("no IPv4 interface data - cannot bind node %i", nodeId_);
         binder_->setMacNodeId(ipv4if->getIPAddress(), nodeId_);

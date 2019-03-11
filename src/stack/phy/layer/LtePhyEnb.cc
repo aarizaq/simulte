@@ -14,6 +14,9 @@
 
 Define_Module(LtePhyEnb);
 
+using namespace omnetpp;
+using namespace inet;
+
 LtePhyEnb::LtePhyEnb()
 {
     das_ = NULL;

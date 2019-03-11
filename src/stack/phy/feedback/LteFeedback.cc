@@ -10,6 +10,8 @@
 #include <iostream>
 #include "stack/phy/feedback/LteFeedback.h"
 
+using namespace omnetpp;
+
 void
 LteSummaryBuffer::createSummary(LteFeedback fb)
 {

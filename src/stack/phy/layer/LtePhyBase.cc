@@ -10,6 +10,8 @@
 #include "stack/phy/layer/LtePhyBase.h"
 #include "common/LteCommon.h"
 
+using namespace omnetpp;
+
 short LtePhyBase::airFramePriority_ = 10;
 
 LtePhyBase::LtePhyBase()

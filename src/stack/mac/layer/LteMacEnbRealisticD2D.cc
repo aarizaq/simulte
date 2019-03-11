@@ -17,6 +17,8 @@
 
 Define_Module(LteMacEnbRealisticD2D);
 
+using namespace inet;
+
 LteMacEnbRealisticD2D::LteMacEnbRealisticD2D() :
     LteMacEnbRealistic()
 {

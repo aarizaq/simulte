@@ -10,6 +10,8 @@
 #include "stack/phy/feedback/LteFeedbackComputationDummy.h"
 #include "stack/phy/feedback/LteFeedback.h"
 
+using namespace omnetpp;
+
 LteFeedbackComputationDummy::LteFeedbackComputationDummy(double channelVariationProb, int channelVariationStep,
     int txDivMin, int txDivMax, int sMuxMin, int sMuxMax, int muMimoMin, int muMimoMax, double rankVariationProb,
     int numband)
