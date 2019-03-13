@@ -10,6 +10,7 @@
 #include "stack/rlc/um/buffer/UmTxQueue.h"
 
 Define_Module(UmTxQueue);
+using namespace omnetpp;
 
 void UmTxQueue::fragment(cPacket* pkt)
 {

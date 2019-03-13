@@ -14,6 +14,7 @@ namespace inet;
 //
 
 cplusplus {{
+    #include <utility>
     #include <inet/common/packet/Packet.h>
 }}
 

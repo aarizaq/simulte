@@ -9,6 +9,8 @@
 
 #include "stack/rlc/um/buffer/UmFragbuf.h"
 
+using namespace omnetpp;
+
 bool UmFragbuf::insert(unsigned int pktId, unsigned int totFrag,
     unsigned int fragSno, unsigned int fragSize, FlowControlInfo* info)
 {

@@ -41,7 +41,7 @@ class UmRxQueue;
  *   of this header is fixed to 2 bytes.
  *
  */
-class LteRlcUm : public cSimpleModule
+class LteRlcUm : public omnetpp::cSimpleModule
 {
   public:
     LteRlcUm()
@@ -58,7 +58,7 @@ class LteRlcUm : public cSimpleModule
      *
      * @param pkt packet to forward
      */
-    void sendFragmented(cPacket *pkt);
+    void sendFragmented(omnetpp::cPacket *pkt);
 
     /**
      * sendDefragmented() is invoked by the RXBuffer as a direct method
@@ -67,7 +67,7 @@ class LteRlcUm : public cSimpleModule
      *
      * @param pkt packet to forward
      */
-    void sendDefragmented(cPacket *pkt);
+    void sendDefragmented(omnetpp::cPacket *pkt);
 
     /**
      * deleteQueues() must be called on handover
@@ -85,25 +85,25 @@ class LteRlcUm : public cSimpleModule
      *
      * @param pkt packet to forward
      */
-    virtual void sendToLowerLayer(cPacket *pkt);
+    virtual void sendToLowerLayer(omnetpp::cPacket *pkt);
 
   protected:
 
-    cGate* up_[2];
-    cGate* down_[2];
+    omnetpp::cGate* up_[2];
+    omnetpp::cGate* down_[2];
 
     /**
      * Initialize watches
      */
-    virtual void initialize();
+    virtual void initialize() override;
 
     /**
      * Analyze gate of incoming packet
      * and call proper handler
      */
-    virtual void handleMessage(cMessage *msg);
+    virtual void handleMessage(omnetpp::cMessage *msg) override;
 
-    virtual void finish()
+    virtual void finish() override
     {
     }
 
@@ -149,7 +149,7 @@ class LteRlcUm : public cSimpleModule
      *
      * @param pkt packet to process
      */
-    virtual void handleUpperMessage(cPacket *pkt);
+    virtual void handleUpperMessage(omnetpp::cPacket *pkt);
 
     /**
      * UM Mode
@@ -166,7 +166,7 @@ class LteRlcUm : public cSimpleModule
      *
      * @param pkt packet to process
      */
-    virtual void handleLowerMessage(cPacket *pkt);
+    virtual void handleLowerMessage(omnetpp::cPacket *pkt);
 
     /*
      * Data structures

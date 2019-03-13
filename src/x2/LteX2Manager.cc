@@ -10,12 +10,18 @@
 #define DATAPORT_OUT "dataPort$o"
 #define DATAPORT_IN "dataPort$i"
 
+#include <inet/networklayer/common/InterfaceEntry.h>
+#include <inet4_compat/networklayer/ipv4/IPv4InterfaceData.h>
+#include <inet4_compat/networklayer/configurator/ipv4/IPv4NetworkConfigurator.h>
+
 #include "x2/LteX2Manager.h"
-#include "inet/networklayer/common/InterfaceEntry.h"
-#include "inet/networklayer/ipv4/IPv4InterfaceData.h"
-#include "inet/networklayer/configurator/ipv4/IPv4NetworkConfigurator.h"
 
 Define_Module(LteX2Manager);
+
+
+using namespace omnetpp;
+using namespace inet;
+
 
 LteX2Manager::LteX2Manager() {
 }
@@ -40,8 +46,14 @@ void LteX2Manager::initialize(int stage)
         {
             // look for x2ppp interfaces in the interface table
             InterfaceEntry * interfaceEntry = interfaceTable->getInterface(i);
-            const char* ifName = interfaceEntry->getName();
-            if (strstr(ifName,"x2ppp") != NULL)
+            /**
+             * TODO: check if this works att all
+             */
+            //const char* ifName = interfaceEntry->getName();
+            //
+            //if (strstr(ifName,"x2ppp") != NULL)
+            const std::string info = interfaceEntry->detailedInfo();
+            if (info.find("x2ppp") != std::string::npos)
             {
                 IPv4Address addr = interfaceEntry->ipv4Data()->getIPAddress();
                 getBinder()->setX2NodeId(interfaceEntry->ipv4Data()->getIPAddress(), nodeId_);
@@ -62,7 +74,7 @@ void LteX2Manager::initialize(int stage)
 
             // get the connectAddress for the X2App client and the corresponding X2 id
             L3Address addr = L3AddressResolver().resolve(client->par("connectAddress").stringValue());
-            X2NodeId peerId = getBinder()->getX2NodeId(addr.toIPv4());
+            X2NodeId peerId = getBinder()->getX2NodeId(addr.toIpv4());
 
             // bind the peerId to the output gate
             x2InterfaceTable_[peerId] = i;

@@ -12,6 +12,8 @@
 
 Define_Module(LteRlcUm);
 
+using namespace omnetpp;
+
 UmTxQueue* LteRlcUm::getTxBuffer(MacNodeId nodeId, LogicalCid lcid)
 {
     // Find TXBuffer for this CID

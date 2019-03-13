@@ -45,7 +45,7 @@ class LteRlcUm;
  * - The main packet is then decapsulated (into a PDCP packet)
  *   end sent to upper layers (via direct method call)
  */
-class UmRxQueue : public cSimpleModule
+class UmRxQueue : public omnetpp::cSimpleModule
 {
   public:
     UmRxQueue();
@@ -70,38 +70,38 @@ class UmRxQueue : public cSimpleModule
      * @param pkt Packet to fragment
      * @return true if packet defragmented, false otherwise
      */
-    bool defragment(cPacket* pkt);
+    bool defragment(omnetpp::cPacket* pkt);
 
   protected:
 
     /**
      * Initialize watches
      */
-    virtual void initialize();
-    virtual void handleMessage(cMessage* msg);
+    virtual void initialize() override;
+    virtual void handleMessage(omnetpp::cMessage* msg) override;
 
     //Statistics
     static unsigned int totalCellRcvdBytes_;
     unsigned int totalRcvdBytes_;
     unsigned int totalPduRcvdBytes_;
 
-    simsignal_t rlcCellPacketLoss_;
-    simsignal_t rlcPacketLoss_;
-    simsignal_t rlcPduPacketLoss_;
-    simsignal_t rlcDelay_;
-    simsignal_t rlcPduDelay_;
-    simsignal_t rlcCellThroughput_;
-    simsignal_t rlcThroughput_;
-    simsignal_t rlcPduThroughput_;
+    omnetpp::simsignal_t rlcCellPacketLoss_;
+    omnetpp::simsignal_t rlcPacketLoss_;
+    omnetpp::simsignal_t rlcPduPacketLoss_;
+    omnetpp::simsignal_t rlcDelay_;
+    omnetpp::simsignal_t rlcPduDelay_;
+    omnetpp::simsignal_t rlcCellThroughput_;
+    omnetpp::simsignal_t rlcThroughput_;
+    omnetpp::simsignal_t rlcPduThroughput_;
 
-    simsignal_t rlcCellPacketLossD2D_;
-    simsignal_t rlcPacketLossD2D_;
-    simsignal_t rlcPduPacketLossD2D_;
-    simsignal_t rlcDelayD2D_;
-    simsignal_t rlcPduDelayD2D_;
-    simsignal_t rlcCellThroughputD2D_;
-    simsignal_t rlcThroughputD2D_;
-    simsignal_t rlcPduThroughputD2D_;
+    omnetpp::simsignal_t rlcCellPacketLossD2D_;
+    omnetpp::simsignal_t rlcPacketLossD2D_;
+    omnetpp::simsignal_t rlcPduPacketLossD2D_;
+    omnetpp::simsignal_t rlcDelayD2D_;
+    omnetpp::simsignal_t rlcPduDelayD2D_;
+    omnetpp::simsignal_t rlcCellThroughputD2D_;
+    omnetpp::simsignal_t rlcThroughputD2D_;
+    omnetpp::simsignal_t rlcPduThroughputD2D_;
 
   private:
     /// Reception buffer
@@ -114,10 +114,10 @@ class UmRxQueue : public cSimpleModule
     double timeout_;
 
     /// reference to the serving cell (for statistics purposes)
-    cModule* nodeB_;
+    omnetpp::cModule* nodeB_;
 
     /// reference to the ue (for statistics purposes)
-    cModule* ue_;
+    omnetpp::cModule* ue_;
 };
 
 #endif

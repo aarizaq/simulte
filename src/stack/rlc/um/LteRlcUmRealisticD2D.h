@@ -33,9 +33,9 @@ class LteRlcUmRealisticD2D : public LteRlcUmRealistic
 
     LteNodeType nodeType_;
 
-    virtual int numInitStages() const { return inet::NUM_INIT_STAGES; }
-    virtual void initialize(int stage);
-    virtual void handleMessage(cMessage *msg);
+    virtual int numInitStages() const override{ return inet::NUM_INIT_STAGES; }
+    virtual void initialize(int stage) override;
+    virtual void handleMessage(omnetpp::cMessage *msg) override;
 
     /**
      * UM Mode
@@ -52,7 +52,7 @@ class LteRlcUmRealisticD2D : public LteRlcUmRealistic
      *
      * @param pkt packet to process
      */
-    virtual void handleLowerMessage(cPacket *pkt);
+    virtual void handleLowerMessage(omnetpp::cPacket *pkt) override;
 };
 
 #endif

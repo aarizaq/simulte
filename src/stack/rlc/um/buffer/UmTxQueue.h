@@ -38,7 +38,7 @@
  *
  * The size of fragments can be modified using the setFragmentSize() function
  */
-class UmTxQueue : public cSimpleModule
+class UmTxQueue : public omnetpp::cSimpleModule
 {
   public:
     UmTxQueue()
@@ -60,7 +60,7 @@ class UmTxQueue : public cSimpleModule
      *
      * @param pkt Packet to fragment
      */
-    void fragment(cPacket* pkt);
+    void fragment(omnetpp::cPacket* pkt);
 
     /**
      * getFragmentSize() returns the size of a fragment.
@@ -84,7 +84,7 @@ class UmTxQueue : public cSimpleModule
      * Initialize fragmentSize and
      * watches
      */
-    virtual void initialize();
+    virtual void initialize() override;
 
   private:
     /// Size of the fragments

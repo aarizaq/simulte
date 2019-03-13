@@ -37,7 +37,7 @@
  *
  * The size of PDUs is signalled by the lower layer
  */
-class UmTxEntity : public cSimpleModule
+class UmTxEntity : public omnetpp::cSimpleModule
 {
   public:
     UmTxEntity()
@@ -53,7 +53,7 @@ class UmTxEntity : public cSimpleModule
      * Enqueues an upper layer packet into the SDU buffer
      * @param pkt the packet to be enqueued
      */
-    void enque(cPacket* pkt);
+    void enque(omnetpp::cPacket* pkt);
 
     /**
      * rlcPduMake() creates a PDU having the specified size
@@ -86,7 +86,7 @@ class UmTxEntity : public cSimpleModule
     /*
      * The SDU enqueue buffer.
      */
-    cPacketQueue sduQueue_;
+    omnetpp::cPacketQueue sduQueue_;
 
     /*
      * Determine whether the first item in the queue is a fragment or a whole SDU
@@ -97,7 +97,7 @@ class UmTxEntity : public cSimpleModule
      * Initialize fragmentSize and
      * watches
      */
-    virtual void initialize();
+    virtual void initialize() override;
 
   private:
 

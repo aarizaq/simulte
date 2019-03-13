@@ -14,6 +14,8 @@
 
 Define_Module(UmRxQueue);
 
+using namespace omnetpp;
+
 unsigned int UmRxQueue::totalCellRcvdBytes_ = 0;
 
 UmRxQueue::UmRxQueue() :

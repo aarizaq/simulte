@@ -7,15 +7,17 @@
 // and cannot be removed from it.
 //
 
+#include <inet/networklayer/common/L3AddressResolver.h>
+#include <inet4_compat/transportlayer/sctp/SCTPAssociation.h>
+#include <inet4_compat/transportlayer/contract/sctp/SCTPCommand_m.h>
 
 #include "x2/X2AppClient.h"
 #include "corenetwork/binder/LteBinder.h"
 #include "stack/mac/layer/LteMacEnb.h"
-#include "inet/networklayer/common/L3AddressResolver.h"
-#include "inet/transportlayer/sctp/SCTPAssociation.h"
-#include "inet/transportlayer/contract/sctp/SCTPCommand_m.h"
 
 Define_Module(X2AppClient);
+
+using namespace inet;
 
 void X2AppClient::initialize(int stage)
 {
@@ -31,7 +33,7 @@ void X2AppClient::initialize(int stage)
 
         // get the connectAddress and the corresponding X2 id
         L3Address addr = L3AddressResolver().resolve(par("connectAddress").stringValue());
-        X2NodeId peerId = getBinder()->getX2NodeId(addr.toIPv4());
+        X2NodeId peerId = getBinder()->getX2NodeId(addr.toIpv4());
 
         X2NodeId nodeId = check_and_cast<LteMacEnb*>(getParentModule()->getParentModule()->getSubmodule("lteNic")->getSubmodule("mac"))->getMacCellId();
         getBinder()->setX2PeerAddress(nodeId, peerId, addr);

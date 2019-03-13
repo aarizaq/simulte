@@ -17,8 +17,10 @@
 
 
 #include "world/radio/ChannelAccess.h"
-#include "inet/mobility/contract/IMobility.h"
-#include "inet/common/ModuleAccess.h"
+#include <inet/mobility/contract/IMobility.h>
+#include <inet/common/ModuleAccess.h>
+
+using namespace omnetpp;
 
 static int parseInt(const char *s, int defaultValue)
 {
