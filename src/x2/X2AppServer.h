@@ -21,13 +21,13 @@
 class X2AppServer : public inet::SCTPServer
 {
         // reference to the gate
-        cGate* x2ManagerIn_;
+    omnetpp::cGate* x2ManagerIn_;
 
     protected:
-        virtual void initialize(int stage);
-        virtual void handleMessage(cMessage *msg);
-        void handleTimer(cMessage *msg);
-        void generateAndSend(cPacket* pkt);
+        virtual void initialize(int stage) override;
+        virtual void handleMessage(omnetpp::cMessage *msg) override;
+        void handleTimer(omnetpp::cMessage *msg);
+        void generateAndSend(omnetpp::cPacket* pkt);
 };
 
 #endif

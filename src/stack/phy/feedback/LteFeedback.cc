@@ -91,3 +91,14 @@ LteSummaryBuffer::createSummary(LteFeedback fb)
         throw cRuntimeError("Exception in LteSummaryBuffer::summarize(): %s", e.what());
     }
 }
+
+void LteMuMimoMatrix::print(const char *s) {
+        EV << NOW << " " << s << " ################" << endl;
+        EV << NOW << " " << s << " LteMuMimoMatrix" << endl;
+        EV << NOW << " " << s << " ################" << endl;
+        for (unsigned int i=1025;i<maxNodeId_;i++)
+        EV << NOW << "" << i;
+        EV << endl;
+        for (unsigned int i=1025;i<maxNodeId_;i++)
+        EV << NOW << "" << muMatrix_[i];
+    }

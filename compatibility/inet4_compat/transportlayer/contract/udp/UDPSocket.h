@@ -1,5 +1,5 @@
-#ifndef INET_COMPAT_UDPSOCKET_H
-#define INET_COMPAT_UDPSOCKET_H
+#ifndef INET_COMPAT_UDPSOCKET_H_
+#define INET_COMPAT_UDPSOCKET_H_
 
 #include <inet/transportlayer/contract/udp/UdpSocket.h>
 

@@ -7,13 +7,15 @@
 // and cannot be removed from it.
 //
 
-#include <stdlib.h>
-#include <stdio.h>
+#include <inet4_compat/transportlayer/contract/sctp/SCTPCommand_m.h>
+#include <inet4_compat/transportlayer/sctp/SCTPMessage_m.h>
+
 #include "x2/X2AppServer.h"
-#include "inet/transportlayer/contract/sctp/SCTPCommand_m.h"
-#include "inet/transportlayer/sctp/SCTPMessage_m.h"
 
 Define_Module(X2AppServer);
+
+using namespace omnetpp;
+using namespace inet;
 
 void X2AppServer::initialize(int stage)
 {
@@ -33,6 +35,9 @@ void X2AppServer::initialize(int stage)
 
 void X2AppServer::generateAndSend(cPacket* pkt)
 {
+    /**
+     * TODO: this has to be reworked to make use of the new packet api
+     */
     cPacket* cmsg = new cPacket("CMSG");
     SCTPSimpleMessage* msg = new SCTPSimpleMessage("Server");
     int numBytes = pkt->getByteLength();

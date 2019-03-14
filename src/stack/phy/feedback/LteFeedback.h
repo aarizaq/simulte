@@ -737,20 +737,7 @@ class LteMuMimoMatrix
     {
         return muMatrix_[toIndex(id)];
     }
-    void print(const char *s)
-    {
-        /**
-         * no printing yet
-         */
-//        EV << NOW << " " << s << " ################" << endl;
-//        EV << NOW << " " << s << " LteMuMimoMatrix" << endl;
-//        EV << NOW << " " << s << " ################" << endl;
-//        for (unsigned int i=1025;i<maxNodeId_;i++)
-//        EV << NOW << "" << i;
-//        EV << endl;
-//        for (unsigned int i=1025;i<maxNodeId_;i++)
-//        EV << NOW << "" << muMatrix_[i];
-    }
+    void print(const char *s);
 };
 
 #endif

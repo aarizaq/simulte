@@ -7,6 +7,7 @@
 // and cannot be removed from it.
 //
 
+#include <omnetpp.h>
 #include <inet/networklayer/common/L3AddressResolver.h>
 #include <inet4_compat/transportlayer/sctp/SCTPAssociation.h>
 #include <inet4_compat/transportlayer/contract/sctp/SCTPCommand_m.h>
@@ -15,9 +16,19 @@
 #include "corenetwork/binder/LteBinder.h"
 #include "stack/mac/layer/LteMacEnb.h"
 
+namespace omnetpp {
+    static simsignal_t registerSignal(const char *name);
+}
+
+namespace inet {
+    static omnetpp::simsignal_t rcvdPkSignal = omnetpp::registerSignal("rcvdPk");
+}
+
 Define_Module(X2AppClient);
 
+using namespace omnetpp;
 using namespace inet;
+
 
 void X2AppClient::initialize(int stage)
 {
