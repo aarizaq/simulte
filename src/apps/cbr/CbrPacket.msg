@@ -14,13 +14,12 @@ namespace inet;
 //
 
 cplusplus {{
-    #include <utility>
     #include <inet/common/packet/Packet.h>
 }}
 
 packet Packet;
 
-packet CbrPacket extends Packet
+class CbrPacket extends Packet
 {
     unsigned int nframes;
     unsigned int IDframe;

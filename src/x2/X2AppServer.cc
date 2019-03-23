@@ -37,8 +37,11 @@ void X2AppServer::generateAndSend(cPacket* pkt)
 {
     /**
      * TODO: this has to be reworked to make use of the new packet api
+     * look here: inet version 4.0.0
+     * src/inet/applications/netperfmeter/NetPerfMeter.cc
+     * line 956
      */
-    cPacket* cmsg = new cPacket("CMSG");
+    Packet* cmsg = new Packet("CMSG");
     SCTPSimpleMessage* msg = new SCTPSimpleMessage("Server");
     int numBytes = pkt->getByteLength();
     msg->setDataArraySize(numBytes);
@@ -53,19 +56,40 @@ void X2AppServer::generateAndSend(cPacket* pkt)
 
     msg->setBitLength(numBytes * 8);
     cmsg->encapsulate(msg);
-    SCTPSendInfo *cmd = new SCTPSendInfo("Send1");
-    cmd->setAssocId(assocId);
-    cmd->setSendUnordered(ordered ? COMPLETE_MESG_ORDERED : COMPLETE_MESG_UNORDERED);
+    auto command = cmsg->addTagIfAbsent<SctpSendReq>();
+    //SCTPSendInfo *cmd = new SCTPSendInfo("Send1");
+    //command->setAssocId(assocId);
+    //
+    // import from inet
+    //command->setSocketId(ConnectionID);                                 
+
+    // done
+    //command->setSid(streamID);                                          
+    //command->setSendUnordered( (sendUnordered == true) ?                
+    //                           COMPLETE_MESG_UNORDERED : COMPLETE_MESG_ORDERED );
+    //command->setLast(true);                                             
+
+    /*
+     * TODO: Ignored. Needed
+     */
+    //command->setPrimary(PrimaryPath.isUnspecified());                   
+    //command->setRemoteAddr(PrimaryPath);                                
+    //command->setPrValue(1);                                             
+    //command->setPrMethod( (sendUnreliable == true) ? 2 : 0 );   // PR-SCTP policy: RTX
+
+
+
+    //command->setSendUnordered(ordered ? COMPLETE_MESG_ORDERED : COMPLETE_MESG_UNORDERED);
     lastStream = (lastStream+1)%outboundStreams;
-    cmd->setSid(lastStream);
-    cmd->setPrValue(par("prValue"));
-    cmd->setPrMethod((int32)par("prMethod"));
+    command->setSid(lastStream);
+    command->setPrValue(par("prValue"));
+    command->setPrMethod((int32)par("prMethod"));
     if (queueSize>0 && numRequestsToSend > 0 && count < queueSize*2)
-        cmd->setLast(false);
+        command->setLast(false);
     else
-        cmd->setLast(true);
+        command->setLast(true);
     cmsg->setKind(SCTP_C_SEND);
-    cmsg->setControlInfo(cmd);
+    cmsg->setControlInfo(command);
     packetsSent++;
     bytesSent += msg->getBitLength()/8;
 

@@ -21,3 +21,14 @@ recompiling again nets the exact same error. One workaround around the expensive
 recompilation of the entire package is to delete the out/.../src/x2 folder alone
 (which contains the corresponding object file). I failed in choosing a different
 compiler
+
+EDIT: I have the suspicion that this is somehow tied to the x2 directory ending
+in a number. The c++ compilation seems to work fine, the reported error refers
+to a msg file (auto-generation of source files. omnetpp's own compiler? 
+precompiler magic?) It might be worth investigating what happens after renaming.
+
+EDIT2: I probably messed something up in inet. With a fresh inet variant 
+I do not get the corresponding mistakes
+
+- some hard to understand error message about CbrPacket. Maybe use gcc instead
+of clang?
