@@ -13,12 +13,7 @@
 // Packet used by the ~VoPSender and ~VoIPReceiver modules.
 //
 
-cplusplus {{                                                                    
-    #include <inet/common/packet/Packet.h>
-}}
-packet inet::Packet;
-packet VoipPacket extends inet::Packet
-{
+packet VoipPacket {
     unsigned int IDtalk;
     unsigned int nframes;
     unsigned int IDframe;

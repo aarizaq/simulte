@@ -7,9 +7,9 @@
 // and cannot be removed from it.
 //
 
-cplusplus {{
-    using namespace omnetpp;
-}}
+//cplusplus {{
+//    using namespace omnetpp;
+//}}
 
 //
 // This is the MAC message flowing through LTE stack.

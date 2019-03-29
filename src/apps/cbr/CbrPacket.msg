@@ -7,20 +7,11 @@
 // and cannot be removed from it.
 //
 
-namespace inet;
-
 //
 // Packet used by the ~VoPSender and ~VoIPReceiver modules.
 //
 
-cplusplus {{
-    #include <inet/common/packet/Packet.h>
-}}
-
-packet Packet;
-
-class CbrPacket extends Packet
-{
+packet CbrPacket {
     unsigned int nframes;
     unsigned int IDframe;
     simtime_t timestamp;

@@ -7,12 +7,6 @@
 // and cannot be removed from it.
 //
 
-cplusplus {{                                                                    
-    #include <inet/common/packet/Packet.h>                                      
-}}
-
-packet inet::Packet;
-packet GtpUserMsg extends inet::Packet
-{
+packet GtpUserMsg {
     unsigned int teid;
 }
