@@ -12,6 +12,8 @@
 
 Define_Module(LteDlFeedbackGenerator);
 
+using namespace omnetpp;
+
 /*****************************
  *    PRIVATE FUNCTIONS
  *****************************/

@@ -7,13 +7,10 @@
 // and cannot be removed from it.
 //
 
-//cplusplus {{
-//    using namespace omnetpp;
-//}}
-
 //
 // This is the MAC message flowing through LTE stack.
 //
+
 packet LteMacPdu
 {
     @customize(true);

@@ -38,32 +38,32 @@ class LteMacUeRealisticD2D : public LteMacUeRealistic
     /**
      * Reads MAC parameters for ue and performs initialization.
      */
-    virtual void initialize(int stage);
+    virtual void initialize(int stage) override;
 
     /**
      * Analyze gate of incoming packet
      * and call proper handler
      */
-    virtual void handleMessage(cMessage *msg);
+    virtual void handleMessage(omnetpp::cMessage *msg) override;
 
     /**
      * Main loop
      */
-    virtual void handleSelfMessage();
+    virtual void handleSelfMessage() override;
 
-    virtual void macHandleGrant(cPacket* pkt);
+    virtual void macHandleGrant(omnetpp::cPacket* pkt) override;
 
     /*
      * Checks RAC status
      */
-    virtual void checkRAC();
+    virtual void checkRAC() override;
 
     /*
      * Receives and handles RAC responses
      */
-    virtual void macHandleRac(cPacket* pkt);
+    virtual void macHandleRac(omnetpp::cPacket* pkt) override;
 
-    void macHandleD2DModeSwitch(cPacket* pkt);
+    void macHandleD2DModeSwitch(omnetpp::cPacket* pkt);
 
     virtual LteMacPdu* makeBsr(int size);
 
@@ -76,13 +76,13 @@ class LteMacUeRealisticD2D : public LteMacUeRealistic
      * On UE it also adds a BSR control element to the MAC PDU
      * containing the size of its buffer (for that CID)
      */
-    virtual void macPduMake();
+    virtual void macPduMake() override;
 
   public:
     LteMacUeRealisticD2D();
     virtual ~LteMacUeRealisticD2D();
 
-    virtual bool isD2DCapable()
+    virtual bool isD2DCapable() override
     {
         return true;
     }
@@ -94,7 +94,7 @@ class LteMacUeRealisticD2D : public LteMacUeRealistic
         else
             bsrTriggered_ = true;
     }
-    virtual void doHandover(MacNodeId targetEnb);
+    virtual void doHandover(MacNodeId targetEnb) override;
 };
 
 #endif

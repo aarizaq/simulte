@@ -12,6 +12,8 @@
 #include "stack/mac/buffer/LteMacBuffer.h"
 #include "stack/mac/conflict_graph_utilities/meshMaster.h"
 
+using namespace omnetpp;
+
 LteAllocatorBestFit::LteAllocatorBestFit()
 {
 }

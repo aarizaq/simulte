@@ -25,6 +25,8 @@
 
 Define_Module( LteMacEnbRealistic);
 
+using namespace omnetpp;
+
 /*********************
  * PUBLIC FUNCTIONS
  *********************/

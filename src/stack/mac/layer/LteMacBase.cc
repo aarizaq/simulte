@@ -21,6 +21,8 @@
 #include "stack/mac/buffer/LteMacBuffer.h"
 #include "assert.h"
 
+using namespace omnetpp;
+
 LteMacBase::LteMacBase()
 {
     mbuf_.clear();

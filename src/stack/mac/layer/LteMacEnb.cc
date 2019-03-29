@@ -24,6 +24,8 @@
 
 Define_Module( LteMacEnb);
 
+using namespace omnetpp;
+
 /*********************
  * PUBLIC FUNCTIONS
  *********************/

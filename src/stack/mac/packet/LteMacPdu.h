@@ -26,7 +26,7 @@ class LteMacPdu : public LteMacPdu_Base
 {
   protected:
     /// List Of MAC SDUs
-    cPacketQueue* sduList_;
+      omnetpp::cPacketQueue* sduList_;
 
     /// List of MAC CEs
     MacControlElementsList ceList_;
@@ -51,7 +51,7 @@ class LteMacPdu : public LteMacPdu_Base
         LteMacPdu_Base(name, kind)
     {
         macPduLength_ = 0;
-        sduList_ = new cPacketQueue("SDU List");
+        sduList_ = new omnetpp::cPacketQueue("SDU List");
         take(sduList_);
         macPduId_ = cMessage::getId();
     }
@@ -95,29 +95,29 @@ class LteMacPdu : public LteMacPdu_Base
         }
 
         // duplicate control info - if it exists
-        cObject* ci = other.getControlInfo();
+        omnetpp::cObject* ci = other.getControlInfo();
         if(ci){
             UserControlInfo * uci = dynamic_cast<UserControlInfo *> (other.getControlInfo());
 
             if (uci) {
                 setControlInfo(uci->dup());
             } else {
-                throw cRuntimeError("LteMacPdu.h::Unknown type of control info!");
+                throw omnetpp::cRuntimeError("LteMacPdu.h::Unknown type of control info!");
             }
         }
 
         // duplication of the SDU queue duplicates all packets but not
         // the ControlInfo - iterate over all packets and restore ControlInfo if necessary
-        cPacketQueue::Iterator iterOther(*other.sduList_);
-        for(cPacketQueue::Iterator iter(*sduList_); !iter.end(); iter++){
-            cPacket *p1 = (cPacket *) *iter;
-            cPacket *p2 = (cPacket *) *iterOther;
+        omnetpp::cPacketQueue::Iterator iterOther(*other.sduList_);
+        for(omnetpp::cPacketQueue::Iterator iter(*sduList_); !iter.end(); iter++){
+            omnetpp::cPacket *p1 = (omnetpp::cPacket *) *iter;
+            omnetpp::cPacket *p2 = (omnetpp::cPacket *) *iterOther;
             if(p1->getControlInfo() == NULL && p2->getControlInfo() != NULL){
                 FlowControlInfo * fci = dynamic_cast<FlowControlInfo *> (p2->getControlInfo());
                 if(fci){
                     p1->setControlInfo(new FlowControlInfo(*fci));
                 } else {
-                    throw cRuntimeError("LteMacPdu.h::Unknown type of control info in SDU list!");
+                    throw omnetpp::cRuntimeError("LteMacPdu.h::Unknown type of control info in SDU list!");
                 }
             }
 

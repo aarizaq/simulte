@@ -12,6 +12,8 @@
 #include "stack/mac/scheduler/LteScheduler.h"
 #include "stack/mac/allocator/LteAllocationModule.h"
 
+using namespace omnetpp;
+
 bool
 LteSchedulerEnbDl::checkEligibility(MacNodeId id, Codeword& cw)
 {

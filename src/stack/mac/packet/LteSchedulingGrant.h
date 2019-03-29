@@ -50,7 +50,7 @@ class LteSchedulingGrant : public LteSchedulingGrant_Base
     {
         if (other.userTxParams != NULL)
         {
-            const UserTxParams* txParams = check_and_cast<const UserTxParams*>(other.userTxParams);
+            const UserTxParams* txParams = omnetpp::check_and_cast<const UserTxParams*>(other.userTxParams);
             userTxParams = txParams->dup();
         }
         else

@@ -10,6 +10,8 @@
 #include "stack/mac/scheduling_modules/LteDrr.h"
 #include "stack/mac/scheduler/LteSchedulerEnb.h"
 
+using namespace omnetpp;
+
 void LteDrr::prepareSchedule()
 {
     activeTempList_ = activeList_;

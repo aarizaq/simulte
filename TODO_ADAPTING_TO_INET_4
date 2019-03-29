@@ -4,31 +4,7 @@
 - InterfaceEntry IP2Lte dead sure won't work. How da**q is InterfaceEntry constructed?
 - Ipv4ControlInfo - no corresponding header file. What happened here?
 - make use of the packet tag API
-- compile error in x2/LteX2Manager. When an error occurs the first time, an 
-error message
 
-x2/LteX2Manager.cc:48:50: error: 'getName' is a protected member of 'inet::InterfaceEntry'
-            const char* ifName = interfaceEntry->getName();
-
-is obtained. Running make again WITHOUT ANY CHANGES creates
-
-make[1]: Entering directory '/home/ich/libs/simulte/from_git/src'
-MSGC: /home/ich/libs/inet/4.0.0/src/inet/common/packet/Packet.msg
-/home/ich/libs/inet/4.0.0/src/inet/common/packet/Packet.msg:16: Error: syntax error, unexpected NAME, expecting $end
-
-Deleting everything and recompiling recreates the first error message, however
-recompiling again nets the exact same error. One workaround around the expensive
-recompilation of the entire package is to delete the out/.../src/x2 folder alone
-(which contains the corresponding object file). I failed in choosing a different
-compiler
-
-EDIT: I have the suspicion that this is somehow tied to the x2 directory ending
-in a number. The c++ compilation seems to work fine, the reported error refers
-to a msg file (auto-generation of source files. omnetpp's own compiler? 
-precompiler magic?) It might be worth investigating what happens after renaming.
-
-EDIT2: I probably messed something up in inet. With a fresh inet variant 
-I do not get the corresponding mistakes
-
-- some hard to understand error message about CbrPacket. Maybe use gcc instead
-of clang?
+- src/stack/mac/packet/LteMacPdu.msg causes a conflict with unknown name. When
+    compiling, add omnetpp:: before the cPacket word (namespace does not get
+    resolved)

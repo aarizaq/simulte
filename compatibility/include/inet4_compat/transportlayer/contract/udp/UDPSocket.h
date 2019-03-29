@@ -12,24 +12,16 @@ namespace inet {
             void sendTo(
                 omnetpp::cPacket * packet, 
                 const inet::L3Address& destinationAddress, 
-                int  destinationPort);
+                int  destinationPort) {
+
+                auto data = makeShared<cPacketChunk>(packet);
+                auto header = makeShared<UdpHeader>();
+                auto udpPacket = new inet::Packet(packet->getName(), data);
+                udpPacket->insertAtFront(header);
+
+                UdpSocket::sendTo(udpPacket, destinationAddress, destinationPort);
+            }
     };
-
-    auto UDPSocket::sendTo (
-            omnetpp::cPacket *packet, 
-            const inet::L3Address& address, 
-            int destinationPort) -> void {
-
-        // put the data of the omnet::cPacket into an inet::Packet and
-        // send that.
-        
-        auto data = makeShared<cPacketChunk>(packet);
-        auto header = makeShared<UdpHeader>();
-        auto udpPacket = new inet::Packet(packet->getName(), data);
-        udpPacket->insertAtFront(header);
-
-        UdpSocket::sendTo(udpPacket, address, destinationPort);
-    }
 }
 
 
