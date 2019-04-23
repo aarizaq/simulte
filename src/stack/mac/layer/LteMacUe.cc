@@ -740,7 +740,7 @@ void LteMacUe::deleteQueues(MacNodeId nodeId)
     LteMacBufferMap::iterator vit;
     for (mit = mbuf_.begin(); mit != mbuf_.end(); )
     {
-        while (!mit->second->empty())
+        while (!mit->second->isEmpty())
         {
             cPacket* pkt = mit->second->popFront();
             delete pkt;

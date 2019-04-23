@@ -49,7 +49,7 @@ void UmTxEntity::rlcPduMake(int pduLength)
     bool startFrag = firstIsFragment_;
     bool endFrag = false;
 
-    while (!sduQueue_.empty() && pduLength > 0)
+    while (!sduQueue_.isEmpty() && pduLength > 0)
     {
         // detach data from the SDU buffer
         cPacket* pkt = sduQueue_.front();

@@ -16,12 +16,8 @@
 #include "corenetwork/binder/LteBinder.h"
 #include "stack/mac/layer/LteMacEnb.h"
 
-namespace omnetpp {
-    static simsignal_t registerSignal(const char *name);
-}
-
 namespace inet {
-    static omnetpp::simsignal_t rcvdPkSignal = omnetpp::registerSignal("rcvdPk");
+    static omnetpp::simsignal_t rcvdPkSignal = omnetpp::cComponent::registerSignal("rcvdPk");
 }
 
 Define_Module(X2AppClient);
@@ -51,7 +47,7 @@ void X2AppClient::initialize(int stage)
 
         // set the connect port
         int connectPort = getBinder()->getX2Port(peerId);
-        par("connectPort").setLongValue(connectPort);
+        par("connectPort").setIntValue(connectPort);
     }
 }
 

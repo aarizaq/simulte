@@ -8,3 +8,9 @@
 - src/stack/mac/packet/LteMacPdu.msg causes a conflict with unknown name. When
     compiling, add omnetpp:: before the cPacket word (namespace does not get
     resolved)
+- replaced registerSignal with omnetpp::cComponent::registerSignal (which
+    the author messed up before **hem, hem**) in src/x2/X2AppClient.cc. In inet,
+    a registerSignal function is used several times with no explicit cComponent
+    prefix. I am unsure whether there are multiple implementations of the 
+    function or there is some alias buried somewhere in INET. (This is one
+    place where using the IDE might be helpful)
