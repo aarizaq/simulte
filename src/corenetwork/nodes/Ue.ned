@@ -105,8 +105,8 @@ module Ue
         tcp.ipIn <-- networkLayer.transportOut++ if numTcpApps>0;
 
         for i=0..numUdpApps-1 {
-            udpApp[i].udpOut --> udp.appIn++;
-            udpApp[i].udpIn <-- udp.appOut++;
+            udpApp[i].socketOut --> udp.appIn++;
+            udpApp[i].socketIn <-- udp.appOut++;
         }
 
         udp.ipOut --> networkLayer.transportIn++ if numUdpApps>0;

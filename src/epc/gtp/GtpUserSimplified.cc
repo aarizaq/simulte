@@ -29,7 +29,7 @@ void GtpUserSimplified::initialize(int stage)
     // get reference to the binder
     binder_ = getBinder();
 
-    socket_.setOutputGate(gate("udpOut"));
+    socket_.setOutputGate(gate("socketOut"));
     socket_.bind(localPort_);
 
     tunnelPeerPort_ = par("tunnelPeerPort");
@@ -60,7 +60,7 @@ void GtpUserSimplified::handleMessage(cMessage *msg)
         IPv4Datagram * datagram = check_and_cast<IPv4Datagram*>(msg);
         handleFromTrafficFlowFilter(datagram);
     }
-    else if(strcmp(msg->getArrivalGate()->getFullName(),"udpIn")==0)
+    else if(strcmp(msg->getArrivalGate()->getFullName(),"socketIn")==0)
     {
         EV << "GtpUserSimplified::handleMessage - message from udp layer" << endl;
 

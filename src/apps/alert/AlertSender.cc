@@ -46,7 +46,7 @@ void AlertSender::initialize(int stage)
     destPort_ = par("destPort");
     destAddress_ = inet::L3AddressResolver().resolve(par("destAddress").stringValue());
 
-    socket.setOutputGate(gate("udpOut"));
+    socket.setOutputGate(gate("socketOut"));
     socket.bind(localPort_);
 
     // for multicast support

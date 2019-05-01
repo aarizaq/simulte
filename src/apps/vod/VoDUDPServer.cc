@@ -39,7 +39,7 @@ void VoDUDPServer::initialize(int stage)
     numStreams = 0;
 
     // set up UDP socket
-    socket.setOutputGate(gate("udpOut"));
+    socket.setOutputGate(gate("socketOut"));
     socket.bind(serverPort);
 
     if (!inputFileName.empty())

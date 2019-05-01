@@ -26,8 +26,8 @@ simple GtpUser
         @display("i=block/tunnel");
 
     gates:
-        output udpOut;
-        input udpIn;
+        output socketOut;
+        input socketIn;
 
         input trafficFlowFilterGate;
         output pppGate;
@@ -46,8 +46,8 @@ simple GtpUserSimplified
         @display("i=block/tunnel");
 
     gates:
-        output udpOut;
-        input udpIn;
+        output socketOut;
+        input socketIn;
 
         input trafficFlowFilterGate;
         output pppGate;
@@ -65,8 +65,8 @@ simple GtpUserX2
         @display("i=block/tunnel");
 
     gates:
-        output udpOut;
-        input udpIn;
+        output socketOut;
+        input socketIn;
 
         output lteStackOut;
         input lteStackIn;

@@ -42,7 +42,7 @@ void CbrSender::initialize(int stage)
     else if (stage == INITSTAGE_APPLICATION_LAYER)
     {
         destAddress_ = L3AddressResolver().resolve(par("destAddress").stringValue());
-        socket.setOutputGate(gate("udpOut"));
+        socket.setOutputGate(gate("socketOut"));
         socket.bind(localPort_);
 
         EV << "CbrSender::initialize - binding to port: local:" << localPort_ << " , dest:" << destPort_ << endl;
@@ -91,7 +91,7 @@ void CbrSender::initTraffic()
         delete initTraffic_;
 
         destAddress_ = inet::L3AddressResolver().resolve(par("destAddress").stringValue());
-        socket.setOutputGate(gate("udpOut"));
+        socket.setOutputGate(gate("socketOut"));
         socket.bind(localPort_);
 
         EV << simTime() << "CbrSender::initialize - binding to port: local:" << localPort_ << " , dest: " << destAddress_.str() << ":" << destPort_ << endl;

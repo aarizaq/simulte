@@ -14,3 +14,5 @@
     prefix. I am unsure whether there are multiple implementations of the 
     function or there is some alias buried somewhere in INET. (This is one
     place where using the IDE might be helpful)
+- <!> Error: The following NED types could not be fully resolved due to a missing base type or interface: lte.apps.alert.AlertReceiver
+    Now there seems to be a generic interface. Switching from Terminal to IDE Mode

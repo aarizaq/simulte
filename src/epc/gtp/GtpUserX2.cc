@@ -28,7 +28,7 @@ void GtpUserX2::initialize(int stage)
     // get reference to the binder
     binder_ = getBinder();
 
-    socket_.setOutputGate(gate("udpOut"));
+    socket_.setOutputGate(gate("socketOut"));
     socket_.bind(localPort_);
 
     tunnelPeerPort_ = par("tunnelPeerPort");
@@ -44,7 +44,7 @@ void GtpUserX2::handleMessage(cMessage *msg)
         LteX2Message* x2Msg = check_and_cast<LteX2Message*>(msg);
         handleFromStack(x2Msg);
     }
-    else if(strcmp(msg->getArrivalGate()->getFullName(),"udpIn")==0)
+    else if(strcmp(msg->getArrivalGate()->getFullName(),"socketIn")==0)
     {
         EV << "GtpUserX2::handleMessage - message from udp layer" << endl;
 

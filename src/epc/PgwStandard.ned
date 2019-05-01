@@ -10,10 +10,10 @@ package lte.epc;
 
 import lte.epc.gtp.GtpUser;
 import lte.epc.gtp.GtpUserSimplified;
-import inet.linklayer.ppp.PPPInterface;
-import inet.node.inet.NodeBase;
+import inet.linklayer.ppp.PppInterface;
+import inet.node.base.NodeBase;
 import lte.epc.TrafficFlowFilter;
-import inet.transportlayer.udp.UDP;
+import inet.transportlayer.udp.Udp;
 
 //
 // Implements an EPC PDN Gateway (P-GW)
@@ -31,10 +31,10 @@ module PgwStandard extends NodeBase
             ownerType = nodeType;
             @display("p=813,206");
         }
-        pppInterface: PPPInterface {
+        pppInterface: PppInterface {
             @display("p=727,386");
         }
-        udp: UDP {
+        udp: Udp {
             @display("p=329,206");
         }
         gtp_user: GtpUser {
@@ -48,8 +48,8 @@ module PgwStandard extends NodeBase
         pppInterface.upperLayerIn <-- gtp_user.pppGate;
         pppInterface.phys <--> filterGate;
 
-        udp.appOut++ --> gtp_user.udpIn;
-        gtp_user.udpOut --> udp.appIn++;
+        udp.appOut++ --> gtp_user.socketIn;
+        gtp_user.socketOut --> udp.appIn++;
         trafficFlowFilter.gtpUserGateOut --> gtp_user.trafficFlowFilterGate;
 }
 
@@ -69,10 +69,10 @@ module PgwStandardSimplified extends NodeBase
             ownerType = nodeType;
             @display("p=813,206");
         }
-        pppInterface: PPPInterface {
+        pppInterface: PppInterface {
             @display("p=727,386");
         }
-        udp: UDP {
+        udp: Udp {
             @display("p=329,206");
         }
         gtp_user: GtpUserSimplified {
@@ -86,7 +86,7 @@ module PgwStandardSimplified extends NodeBase
         pppInterface.upperLayerIn <-- gtp_user.pppGate;
         pppInterface.phys <--> filterGate;
 
-        udp.appOut++ --> gtp_user.udpIn;
-        gtp_user.udpOut --> udp.appIn++;
+        udp.appOut++ --> gtp_user.socketIn;
+        gtp_user.socketOut --> udp.appIn++;
         trafficFlowFilter.gtpUserGateOut --> gtp_user.trafficFlowFilterGate;
 }

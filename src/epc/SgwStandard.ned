@@ -9,9 +9,9 @@
 package lte.epc;
 
 import lte.epc.gtp.GtpUser;
-import inet.linklayer.ppp.PPPInterface;
-import inet.node.inet.NodeBase;
-import inet.transportlayer.udp.UDP;
+import inet.linklayer.ppp.PppInterface;
+import inet.node.base.NodeBase;
+import inet.transportlayer.udp.Udp;
 
 //
 // Implements an EPC Serving Gateway (S-GW)
@@ -21,7 +21,7 @@ module SgwStandard extends NodeBase
     @display("bgb=920,462;i=device/server2");
 
     submodules:
-        udp: UDP {
+        udp: Udp {
             @display("p=329,206");
         }
         gtp_user: GtpUser {
@@ -33,6 +33,6 @@ module SgwStandard extends NodeBase
         udp.ipOut --> networkLayer.transportIn++;
         udp.ipIn <-- networkLayer.transportOut++;
 
-        udp.appOut++ --> gtp_user.udpIn;
-        gtp_user.udpOut --> udp.appIn++;
+        udp.appOut++ --> gtp_user.socketIn;
+        gtp_user.socketOut --> udp.appIn++;
 }

@@ -23,7 +23,7 @@ void GtpUser::initialize(int stage)
         return;
     localPort_ = par("localPort");
 
-    socket_.setOutputGate(gate("udpOut"));
+    socket_.setOutputGate(gate("socketOut"));
     socket_.bind(localPort_);
 
     tunnelPeerPort_ = par("tunnelPeerPort");
@@ -55,7 +55,7 @@ void GtpUser::handleMessage(cMessage *msg)
         IPv4Datagram * datagram = check_and_cast<IPv4Datagram*>(msg);
         handleFromTrafficFlowFilter(datagram);
     }
-    else if(strcmp(msg->getArrivalGate()->getFullName(),"udpIn")==0)
+    else if(strcmp(msg->getArrivalGate()->getFullName(),"socketIn")==0)
     {
         EV << "GtpUser::handleMessage - message from udp layer" << endl;
 

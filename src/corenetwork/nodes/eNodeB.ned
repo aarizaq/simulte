@@ -159,8 +159,8 @@ module eNodeB
         lteNic.upperLayerOut --> trafficFlowFilter.internetFilterGateIn;
         lteNic.upperLayerIn <-- gtpUser.pppGate;
         trafficFlowFilter.gtpUserGateOut --> gtpUser.trafficFlowFilterGate;
-        gtpUser.udpOut --> udp.appIn++;
-        gtpUser.udpIn <-- udp.appOut++;
+        gtpUser.socketOut --> udp.appIn++;
+        gtpUser.socketIn <-- udp.appOut++;
 
 
         //#
@@ -173,8 +173,8 @@ module eNodeB
 
         gtpUserX2.lteStackOut --> lteNic.x2$i++;
         gtpUserX2.lteStackIn <-- lteNic.x2$o++;
-        gtpUserX2.udpOut --> udp.appIn++;
-        gtpUserX2.udpIn <-- udp.appOut++;
+        gtpUserX2.socketOut --> udp.appIn++;
+        gtpUserX2.socketIn <-- udp.appOut++;
 
         //#
         //# X2 interface to network layer connections
@@ -193,8 +193,8 @@ module eNodeB
             tcpApp[i].tcpIn <-- tcp.appOut++;
         }
         for i=0..numUdpApps-1 {
-            udpApp[i].udpOut --> udp.appIn++;
-            udpApp[i].udpIn <-- udp.appOut++;
+            udpApp[i].socketOut --> udp.appIn++;
+            udpApp[i].socketIn <-- udp.appOut++;
         }
         for i=0..numX2Apps-1 {
             x2App[i].sctpOut[0] --> sctp.from_appl++;

@@ -123,7 +123,7 @@ void VoDUDPClient::handleMessage(cMessage* msg)
     if (msg->isSelfMessage())
     {
         int localPort = par("localPort");
-        socket.setOutputGate(gate("udpOut"));
+        socket.setOutputGate(gate("socketOut"));
         socket.bind(localPort);
         delete msg;
     }

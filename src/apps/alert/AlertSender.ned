@@ -9,9 +9,9 @@
 
 package lte.apps.alert;
 
-import inet.applications.contract.IUDPApp;
+import inet.applications.contract.IApp;
 
-simple AlertSender like IUDPApp
+simple AlertSender like IApp
 {
     parameters:
         int localPort = default(-1);
@@ -27,6 +27,6 @@ simple AlertSender like IUDPApp
 
         @display("i=block/source");
     gates:
-        output udpOut;
-        input udpIn;
+        output socketOut;
+        input socketIn;
 }

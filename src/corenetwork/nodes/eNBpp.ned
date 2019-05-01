@@ -107,8 +107,8 @@ module eNBpp
 
         trafficFlowFilter.gtpUserGateOut --> gtp_user.trafficFlowFilterGate;
 
-        gtp_user.udpOut --> udp.appIn++;
-        gtp_user.udpIn <-- udp.appOut++;
+        gtp_user.socketOut --> udp.appIn++;
+        gtp_user.socketIn <-- udp.appOut++;
 
         networkLayer.ifOut++ --> pppIf.upperLayerIn;
         pppIf.upperLayerOut --> networkLayer.ifIn++;
