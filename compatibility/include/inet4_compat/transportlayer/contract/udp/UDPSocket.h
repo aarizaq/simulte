@@ -9,10 +9,9 @@
 namespace inet {
     class INET_API UDPSocket : public UdpSocket {
         public: 
-            void sendTo(
-                omnetpp::cPacket * packet, 
-                const inet::L3Address& destinationAddress, 
-                int  destinationPort) {
+            void sendTo( omnetpp::cPacket * packet, 
+                    const inet::L3Address& destinationAddress, 
+                    int  destinationPort) {
 
                 auto data = makeShared<cPacketChunk>(packet);
                 auto header = makeShared<UdpHeader>();
