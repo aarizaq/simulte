@@ -1,0 +1,17 @@
+- the Lteip.cc file (can this simply be left out or does the code have to be 
+    restructured?)
+- changing the inheritance hierarchy in PgwStandard.ned. inet3 used the
+    NodeBase up until the network layer. Inet4 separated into nodes for four of
+    the five layers (Link, Network, Transport, Application), where upper layers
+    derive from the consecutive lower layer. LinkLayerNodeBase derives from
+    NodeBase.
+    I supplant the application layer with a NetworkLayerNodeBase.
+    - got an errormessage originating from the same file originating in line 82
+        NodeBase used to have a submodule networkLayer.
+    - neither appIn and appOut in Udp.ned nor transportIn and transportOut in 
+        INetworkLayer are vectorgates anymore, removed ++ from communication
+    - Udp has no vector gate anymore. In simulte, omnet complains that gate is
+        already connected. since udp only has a single gate, add a second
+        udp connection for that? Does that even work? what else does it screw
+        up?
+    - vector of udp?

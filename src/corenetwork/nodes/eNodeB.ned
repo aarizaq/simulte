@@ -10,18 +10,16 @@
 
 package lte.corenetwork.nodes;
 
-import inet.linklayer.ppp.PPPInterface;
+import inet.linklayer.ppp.PppInterface;
 import inet.mobility.static.StationaryMobility;
 import inet.networklayer.common.InterfaceTable;
-import inet.networklayer.ipv4.IPv4RoutingTable;
+import inet.networklayer.ipv4.Ipv4RoutingTable;
 import inet.networklayer.contract.IRoutingTable;
 import inet.networklayer.contract.INetworkLayer;
-import inet.applications.contract.IUDPApp;
-import inet.applications.contract.ITCPApp;
-import inet.applications.contract.ISCTPApp;
-import inet.transportlayer.udp.UDP;
-import inet.transportlayer.tcp.TCP;
-import inet.transportlayer.sctp.SCTP;
+import inet.applications.contract.IApp;
+import inet.transportlayer.udp.Udp;
+import inet.transportlayer.tcp.Tcp;
+import inet.transportlayer.sctp.Sctp;
 import lte.x2.LteX2App;
 import lte.stack.phy.ILteNic;
 import lte.stack.phy.LteNicEnb;
@@ -49,8 +47,8 @@ module eNodeB
         string nicType = d2dCapable ? "LteNicEnbD2D" : "LteNicEnb";
 
         //# Network Layer specs
-        string networkLayerType = default("IPv4NetworkLayer");
-        string routingTableType = default("IPv4RoutingTable");
+        string networkLayerType = default("Ipv4NetworkLayer");
+        string routingTableType = default("Ipv4RoutingTable");
         *.interfaceTableModule = default(absPath(".interfaceTable"));
         *.routingTableModule = default(routingTableType != "" ? absPath(".routingTable") : "");
 
@@ -92,11 +90,11 @@ module eNodeB
             @display("p=250,407");
         }
 
-        pppIf: PPPInterface {
+        pppIf: PppInterface {
             @display("p=501,363");
         }
         
-        x2ppp[sizeof(x2)]: PPPInterface {
+        x2ppp[sizeof(x2)]: PppInterface {
             @display("p=683,363");
         }
 
@@ -112,18 +110,18 @@ module eNodeB
         //# Transport layer modules and corresponding application modules
         //#
 		// =============== UDP ============== //
-        udpApp[numUdpApps]: <> like IUDPApp {
+        udpApp[numUdpApps]: <> like IApp {
             @display("p=555,48,row");
         }
-        udp: UDP {
+        udp: Udp {
             @display("p=501,148");
         }
 
         // =============== TCP ============== //
-        tcpApp[numTcpApps]: <> like ITCPApp {
+        tcpApp[numTcpApps]: <> like IApp {
             @display("p=683,48,row");
         }
-        tcp: TCP if numTcpApps>0 {
+        tcp: Tcp if numTcpApps>0 {
             @display("p=683,148");
         }
 
@@ -131,7 +129,7 @@ module eNodeB
         x2App[numX2Apps]: LteX2App {
             @display("p=155,48,row");
         }
-        sctp: SCTP {
+        sctp: Sctp {
             @display("p=275,148");
         }
 
@@ -159,22 +157,22 @@ module eNodeB
         lteNic.upperLayerOut --> trafficFlowFilter.internetFilterGateIn;
         lteNic.upperLayerIn <-- gtpUser.pppGate;
         trafficFlowFilter.gtpUserGateOut --> gtpUser.trafficFlowFilterGate;
-        gtpUser.socketOut --> udp.appIn++;
-        gtpUser.socketIn <-- udp.appOut++;
+        gtpUser.socketOut --> udp.appIn;
+        gtpUser.socketIn <-- udp.appOut;
 
 
         //#
         //# PPP interface to network layer connections
         //#    
         pppIf.phys <--> ppp;
-        pppIf.upperLayerOut --> networkLayer.ifIn++;
-        pppIf.upperLayerIn <-- networkLayer.ifOut++;
+        pppIf.upperLayerOut --> networkLayer.ifIn;
+        pppIf.upperLayerIn <-- networkLayer.ifOut;
 
 
         gtpUserX2.lteStackOut --> lteNic.x2$i++;
         gtpUserX2.lteStackIn <-- lteNic.x2$o++;
-        gtpUserX2.socketOut --> udp.appIn++;
-        gtpUserX2.socketIn <-- udp.appOut++;
+        gtpUserX2.socketOut --> udp.appIn;
+        gtpUserX2.socketIn <-- udp.appOut;
 
         //#
         //# X2 interface to network layer connections

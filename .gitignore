@@ -52,3 +52,8 @@ ui/com.simulte.configeditor/bin/
 /simulations/*/scenario*/
 /simulations/*/eval*/
 /simulations/*/.cmdenv-log
+
+# vim files
+*.swp
+*.swo
+.qtenvrc.*

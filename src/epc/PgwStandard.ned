@@ -11,14 +11,14 @@ package lte.epc;
 import lte.epc.gtp.GtpUser;
 import lte.epc.gtp.GtpUserSimplified;
 import inet.linklayer.ppp.PppInterface;
-import inet.node.base.NodeBase;
+import inet.node.base.NetworkLayerNodeBase;
 import lte.epc.TrafficFlowFilter;
 import inet.transportlayer.udp.Udp;
 
 //
 // Implements an EPC PDN Gateway (P-GW)
 //
-module PgwStandard extends NodeBase
+module PgwStandard extends NetworkLayerNodeBase
 {
     parameters:
         string nodeType; // must be one between ENB and PGW
@@ -41,22 +41,26 @@ module PgwStandard extends NodeBase
             @display("p=591,206");
         }
     connections:
-        udp.ipOut --> networkLayer.transportIn++;
-        udp.ipIn <-- networkLayer.transportOut++;
+        //udp.ipOut --> networkLayer.transportIn++;
+        //udp.ipIn <-- networkLayer.transportOut++;
+        udp.ipOut --> networkLayer.transportIn;
+        udp.ipIn <-- networkLayer.transportOut;
 
         pppInterface.upperLayerOut --> trafficFlowFilter.internetFilterGateIn;
         pppInterface.upperLayerIn <-- gtp_user.pppGate;
         pppInterface.phys <--> filterGate;
 
-        udp.appOut++ --> gtp_user.socketIn;
-        gtp_user.socketOut --> udp.appIn++;
+        //udp.appOut++ --> gtp_user.socketIn;
+        //gtp_user.socketOut --> udp.appIn++;
+        udp.appOut --> gtp_user.socketIn;
+        gtp_user.socketOut --> udp.appIn;
         trafficFlowFilter.gtpUserGateOut --> gtp_user.trafficFlowFilterGate;
 }
 
 //
 // Implements a simplified version of the EPC PDN Gateway (P-GW)
 //
-module PgwStandardSimplified extends NodeBase
+module PgwStandardSimplified extends NetworkLayerNodeBase
 {
     parameters:
         string nodeType; // must be one between ENB and PGW
@@ -79,14 +83,18 @@ module PgwStandardSimplified extends NodeBase
             @display("p=591,206");
         }
     connections:
-        udp.ipOut --> networkLayer.transportIn++;
-        udp.ipIn <-- networkLayer.transportOut++;
+        //udp.ipOut --> networkLayer.transportIn++;
+        //udp.ipIn <-- networkLayer.transportOut++;
+        udp.ipOut --> ipv4.transportIn;
+        udp.ipIn <-- ipv4.transportOut;
 
         pppInterface.upperLayerOut --> trafficFlowFilter.internetFilterGateIn;
         pppInterface.upperLayerIn <-- gtp_user.pppGate;
         pppInterface.phys <--> filterGate;
 
-        udp.appOut++ --> gtp_user.socketIn;
-        gtp_user.socketOut --> udp.appIn++;
+        //udp.appOut++ --> gtp_user.socketIn;
+        //gtp_user.socketOut --> udp.appIn++;
+        udp.appOut --> gtp_user.socketIn;
+        gtp_user.socketOut --> udp.appIn;
         trafficFlowFilter.gtpUserGateOut --> gtp_user.trafficFlowFilterGate;
 }

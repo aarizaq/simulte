@@ -2,12 +2,10 @@
 - fix all output stuff (might work in namespace omnetpp)
 - TCP might not work
 - InterfaceEntry IP2Lte dead sure won't work. How da**q is InterfaceEntry constructed?
+    - we'll see how and if it crashes.
 - Ipv4ControlInfo - no corresponding header file. What happened here?
 - make use of the packet tag API
 
-- src/stack/mac/packet/LteMacPdu.msg causes a conflict with unknown name. When
-    compiling, add omnetpp:: before the cPacket word (namespace does not get
-    resolved)
 - replaced registerSignal with omnetpp::cComponent::registerSignal (which
     the author messed up before **hem, hem**) in src/x2/X2AppClient.cc. In inet,
     a registerSignal function is used several times with no explicit cComponent
@@ -15,4 +13,6 @@
     function or there is some alias buried somewhere in INET. (This is one
     place where using the IDE might be helpful)
 - <!> Error: The following NED types could not be fully resolved due to a missing base type or interface: lte.apps.alert.AlertReceiver
-    Now there seems to be a generic interface. Switching from Terminal to IDE Mode
+    Now there seems to be a generic interface. Switching from Terminal to IDE Mode (edit: Nope
+    isn't an IDE supposed to make work easier?)
+- run simulations with the old framework and look for differences
