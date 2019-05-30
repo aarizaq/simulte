@@ -48,12 +48,12 @@ module LteX2App
     connections:
 
         //# client connections
-        sctpIn[0] --> client.sctpIn;
-        sctpOut[0] <-- client.sctpOut;
+        sctpIn[0] --> client.socketIn;
+        sctpOut[0] <-- client.socketOut;
 
 		//# server connections
-        sctpIn[1] --> server.sctpIn;
-        sctpOut[1] <-- server.sctpOut;
+        sctpIn[1] --> server.socketIn;
+        sctpOut[1] <-- server.socketOut;
 
         //# X2 manager connections
         x2ManagerIn --> server.x2ManagerIn;
