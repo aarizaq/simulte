@@ -14,7 +14,7 @@
 packet LteMacPdu
 {
     @customize(true);
-    abstract cPacket sdu[];
+    abstract omnetpp::cPacket sdu[];
     unsigned int headerLength = 0;
     // need separate macPduId (e.g. for feedback packets) since OMNET PDU id is automatically updated
     // whenever a new packet is created, e.g. when this PDU is duplicated
