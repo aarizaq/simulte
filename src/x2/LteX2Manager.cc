@@ -36,7 +36,7 @@ void LteX2Manager::initialize(int stage)
         // get the node id
         nodeId_ = getAncestorPar("macCellId");
     }
-    else if (stage == inet::INITSTAGE_NETWORK_LAYER_3)
+    else if (stage == inet::INITSTAGE_NETWORK_LAYER)
     {
         // find x2ppp interface entries and register their IP addresses to the binder
         // IP addresses will be used in the next init stage to get the X2 id of the peer
@@ -55,12 +55,11 @@ void LteX2Manager::initialize(int stage)
             const std::string info = interfaceEntry->detailedInfo();
             if (info.find("x2ppp") != std::string::npos)
             {
-                IPv4Address addr = interfaceEntry->ipv4Data()->getIPAddress();
-                getBinder()->setX2NodeId(interfaceEntry->ipv4Data()->getIPAddress(), nodeId_);
+                getBinder()->setX2NodeId(interfaceEntry->getProtocolData<Ipv4InterfaceData>()->getIPAddress(), nodeId_);
             }
         }
     }
-    else if (stage == inet::INITSTAGE_NETWORK_LAYER_3+1)
+    else if (stage == inet::INITSTAGE_NETWORK_LAYER+1)
     {
         // for each X2App, get the client submodule and set connection parameters (connectPort)
         for (int i=0; i<gateSize("x2$i"); i++)

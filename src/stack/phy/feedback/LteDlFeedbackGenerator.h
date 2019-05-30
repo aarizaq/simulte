@@ -109,7 +109,7 @@ class LteDlFeedbackGenerator : public omnetpp::cSimpleModule
      * Channel sensing
      */
     void sensing(FbPeriodicity per);
-    virtual int numInitStages() const override { return inet::INITSTAGE_LINK_LAYER_2 + 1; }
+    virtual int numInitStages() const override { return inet::INITSTAGE_LINK_LAYER + 1; }
 
   public:
 

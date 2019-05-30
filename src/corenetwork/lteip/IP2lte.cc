@@ -84,7 +84,7 @@ void IP2lte::initialize(int stage)
             }
         }
     }
-    else if (stage == inet::INITSTAGE_NETWORK_LAYER_3+1)
+    else if (stage == inet::INITSTAGE_NETWORK_LAYER+1)
     {
         registerMulticastGroups();
     }
@@ -364,10 +364,11 @@ void IP2lte::registerMulticastGroups()
     if (!ift)
         return;
     interfaceEntry = ift->getInterfaceByName("wlan");
-    unsigned int numOfAddresses = interfaceEntry->ipv4Data()->getNumOfJoinedMulticastGroups();
+    unsigned int numOfAddresses = interfaceEntry->getProtocolData<Ipv4InterfaceData>()->getNumOfJoinedMulticastGroups();
+
     for (unsigned int i=0; i<numOfAddresses; ++i)
     {
-        IPv4Address addr = interfaceEntry->ipv4Data()->getJoinedMulticastGroup(i);
+        IPv4Address addr = interfaceEntry->getProtocolData<Ipv4InterfaceData>()->getJoinedMulticastGroup(i);
         // get the group id and add it to the binder
         uint32 address = addr.getInt();
         uint32 mask = ~((uint32)255 << 28);      // 0000 1111 1111 1111

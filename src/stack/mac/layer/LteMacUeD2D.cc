@@ -41,7 +41,7 @@ void LteMacUeD2D::initialize(int stage)
         preconfiguredTxParams_ = NULL;
         usePreconfiguredTxParams_ = par("usePreconfiguredTxParams");
     }
-    if (stage == inet::INITSTAGE_NETWORK_LAYER_3)
+    if (stage == inet::INITSTAGE_NETWORK_LAYER)
     {
         // get the reference to the eNB
         enb_ = check_and_cast<LteMacEnbD2D*>(getSimulation()->getModule(binder_->getOmnetId(cellId_))->getSubmodule("lteNic")->getSubmodule("mac"));

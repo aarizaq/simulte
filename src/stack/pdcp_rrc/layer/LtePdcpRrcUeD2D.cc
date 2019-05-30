@@ -156,7 +156,7 @@ void LtePdcpRrcUeD2D::initialize(int stage)
 {
     EV << "LtePdcpRrcUeD2D::initialize() - stage " << stage << endl;
     LtePdcpRrcUe::initialize(stage);
-    if (stage == INITSTAGE_NETWORK_LAYER_3+1)
+    if (stage == INITSTAGE_NETWORK_LAYER+1)
     {
         // inform the Binder about the D2D capabilities of this node
         // i.e. the (possibly) D2D peering UEs

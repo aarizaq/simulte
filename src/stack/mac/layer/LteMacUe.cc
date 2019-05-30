@@ -97,7 +97,7 @@ void LteMacUe::initialize(int stage)
     {
         cellId_ = getAncestorPar("masterId");
     }
-    else if (stage == INITSTAGE_NETWORK_LAYER_3)
+    else if (stage == INITSTAGE_NETWORK_LAYER)
     {
         nodeId_ = getAncestorPar("macNodeId");
 
@@ -123,7 +123,7 @@ void LteMacUe::initialize(int stage)
         // TODO: how do we find the LTE interface?
         InterfaceEntry * interfaceEntry = interfaceTable->getInterfaceByName("wlan");
 
-        Ipv4InterfaceData* ipv4if = interfaceEntry->ipv4Data();
+        Ipv4InterfaceData* ipv4if = interfaceEntry->getProtocolData<Ipv4InterfaceData>();
         if(ipv4if == NULL)
             throw new cRuntimeError("no IPv4 interface data - cannot bind node %i", nodeId_);
         binder_->setMacNodeId(ipv4if->getIPAddress(), nodeId_);

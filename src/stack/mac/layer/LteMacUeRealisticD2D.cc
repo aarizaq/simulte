@@ -47,7 +47,7 @@ void LteMacUeRealisticD2D::initialize(int stage)
         if (pdcpType.compare("LtePdcpRrcUeD2D") != 0)
             throw cRuntimeError("LteMacUeRealisticD2D::initialize - %s module found, must be LtePdcpRrcUeD2D. Aborting", pdcpType.c_str());
     }
-    if (stage == inet::INITSTAGE_NETWORK_LAYER_3)
+    if (stage == inet::INITSTAGE_NETWORK_LAYER)
     {
         // get parameters
         usePreconfiguredTxParams_ = par("usePreconfiguredTxParams");

@@ -48,7 +48,7 @@ void LtePhyBase::initialize(int stage)
         WATCH(numAirFrameReceived_);
         WATCH(numAirFrameNotReceived_);
     }
-    else if (stage == inet::INITSTAGE_PHYSICAL_ENVIRONMENT_2)
+    else if (stage == inet::INITSTAGE_PHYSICAL_ENVIRONMENT)
     {
         initializeChannelModel(par("channelModel").xmlValue());
     }

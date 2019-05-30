@@ -341,7 +341,7 @@ void LtePdcpRrcEnb::initialize(int stage)
 void LtePdcpRrcUe::initialize(int stage)
 {
     LtePdcpRrcBase::initialize(stage);
-    if (stage == inet::INITSTAGE_NETWORK_LAYER_3)
+    if (stage == inet::INITSTAGE_NETWORK_LAYER)
     {
         nodeId_ = getAncestorPar("macNodeId");
     }
