@@ -20,6 +20,7 @@ import inet.applications.contract.IApp;
 import inet.transportlayer.udp.Udp;
 import inet.transportlayer.tcp.Tcp;
 import inet.transportlayer.sctp.Sctp;
+import inet.common.MessageDispatcher;
 import lte.x2.LteX2App;
 import lte.stack.phy.ILteNic;
 import lte.stack.phy.LteNicEnb;
@@ -52,10 +53,17 @@ module eNodeB
         *.interfaceTableModule = default(absPath(".interfaceTable"));
         *.routingTableModule = default(routingTableType != "" ? absPath(".routingTable") : "");
 
-        //# Num apps
-        int numTcpApps = default(0);  // no of TCP apps. Specify the app types in INI file with tcpApp[0..1].typename="TCPEchoApp" syntax
-        int numUdpApps = default(0);  // no of UDP apps. Specify the app types in INI file with udpApp[0..1].typename="UDPVideoStreamCli" syntax
+        //# Apps
+        // FIXME: generic IApp interface - simulation inifiles need to be adapted!
+        // int numTcpApps = default(0);  // no of TCP apps. Specify the app types in INI file with tcpApp[0..1].typename="TCPEchoApp" syntax
+        // int numUdpApps = default(0);  // no of UDP apps. Specify the app types in INI file with udpApp[0..1].typename="UDPVideoStreamCli" syntax
+        int numApps = default(0);     // no of apps. 
         int numX2Apps = default(0);   // no of X2 apps. Specify the app types in INI file with x2App[0..1].typename="X2AppClient" syntax
+        
+        //# Transport layer
+        bool hasUdp = default(firstAvailableOrEmpty("Udp") != "");
+        bool hasTcp = default(firstAvailableOrEmpty("Tcp", "TcpLwip", "TcpNsc") != "");
+        bool hasSctp = default(false);
 
     gates:
         inout ppp;                // connection to the Core Network
@@ -98,6 +106,17 @@ module eNodeB
             @display("p=683,363");
         }
 
+	    // message dispatcher for SAP between application and transport layer
+        at: MessageDispatcher {
+            parameters:
+                @display("p=750,146;b=1000,5,,,,1");
+        }
+        // message dispatcher for SAP between transport and network layer
+        tn: MessageDispatcher {
+            parameters:
+                @display("p=750,296;b=1000,5,,,,1");
+        }
+        
         //#
         //# Network layer module
         //#
@@ -110,16 +129,11 @@ module eNodeB
         //# Transport layer modules and corresponding application modules
         //#
 		// =============== UDP ============== //
-        udpApp[numUdpApps]: <> like IApp {
+        app[numApps]: <> like IApp {
             @display("p=555,48,row");
         }
         udp: Udp {
             @display("p=501,148");
-        }
-
-        // =============== TCP ============== //
-        tcpApp[numTcpApps]: <> like IApp {
-            @display("p=683,48,row");
         }
         tcp: Tcp if numTcpApps>0 {
             @display("p=683,148");
@@ -179,27 +193,33 @@ module eNodeB
         //#    
         for i=0..sizeof(x2)-1 {
             x2ppp[i].phys <--> x2[i];
-            x2ppp[i].upperLayerOut --> networkLayer.ifIn++;
-            x2ppp[i].upperLayerIn <-- networkLayer.ifOut++;
+            x2ppp[i].upperLayerOut --> networkLayer.ifIn;  //FIXME: do we need a message dispatcher here? transportIn/Out were vectors in previous inet versions
+            x2ppp[i].upperLayerIn <-- networkLayer.ifOut;
         }
 
 		//# 
 		//# Apps to transport layer connections
 		//#
-        for i=0..numTcpApps-1 {
-            tcpApp[i].tcpOut --> tcp.appIn++;
-            tcpApp[i].tcpIn <-- tcp.appOut++;
+        for i=0..numApps-1 {
+            app[i].socketOut --> at.in++;
+            app[i].socketIn <-- at.out++;
         }
-        for i=0..numUdpApps-1 {
-            udpApp[i].socketOut --> udp.appIn++;
-            udpApp[i].socketIn <-- udp.appOut++;
-        }
-        for i=0..numX2Apps-1 {
-            x2App[i].sctpOut[0] --> sctp.from_appl++;
-            x2App[i].sctpIn[0] <-- sctp.to_appl++;
 
-            x2App[i].sctpOut[1] --> sctp.from_appl++;
-            x2App[i].sctpIn[1] <-- sctp.to_appl++;
+		at.out++ --> udp.appIn if hasUdp;
+		at.in++ <-- udp.appOut if hasUdp;
+		
+		at.out++ --> tcp.appIn if hasTcp;
+		at.in++ <-- tcp.appOut if hasTcp;
+		
+		at.out++ --> sctp.appIn if hasSctp;
+		at.in++ <-- sctp.appOut if hasSctp;
+		
+        for i=0..numX2Apps-1 {
+            x2App[i].sctpOut[0] --> sctp.appIn;
+            x2App[i].sctpIn[0] <-- sctp.appOut;
+
+            x2App[i].sctpOut[1] --> sctp.appIn;  //FIXME: do we need a message dispatcher here? transportIn/Out were vectors in previous inet versions
+            x2App[i].sctpIn[1] <-- sctp.appOut;
             x2App[i].x2ManagerIn <-- lteNic.x2$o++;
             x2App[i].x2ManagerOut --> lteNic.x2$i++;
         }
@@ -207,10 +227,15 @@ module eNodeB
         //# 
         //# Transport layer to network layer connections
         //#
-        udp.ipOut --> networkLayer.transportIn++;
-        udp.ipIn <-- networkLayer.transportOut++;
-        tcp.ipOut --> networkLayer.transportIn++ if numTcpApps>0;
-        tcp.ipIn <-- networkLayer.transportOut++ if numTcpApps>0;
-        sctp.to_ip --> networkLayer.transportIn++ if numX2Apps>0;
-        sctp.from_ip <-- networkLayer.transportOut++ if numX2Apps>0;
+        udp.ipOut --> tn.in++ if hasUdp;
+        udp.ipIn <-- tn.out++ if hasUdp;
+
+        tcp.ipOut --> tn.in++ if hasTcp;
+        tcp.ipIn <-- tn.out++ if hasTcp;
+
+        sctp.ipOut --> tn.in++ if hasSctp;
+        tn.out++ --> sctp.ipIn if hasSctp;
+
+        tn.out++ --> networkLayer.transportIn;
+        tn.in++ <-- networkLayer.transportOut;
 }

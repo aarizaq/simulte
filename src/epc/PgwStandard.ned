@@ -10,6 +10,7 @@ package lte.epc;
 
 import lte.epc.gtp.GtpUser;
 import lte.epc.gtp.GtpUserSimplified;
+import inet.common.MessageDispatcher;
 import inet.linklayer.ppp.PppInterface;
 import inet.node.base.NetworkLayerNodeBase;
 import lte.epc.TrafficFlowFilter;
@@ -40,12 +41,26 @@ module PgwStandard extends NetworkLayerNodeBase
         gtp_user: GtpUser {
             @display("p=591,206");
         }
+        tn: MessageDispatcher {
+            parameters:
+                @display("p=750,296;b=1000,5,,,,1");
+        }
     connections:
-        //udp.ipOut --> networkLayer.transportIn++;
-        //udp.ipIn <-- networkLayer.transportOut++;
-        udp.ipOut --> networkLayer.transportIn;
-        udp.ipIn <-- networkLayer.transportOut;
+        udp.ipOut --> tn.in++;
+        udp.ipIn <-- tn.out++;
+        
+        tn.out++ --> ipv4.transportIn; //if hasIpv4;   //FIXME: set parameter
+        tn.in++ <-- ipv4.transportOut; // if hasIpv4;
 
+        tn.out++ --> ipv6.transportIn if hasIpv6;
+        tn.in++ <-- ipv6.transportOut if hasIpv6;
+
+        tn.out++ --> generic.transportIn if hasGn;
+        tn.in++ <-- generic.transportOut if hasGn;
+
+        tn.out++ --> nl.in++;
+        tn.in++ <-- nl.out++;
+        
         pppInterface.upperLayerOut --> trafficFlowFilter.internetFilterGateIn;
         pppInterface.upperLayerIn <-- gtp_user.pppGate;
         pppInterface.phys <--> filterGate;

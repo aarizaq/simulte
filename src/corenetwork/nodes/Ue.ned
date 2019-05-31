@@ -10,14 +10,16 @@
 
 package lte.corenetwork.nodes;
 
-import inet.applications.contract.ITCPApp;
-import inet.applications.contract.IUDPApp;
+import inet.applications.contract.IApp;
+import inet.applications.contract.IApp;
 import inet.mobility.contract.IMobility;
 import inet.networklayer.common.InterfaceTable;
 import inet.networklayer.contract.IRoutingTable;
 import inet.networklayer.contract.INetworkLayer;
-import inet.transportlayer.tcp.TCP;
-import inet.transportlayer.udp.UDP;
+import inet.transportlayer.contract.ITcp;
+import inet.transportlayer.contract.IUdp;
+import inet.transportlayer.contract.ISctp;
+import inet.common.MessageDispatcher;
 import lte.stack.phy.ILteNic;
 import lte.stack.phy.LteNicUe;
 import lte.stack.phy.LteNicUeD2D;
@@ -35,9 +37,16 @@ module Ue
         string mobilityType = default("StationaryMobility");
 
         //# Apps
-        int numTcpApps = default(0);  // no of TCP apps. Specify the app types in INI file with tcpApp[0..1].typename="TCPEchoApp" syntax
-        int numUdpApps = default(0);  // no of UDP apps. Specify the app types in INI file with udpApp[0..1].typename="UDPVideoStreamCli" syntax
-
+        // FIXME: generic IApp interface - simulation inifiles need to be adapted!
+        // int numTcpApps = default(0);  // no of TCP apps. Specify the app types in INI file with tcpApp[0..1].typename="TCPEchoApp" syntax
+        // int numUdpApps = default(0);  // no of UDP apps. Specify the app types in INI file with udpApp[0..1].typename="UDPVideoStreamCli" syntax
+        int numApps = default(0);  // no of apps. 
+        
+        //# Transport layer
+        bool hasUdp = default(firstAvailableOrEmpty("Udp") != "");
+        bool hasTcp = default(firstAvailableOrEmpty("Tcp", "TcpLwip", "TcpNsc") != "");
+        bool hasSctp = default(false);
+        
         //# Node specs
         string nodeType = "UE";  // DO NOT CHANGE
         int masterId;
@@ -69,22 +78,35 @@ module Ue
         mobility: <mobilityType> like IMobility {
             @display("p=50,175;is=s");
         }
-        tcpApp[numTcpApps]: <> like ITCPApp {
+        app[numApps]: <> like IApp {
             @display("p=175,50,row");
         }
-        tcp: TCP if numTcpApps>0 {
-            @display("p=175,150");
+        udp: <default(firstAvailableOrEmpty("Udp"))> like IUdp if hasUdp {
+            parameters:
+                @display("p=375,226");
         }
-        udpApp[numUdpApps]: <> like IUDPApp {
-            @display("p=325,50,row");
+        tcp: <default(firstAvailableOrEmpty("Tcp", "TcpLwip", "TcpNsc"))> like ITcp if hasTcp {
+            parameters:
+                @display("p=525,226");
         }
-        udp: UDP if numUdpApps>0 {
-            @display("p=325,150");
+        sctp: <default(firstAvailableOrEmpty("Sctp"))> like ISctp if hasSctp {
+            parameters:
+                @display("p=675,226");
         }
         lteNic: <nicType> like ILteNic {
             nodeType = nodeType;
             d2dCapable = d2dCapable;
             @display("p=250,407");
+        }
+        // message dispatcher for SAP between application and transport layer
+        at: MessageDispatcher {
+            parameters:
+                @display("p=750,146;b=1000,5,,,,1");
+        }
+        // message dispatcher for SAP between transport and network layer
+        tn: MessageDispatcher {
+            parameters:
+                @display("p=750,296;b=1000,5,,,,1");
         }
         // network layer
         networkLayer: <networkLayerType> like INetworkLayer {
@@ -93,27 +115,40 @@ module Ue
         }
     connections allowunconnected:
         //# 
-        //# Internal TCP/UDP applications connections with IP stack
+        //# Internal TCP/UDP applications connections with transport layer
         //#
 
-        for i=0..numTcpApps-1 {
-            tcpApp[i].tcpOut --> tcp.appIn++;
-            tcpApp[i].tcpIn <-- tcp.appOut++;
+        for i=0..numApps-1 {
+            app[i].socketOut --> at.in++;
+            app[i].socketIn <-- at.out++;
         }
 
-        tcp.ipOut --> networkLayer.transportIn++ if numTcpApps>0;
-        tcp.ipIn <-- networkLayer.transportOut++ if numTcpApps>0;
+		at.out++ --> udp.appIn if hasUdp;
+		at.in++ <-- udp.appOut if hasUdp;
+		
+		at.out++ --> tcp.appIn if hasTcp;
+		at.in++ <-- tcp.appOut if hasTcp;
+		
+		at.out++ --> sctp.appIn if hasSctp;
+		at.in++ <-- sctp.appOut if hasSctp;
 
-        for i=0..numUdpApps-1 {
-            udpApp[i].socketOut --> udp.appIn++;
-            udpApp[i].socketIn <-- udp.appOut++;
-        }
+        //# 
+		//# Internal transport layer connections to network layer
+		//# 
+        udp.ipOut --> tn.in++ if hasUdp;
+        udp.ipIn <-- tn.out++ if hasUdp;
 
-        udp.ipOut --> networkLayer.transportIn++ if numUdpApps>0;
-        udp.ipIn <-- networkLayer.transportOut++ if numUdpApps>0;
+        tcp.ipOut --> tn.in++ if hasTcp;
+        tcp.ipIn <-- tn.out++ if hasTcp;
+
+        sctp.ipOut --> tn.in++ if hasSctp;
+        tn.out++ --> sctp.ipIn if hasSctp;
+
+        tn.out++ --> networkLayer.transportIn;
+        tn.in++ <-- networkLayer.transportOut;
 
         lteNic.radioIn <-- radioIn;
 
-        networkLayer.ifOut++ --> lteNic.upperLayerIn;
-        networkLayer.ifIn++ <-- lteNic.upperLayerOut;
+        networkLayer.ifOut --> lteNic.upperLayerIn;   // FIXME: do we need a message dispatcher here? ifIn/Out were vectors in previous inet versions
+        networkLayer.ifIn <-- lteNic.upperLayerOut;
 }

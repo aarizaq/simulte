@@ -10,13 +10,13 @@
 
 package lte.corenetwork.nodes;
 
-import inet.linklayer.ppp.PPPInterface;
+import inet.linklayer.ppp.PppInterface;
 import inet.mobility.static.StationaryMobility;
 import inet.networklayer.common.InterfaceTable;
-import inet.networklayer.ipv4.IPv4RoutingTable;
+import inet.networklayer.ipv4.Ipv4RoutingTable;
 import inet.networklayer.contract.IRoutingTable;
 import inet.networklayer.contract.INetworkLayer;
-import inet.transportlayer.udp.UDP;
+import inet.transportlayer.udp.Udp;
 import lte.corenetwork.deployer.LteDeployer;
 import lte.epc.TrafficFlowFilter;
 import lte.epc.gtp.GtpUser;
@@ -70,7 +70,7 @@ module eNBpp
             nodeType = nodeType;
             @display("p=200,311");
         }
-        pppIf: PPPInterface {
+        pppIf: PppInterface {
             @display("p=569,311");
         }
         gtp_user: GtpUser {
@@ -80,7 +80,7 @@ module eNBpp
             ownerType = nodeType;
             @display("p=200,144");
         }
-        udp: UDP {
+        udp: Udp {
             @display("p=569,144");
         }
         // network layer
@@ -102,16 +102,16 @@ module eNBpp
         lteNic.radioIn <-- radioIn;
         pppIf.phys <--> ppp;
 
-        udp.ipOut --> networkLayer.transportIn++;
-        udp.ipIn <-- networkLayer.transportOut++;
+        udp.ipOut --> networkLayer.transportIn;
+        udp.ipIn <-- networkLayer.transportOut;
 
         trafficFlowFilter.gtpUserGateOut --> gtp_user.trafficFlowFilterGate;
 
-        gtp_user.socketOut --> udp.appIn++;
-        gtp_user.socketIn <-- udp.appOut++;
+        gtp_user.socketOut --> udp.appIn;
+        gtp_user.socketIn <-- udp.appOut;
 
-        networkLayer.ifOut++ --> pppIf.upperLayerIn;
-        pppIf.upperLayerOut --> networkLayer.ifIn++;
+        networkLayer.ifOut --> pppIf.upperLayerIn;
+        pppIf.upperLayerOut --> networkLayer.ifIn;
 
         lteNic.upperLayerOut --> trafficFlowFilter.internetFilterGateIn;
         gtp_user.pppGate --> lteNic.upperLayerIn;
