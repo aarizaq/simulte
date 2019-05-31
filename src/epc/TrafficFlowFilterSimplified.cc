@@ -41,6 +41,7 @@ EpcNodeType TrafficFlowFilterSimplified::selectOwnerType(const char * type)
         return PGW;
 
     error("TrafficFlowFilterSimplified::selectOwnerType - unknown owner type [%s]. Aborting...",type);
+    return ENB; // should never be reached
 }
 
 void TrafficFlowFilterSimplified::handleMessage(cMessage *msg)

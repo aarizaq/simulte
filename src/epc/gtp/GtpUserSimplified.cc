@@ -49,6 +49,7 @@ EpcNodeType GtpUserSimplified::selectOwnerType(const char * type)
         return PGW;
 
     error("GtpUserSimplified::selectOwnerType - unknown owner type [%s]. Aborting...",type);
+    return ENB; // should never be reached
 }
 
 void GtpUserSimplified::handleMessage(cMessage *msg)

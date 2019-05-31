@@ -306,6 +306,7 @@ const unsigned int* itbs2tbs(LteMod mod, TxMode txMode, unsigned char layers, un
                 break;
             default:
                 throw cRuntimeError("Unknown MCS (%d) in LteAmc::itbs2tbs()", mod);
+                res = nullptr;
         }
     }
 

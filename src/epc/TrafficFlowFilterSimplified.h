@@ -35,7 +35,7 @@ class TrafficFlowFilterSimplified : public omnetpp::cSimpleModule
     LteBinder* binder_;
 
     // gate for connecting with the GTP-U module
-    omnetpp::cGate * gtpUserGate_;
+    // omnetpp::cGate * gtpUserGate_;
 
     // if this flag is set, each packet received from the radio network, having the same radio network as destination
     // must be re-sent down without going through the Internet

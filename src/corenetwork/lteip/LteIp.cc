@@ -309,7 +309,7 @@ void LteIp::toTransport(cPacket * msg)
 {
     // msg is an IP Datagram (from Lte stack or IP peer)
     IPv4Datagram *datagram = check_and_cast<IPv4Datagram *>(msg);
-    int protocol = datagram->getTransportProtocol();
+    // int protocol = datagram->getTransportProtocol();
 
     /**
      * @author: wolfgang kallies

@@ -64,7 +64,7 @@ class TrafficFlowFilter : public omnetpp::cSimpleModule
     EpcNodeType ownerType_;
 
     // gate for connecting with the GTP-U module
-    omnetpp::cGate * gtpUserGate_;
+    // omnetpp::cGate * gtpUserGate_;
 
     TrafficFilterTemplateTable filterTable_;
 

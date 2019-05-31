@@ -516,6 +516,8 @@ MacNodeId LteAmc::computeMuMimoPairing(const MacNodeId nodeId, Direction dir)
     {
         return muMimoD2DMatrix_.getMuMimoPair(nodeId);
     }
+    throw cRuntimeError("LteAmc::computeMuMimoPairing(): Unrecognized direction");
+    return 0;
 }
 
 /********************************

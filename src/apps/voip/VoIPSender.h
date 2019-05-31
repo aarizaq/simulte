@@ -41,7 +41,7 @@ class VoIPSender : public omnetpp::cSimpleModule
     bool silences_;
 
 
-    omnetpp::simsignal_t voIPGeneratedThroughtput_;
+    // omnetpp::simsignal_t voIPGeneratedThroughtput_;
     // ----------------------------
 
     omnetpp::cMessage *selfSender_;

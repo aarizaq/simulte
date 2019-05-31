@@ -106,7 +106,7 @@ void VoIPReceiver::playout(bool finish)
     VoipPacket* pPacket = mPacketsList_.front();
 
     simtime_t firstPlayoutTime = pPacket->getArrivalTime() + mPlayoutDelay_;
-    unsigned int firstFrameId = pPacket->getIDframe();
+    // unsigned int firstFrameId = pPacket->getIDframe();
     unsigned int n_frames = pPacket->getNframes();
     unsigned int playoutLoss = 0;
     unsigned int tailDropLoss = 0;
