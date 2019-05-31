@@ -125,6 +125,9 @@ LteDrr::updateSchedulingInfo()
     else if (direction_ == UL)
     {
         conn = eNbScheduler_->mac_->getBsrVirtualBuffers();
+    } else {
+        conn = nullptr;
+        throw cRuntimeError("LteDrr::updateSchedulingInfo invalid direction");
     }
 
     //    // Iterators to cycle through the maps of connection descriptors.
