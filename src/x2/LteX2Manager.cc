@@ -11,8 +11,8 @@
 #define DATAPORT_IN "dataPort$i"
 
 #include <inet/networklayer/common/InterfaceEntry.h>
+#include <inet/networklayer/configurator/ipv4/Ipv4NetworkConfigurator.h>
 #include <inet4_compat/networklayer/ipv4/IPv4InterfaceData.h>
-#include <inet4_compat/networklayer/configurator/ipv4/IPv4NetworkConfigurator.h>
 
 #include "x2/LteX2Manager.h"
 
@@ -40,7 +40,7 @@ void LteX2Manager::initialize(int stage)
     {
         // find x2ppp interface entries and register their IP addresses to the binder
         // IP addresses will be used in the next init stage to get the X2 id of the peer
-        IPv4NetworkConfigurator* configurator = check_and_cast<IPv4NetworkConfigurator*>(getModuleByPath("configurator"));
+        Ipv4NetworkConfigurator* configurator = check_and_cast<Ipv4NetworkConfigurator*>(getModuleByPath("configurator"));
         IInterfaceTable *interfaceTable =  configurator->findInterfaceTableOf(getParentModule()->getParentModule());
         for (int i=0; i<interfaceTable->getNumInterfaces(); i++)
         {

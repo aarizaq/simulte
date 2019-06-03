@@ -14,7 +14,6 @@
 #include <inet4_compat/networklayer/ipv4/IPv4InterfaceData.h>
 #include <inet4_compat/networklayer/ipv4/IPv4Route.h>
 #include <inet/networklayer/common/InterfaceEntry.h>
-#include <inet4_compat/networklayer/configurator/ipv4/IPv4NetworkConfigurator.h>
 #include <inet4_compat/networklayer/ipv4/IIPv4RoutingTable.h>
 
 #include "corenetwork/lteip/IP2lte.h"

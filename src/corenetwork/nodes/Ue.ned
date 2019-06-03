@@ -58,8 +58,8 @@ module Ue
         string nicType = d2dCapable ? "LteNicUeD2D" : "LteNicUe";
 
         //# Network Layer specs
-        string networkLayerType = default("IPv4NetworkLayer");
-        string routingTableType = default("IPv4RoutingTable");
+        string networkLayerType = default("Ipv4NetworkLayer");
+        string routingTableType = default("Ipv4RoutingTable");
         *.interfaceTableModule = default(absPath(".interfaceTable"));
         *.routingTableModule = default(absPath(".routingTable"));
 

@@ -106,17 +106,18 @@ module eNodeB
             @display("p=683,363");
         }
 
-	    // message dispatcher for SAP between application and transport layer
+	    // message dispatcher for SAP to transport layer
         at: MessageDispatcher {
             parameters:
                 @display("p=750,146;b=1000,5,,,,1");
         }
-        // message dispatcher for SAP between transport and network layer
+        
+        // message dispatcher for SAP to network layer
         tn: MessageDispatcher {
             parameters:
-                @display("p=750,296;b=1000,5,,,,1");
+                @display("p=750,146;b=1000,5,,,,1");
         }
-        
+       
         //#
         //# Network layer module
         //#
@@ -135,7 +136,7 @@ module eNodeB
         udp: Udp {
             @display("p=501,148");
         }
-        tcp: Tcp if numTcpApps>0 {
+        tcp: Tcp if hasTcp {
             @display("p=683,148");
         }
 
@@ -171,8 +172,8 @@ module eNodeB
         lteNic.upperLayerOut --> trafficFlowFilter.internetFilterGateIn;
         lteNic.upperLayerIn <-- gtpUser.pppGate;
         trafficFlowFilter.gtpUserGateOut --> gtpUser.trafficFlowFilterGate;
-        gtpUser.socketOut --> udp.appIn;
-        gtpUser.socketIn <-- udp.appOut;
+        gtpUser.socketOut --> at.in++;
+        gtpUser.socketIn <-- at.out++;
 
 
         //#
@@ -185,8 +186,10 @@ module eNodeB
 
         gtpUserX2.lteStackOut --> lteNic.x2$i++;
         gtpUserX2.lteStackIn <-- lteNic.x2$o++;
-        gtpUserX2.socketOut --> udp.appIn;
-        gtpUserX2.socketIn <-- udp.appOut;
+        gtpUserX2.socketOut --> at.in++;
+        gtpUserX2.socketIn <-- at.out++;
+        
+        
 
         //#
         //# X2 interface to network layer connections

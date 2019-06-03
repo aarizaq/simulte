@@ -1,4 +1,3 @@
-- adapt makefile to recognize source files in compatiblitiy
 - fix all output stuff (might work in namespace omnetpp)
 - TCP might not work
 - InterfaceEntry IP2Lte dead sure won't work. How da**q is InterfaceEntry constructed?
