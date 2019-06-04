@@ -122,9 +122,12 @@ void LteMacUe::initialize(int stage)
         IInterfaceTable *interfaceTable = getModuleFromPar<IInterfaceTable>(par("interfaceTableModule"), this);
         // TODO: how do we find the LTE interface?
         InterfaceEntry * interfaceEntry = interfaceTable->getInterfaceByName("wlan");
+        if(interfaceEntry == nullptr)
+            throw new cRuntimeError("no interface entry for lte interface - cannot bind node %i", nodeId_);
+
 
         Ipv4InterfaceData* ipv4if = interfaceEntry->getProtocolData<Ipv4InterfaceData>();
-        if(ipv4if == NULL)
+        if(ipv4if == nullptr)
             throw new cRuntimeError("no IPv4 interface data - cannot bind node %i", nodeId_);
         binder_->setMacNodeId(ipv4if->getIPAddress(), nodeId_);
     }
