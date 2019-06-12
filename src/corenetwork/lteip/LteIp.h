@@ -12,7 +12,6 @@
 
 #include <stdlib.h>
 #include <omnetpp.h>
-#include <inet/common/queue/QueueBase.h>
 #include <inet4_compat/networklayer/contract/ipv4/IPv4ControlInfo.h>
 #include <inet4_compat/networklayer/ipv4/IPv4Datagram.h>
 #include <inet4_compat/common/ProtocolMap.h>
@@ -43,7 +42,7 @@
  * the four tuple, a sequence number and the header size (IP+Transport).
  *
  */
-class LteIp : public inet::QueueBase
+class LteIp : public inet::OperationalBase
 {
     protected:
         omnetpp::cGate *stackGateOut_;           /// gate connecting LteIp module to LTE stack
@@ -75,6 +74,23 @@ class LteIp : public inet::QueueBase
         {
         }
 
+    /**
+     * ILifecycle methods
+     */
+    virtual bool isInitializeStage(int stage) override {
+        return stage == inet::INITSTAGE_NETWORK_LAYER;
+    }
+    virtual bool isModuleStartStage(int stage) override {
+        return stage == inet::ModuleStartOperation::STAGE_NETWORK_LAYER;
+    }
+    virtual bool isModuleStopStage(int stage) override {
+        return stage == inet::ModuleStopOperation::STAGE_NETWORK_LAYER;
+    }
+    virtual void handleStartOperation(inet::LifecycleOperation *operation) override;
+    virtual void handleStopOperation(inet::LifecycleOperation *operation) override;
+    virtual void handleCrashOperation(inet::LifecycleOperation *operation) override;
+
+
     protected:
 
         /**
@@ -85,7 +101,7 @@ class LteIp : public inet::QueueBase
         /**
          * Initialization
          */
-        virtual void initialize();
+        virtual void initialize(int stage);
 
         /**
          * Processing of IP datagrams.
@@ -94,6 +110,14 @@ class LteIp : public inet::QueueBase
          * @param msg packet received
          */
         virtual void endService(omnetpp::cPacket *msg);
+
+        /**
+         * @see OperationalBase::handleMessageWhenUp
+         *
+         * @param msg Message to be handled
+         */
+        virtual void handleMessageWhenUp(inet::cMessage *msg) override;
+
 
     private:
 

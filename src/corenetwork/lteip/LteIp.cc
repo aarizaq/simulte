@@ -30,9 +30,9 @@ using namespace inet;
  * compile, testing is somewhat tricky). The point being:
  * DO NOT EXPECT THIS TO WORK. And it will all end in tears (hopefully not mine).
  */
-void LteIp::initialize()
+void LteIp::initialize(int stage)
 {
-    QueueBase::initialize();
+    OperationalBase::initialize(stage);
 
     stackGateOut_ = gate("stackLte$o");
     peerGateOut_ = gate("ifOut");
@@ -376,3 +376,48 @@ void LteIp::printControlInfo(FlowControlInfo* ci)
     EV << "Seq Num  : " << ci->getSequenceNumber() << endl;
     EV << "Header Size : " << ci->getHeaderSize() << endl;
 }
+
+void LteIp::handleMessageWhenUp(cMessage *msg)
+{
+    throw cRuntimeError(" handleMessageWhenUp method not implemented");
+
+    /*  note: this is the implementation in the IPv4-Layer
+     * TODO: check if it can be adapted/applied hiere
+     *
+    if (msg->arrivedOn("transportIn")) {    //TODO packet->getArrivalGate()->getBaseId() == transportInGateBaseId
+        if (auto request = dynamic_cast<Request *>(msg))
+            handleRequest(request);
+        else
+            handlePacketFromHL(check_and_cast<Packet*>(msg));
+    }
+    else if (msg->arrivedOn("queueIn")) {    // from network
+        EV_INFO << "Received " << msg << " from network.\n";
+        handleIncomingDatagram(check_and_cast<Packet*>(msg));
+    }
+    else
+        throw cRuntimeError("message arrived on unknown gate '%s'", msg->getArrivalGate()->getName());
+    */
+}
+
+
+/**
+ * TODO: implement ILifeCycleMethods: stop should flush all pending packets (see Ipv4(?))
+ */
+
+void LteIp::handleStartOperation(LifecycleOperation *operation)
+{
+    throw cRuntimeError(" handleStartOperation not implemented");
+}
+
+void LteIp::handleStopOperation(LifecycleOperation *operation)
+{
+    throw cRuntimeError(" handleStopOperation not implemented");
+}
+
+void LteIp::handleCrashOperation(LifecycleOperation *operation)
+{
+    throw cRuntimeError(" handleCrashOperation not implemented");
+}
+
+
+
