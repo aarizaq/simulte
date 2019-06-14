@@ -101,7 +101,7 @@ class LteIp : public inet::OperationalBase
         /**
          * Initialization
          */
-        virtual void initialize(int stage);
+        virtual void initialize(int stage) override;
 
         /**
          * Processing of IP datagrams.
