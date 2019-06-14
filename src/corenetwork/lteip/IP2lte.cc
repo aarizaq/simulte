@@ -30,8 +30,7 @@ Define_Module(IP2lte);
 
 void IP2lte::initialize(int stage)
 {
-    if (stage == inet::INITSTAGE_LOCAL)
-    {
+    if (stage == inet::INITSTAGE_LOCAL) {
         stackGateOut_ = gate("stackLte$o");
         ipGateOut_ = gate("upperLayerOut");
 
@@ -43,21 +42,20 @@ void IP2lte::initialize(int stage)
 
         binder_ = getBinder();
 
-        if (nodeType_ == ENODEB)
-        {
-            // TODO not so elegant
+        if (nodeType_ == ENODEB) {
+            // TODO not so elegant (FIXME: this is interface configuration - should be in different init stage!)
             cModule *enodeb = getParentModule()->getParentModule();
             MacNodeId cellId = getBinder()->registerNode(enodeb, nodeType_);
-            LteDeployer * deployer = check_and_cast<LteDeployer*>(enodeb->getSubmodule("deployer"));
+            LteDeployer * deployer = check_and_cast<LteDeployer*>(
+                    enodeb->getSubmodule("deployer"));
             binder_->registerDeployer(deployer, cellId);
             nodeId_ = cellId;
             registerInterface();
         }
     }
-    if (stage == inet::INITSTAGE_NETWORK_LAYER - 1)  // the configurator runs at stage NETWORK_LAYER, so the interface
-    {                                                // must be configured at a previous stage
-        if (nodeType_ == UE)
-        {
+
+    else if (stage == inet::INITSTAGE_NETWORK_INTERFACE_CONFIGURATION) {
+        if (nodeType_ == UE) {
             // TODO not so elegant
             cModule *ue = getParentModule()->getParentModule();
             nodeId_ = binder_->registerNode(ue, nodeType_, ue->par("masterId"));
@@ -65,26 +63,28 @@ void IP2lte::initialize(int stage)
 
             // if the UE has been created dynamically, we need to manually add a default route having "wlan" as output interface
             // otherwise we are not able to reach devices outside the cellular network
-            if (NOW > 0)
-            {
+            if (NOW > 0) {
                 /**
                  * TODO:might need a bit more care, if interface has changed, the query might, too
                  */
-                IIPv4RoutingTable *irt = getModuleFromPar<IIPv4RoutingTable>(par("routingTableModule"), this);
+                IIPv4RoutingTable *irt = getModuleFromPar<IIPv4RoutingTable>(
+                        par("routingTableModule"), this);
                 IPv4Route * defaultRoute = new IPv4Route();
-                defaultRoute->setDestination(IPv4Address(inet::IPv4Address::UNSPECIFIED_ADDRESS));
-                defaultRoute->setNetmask(IPv4Address(inet::IPv4Address::UNSPECIFIED_ADDRESS));
+                defaultRoute->setDestination(
+                        IPv4Address(inet::IPv4Address::UNSPECIFIED_ADDRESS));
+                defaultRoute->setNetmask(
+                        IPv4Address(inet::IPv4Address::UNSPECIFIED_ADDRESS));
 
-                IInterfaceTable *ift = getModuleFromPar<IInterfaceTable>(par("interfaceTableModule"), this);
-                InterfaceEntry * interfaceEntry = ift->getInterfaceByName("wlan");
+                IInterfaceTable *ift = getModuleFromPar<IInterfaceTable>(
+                        par("interfaceTableModule"), this);
+                InterfaceEntry * interfaceEntry = ift->getInterfaceByName(
+                        "wlan");
                 defaultRoute->setInterface(interfaceEntry);
 
                 irt->addRoute(defaultRoute);
             }
         }
-    }
-    else if (stage == inet::INITSTAGE_NETWORK_LAYER+1)
-    {
+    } else if (stage == inet::INITSTAGE_NETWORK_LAYER + 1) {
         registerMulticastGroups();
     }
 }
@@ -330,22 +330,14 @@ void IP2lte::registerInterface()
     IInterfaceTable *ift = getModuleFromPar<IInterfaceTable>(par("interfaceTableModule"), this);
     if (!ift)
         return;
-     /**
-      * TODO:
-      * @author wkallies
-      * @date 14.01.2019
-      * I am not sure what this is supposed to do.
-      * InterfaceEntry has a private copy constructor (which, by the way
-      * is so 2003). Since I have no idea, I just use 'default' Ctor.
-      * CHANGE THIS ASAP
-      */
-    //interfaceEntry = new InterfaceEntry(this);
-    interfaceEntry = new InterfaceEntry();  
-    interfaceEntry->setName("wlan");
+
+    interfaceEntry = new InterfaceEntry();
+    interfaceEntry->setInterfaceName("wlan");
     // TODO configure MTE size from NED
     interfaceEntry->setMtu(1500);
     // enable broadcast/multicast
     interfaceEntry->setBroadcast(true);
+
     // FIXME: this is a hack required to work with the HostAutoConfigurator in INET 3
     // since the HostAutoConfigurator tries to add us to all default multicast groups.
     // once this problem has been fixed, we should set multicast to false here
