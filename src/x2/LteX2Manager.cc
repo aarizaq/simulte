@@ -52,7 +52,7 @@ void LteX2Manager::initialize(int stage)
             //const char* ifName = interfaceEntry->getName();
             //
             //if (strstr(ifName,"x2ppp") != NULL)
-            const std::string info = interfaceEntry->detailedInfo();
+            const std::string info = interfaceEntry->str();
             if (info.find("x2ppp") != std::string::npos)
             {
                 getBinder()->setX2NodeId(interfaceEntry->getProtocolData<Ipv4InterfaceData>()->getIPAddress(), nodeId_);
