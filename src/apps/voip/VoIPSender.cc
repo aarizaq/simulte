@@ -91,7 +91,6 @@ void VoIPSender::initTraffic()
     {
         delete initTraffic_;
 
-        destAddress_ = inet::L3AddressResolver().resolve(par("destAddress").stringValue());
         socket.setOutputGate(gate("socketOut"));
         socket.bind(localPort_);
 
@@ -159,6 +158,9 @@ void VoIPSender::selectPeriodTime()
 
 void VoIPSender::sendVoIPPacket()
 {
+    if (destAddress_.isUnspecified())
+        destAddress_ = L3AddressResolver().resolve(par("destAddress"));
+
     VoipPacket* packet = new VoipPacket("VoIP");
     packet->setIDtalk(iDtalk_ - 1);
     packet->setNframes(nframes_);

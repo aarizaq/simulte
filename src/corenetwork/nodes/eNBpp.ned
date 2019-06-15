@@ -42,7 +42,7 @@ module eNBpp
         string networkLayerType = default("IPv4NetworkLayer");
         string routingTableType = default("IPv4RoutingTable");
         *.interfaceTableModule = default(absPath(".interfaceTable"));
-        *.routingTableModule = default(routingTableType != "" ? absPath(".routingTable") : "");
+        *.routingTableModule = default("^.ipv4.routingTable");
 
     gates:
         inout ppp;     // connection to LteIP peer

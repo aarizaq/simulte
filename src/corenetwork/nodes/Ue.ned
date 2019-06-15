@@ -58,10 +58,10 @@ module Ue
         string nicType = d2dCapable ? "LteNicUeD2D" : "LteNicUe";
 
         //# Network Layer specs
-        string networkLayerType = default("Ipv4NetworkLayer");
-        string routingTableType = default("Ipv4RoutingTable");
+        bool hasIpv4 = default(true);
+        bool hasIpv6 = default(false);
         *.interfaceTableModule = default(absPath(".interfaceTable"));
-        *.routingTableModule = default(absPath(".routingTable"));
+        *.routingTableModule = default("^.ipv4.routingTable");
 
     gates:
         input radioIn @directIn;     // connection to master
@@ -69,11 +69,6 @@ module Ue
     submodules:
         interfaceTable: InterfaceTable {
             @display("p=50,75;is=s");
-        }
-        // routing table
-        routingTable: <routingTableType> like IRoutingTable if routingTableType != "" {
-            parameters:
-                @display("p=50,125;is=s");
         }
         mobility: <mobilityType> like IMobility {
             @display("p=50,175;is=s");
@@ -108,10 +103,19 @@ module Ue
             parameters:
                 @display("p=750,296;b=1000,5,,,,1");
         }
-        // network layer
-        networkLayer: <networkLayerType> like INetworkLayer {
+        // message dispatcher for SAP to link layer
+        nl: MessageDispatcher {
             parameters:
-                @display("p=250,258");
+                @display("p=750,446;b=1000,5,,,,1");
+        }
+        // network layer
+        ipv4: <default("Ipv4NetworkLayer")> like INetworkLayer if hasIpv4 {
+            parameters:
+                @display("p=375,376;q=queue");
+        }
+        ipv6: <default("Ipv6NetworkLayer")> like INetworkLayer if hasIpv6 {
+            parameters:
+                @display("p=525,376;q=queue");
         }
     connections allowunconnected:
         //# 
@@ -144,11 +148,17 @@ module Ue
         sctp.ipOut --> tn.in++ if hasSctp;
         tn.out++ --> sctp.ipIn if hasSctp;
 
-        tn.out++ --> networkLayer.transportIn;
-        tn.in++ <-- networkLayer.transportOut;
-
         lteNic.radioIn <-- radioIn;
 
-        networkLayer.ifOut --> lteNic.upperLayerIn;   // FIXME: do we need a message dispatcher here? ifIn/Out were vectors in previous inet versions
-        networkLayer.ifIn <-- lteNic.upperLayerOut;
+        lteNic.upperLayerOut --> nl.in++;
+        lteNic.upperLayerIn <-- nl.out++;
+        
+        tn.out++ --> nl.in++;
+        tn.in++ <-- nl.out++;
+        
+        ipv4.ifIn <-- nl.out++ if hasIpv4;
+        ipv4.ifOut --> nl.in++ if hasIpv4;
+
+        ipv6.ifIn <-- nl.out++ if hasIpv6;
+        ipv6.ifOut --> nl.in++ if hasIpv6;
 }

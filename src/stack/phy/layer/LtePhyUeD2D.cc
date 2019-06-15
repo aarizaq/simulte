@@ -28,7 +28,7 @@ LtePhyUeD2D::~LtePhyUeD2D()
 void LtePhyUeD2D::initialize(int stage)
 {
     LtePhyUe::initialize(stage);
-    if (stage == 0)
+    if (stage == INITSTAGE_LOCAL)
     {
         averageCqiD2D_ = registerSignal("averageCqiD2D");
         d2dTxPower_ = par("d2dTxPower");

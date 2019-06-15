@@ -28,7 +28,7 @@ LtePhyEnbD2D::~LtePhyEnbD2D()
 void LtePhyEnbD2D::initialize(int stage)
 {
     LtePhyEnb::initialize(stage);
-    if (stage == 0)
+    if (stage == INITSTAGE_LOCAL)
         enableD2DCqiReporting_ = par("enableD2DCqiReporting");
 }
 

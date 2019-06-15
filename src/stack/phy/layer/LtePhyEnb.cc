@@ -60,7 +60,7 @@ void LtePhyEnb::initialize(int stage)
         WATCH(nodeType_);
         WATCH(das_);
     }
-    else if (stage == 1)
+    else if (stage == INITSTAGE_PHYSICAL_ENVIRONMENT)
     {
         initializeFeedbackComputation(par("feedbackComputation").xmlValue());
 

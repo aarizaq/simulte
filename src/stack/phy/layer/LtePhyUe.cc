@@ -154,7 +154,7 @@ void LtePhyUe::initialize(int stage)
         das_->setMasterRuSet(masterId_);
         emit(servingCell_, (long)masterId_);
     }
-    else if (stage == inet::INITSTAGE_NETWORK_LAYER)
+    else if (stage == inet::INITSTAGE_NETWORK_CONFIGURATION)
     {
         // get local id
         nodeId_ = getAncestorPar("macNodeId");

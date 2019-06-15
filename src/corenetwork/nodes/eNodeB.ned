@@ -48,10 +48,10 @@ module eNodeB
         string nicType = d2dCapable ? "LteNicEnbD2D" : "LteNicEnb";
 
         //# Network Layer specs
-        string networkLayerType = default("Ipv4NetworkLayer");
-        string routingTableType = default("Ipv4RoutingTable");
+        bool hasIpv4 = default(true);
+        bool hasIpv6 = default(false);
         *.interfaceTableModule = default(absPath(".interfaceTable"));
-        *.routingTableModule = default(routingTableType != "" ? absPath(".routingTable") : "");
+        *.routingTableModule = default("^.ipv4.routingTable");
 
         //# Apps
         // FIXME: generic IApp interface - simulation inifiles need to be adapted!
@@ -74,12 +74,6 @@ module eNodeB
 
         interfaceTable: InterfaceTable {
             @display("p=50,75;is=s");
-        }
-        // TODO: should not include a routing table
-        // routing table
-        routingTable: <routingTableType> like IRoutingTable if routingTableType != "" {
-            parameters:
-                @display("p=50,125;is=s");
         }
         mobility: StationaryMobility {
             @display("p=50,175;is=s");
@@ -118,12 +112,22 @@ module eNodeB
                 @display("p=750,146;b=1000,5,,,,1");
         }
        
+        // message dispatcher for SAP to link layer
+        nl: MessageDispatcher {
+            parameters:
+                @display("p=750,446;b=1000,5,,,,1");
+        }
+       
         //#
         //# Network layer module
         //#
-        networkLayer: <networkLayerType> like INetworkLayer {
+        ipv4: <default("Ipv4NetworkLayer")> like INetworkLayer if hasIpv4 {
             parameters:
-                @display("p=501,269;q=queue");
+                @display("p=375,376;q=queue");
+        }
+        ipv6: <default("Ipv6NetworkLayer")> like INetworkLayer if hasIpv6 {
+            parameters:
+                @display("p=525,376;q=queue");
         }
 
         //#
@@ -180,8 +184,8 @@ module eNodeB
         //# PPP interface to network layer connections
         //#    
         pppIf.phys <--> ppp;
-        pppIf.upperLayerOut --> networkLayer.ifIn;
-        pppIf.upperLayerIn <-- networkLayer.ifOut;
+        pppIf.upperLayerOut --> nl.in++;
+        pppIf.upperLayerIn <-- nl.out++;
 
 
         gtpUserX2.lteStackOut --> lteNic.x2$i++;
@@ -196,8 +200,8 @@ module eNodeB
         //#    
         for i=0..sizeof(x2)-1 {
             x2ppp[i].phys <--> x2[i];
-            x2ppp[i].upperLayerOut --> networkLayer.ifIn;  //FIXME: do we need a message dispatcher here? transportIn/Out were vectors in previous inet versions
-            x2ppp[i].upperLayerIn <-- networkLayer.ifOut;
+            x2ppp[i].upperLayerOut --> tn.in++;  
+            x2ppp[i].upperLayerIn <-- tn.out++;
         }
 
 		//# 
@@ -239,6 +243,15 @@ module eNodeB
         sctp.ipOut --> tn.in++ if hasSctp;
         tn.out++ --> sctp.ipIn if hasSctp;
 
-        tn.out++ --> networkLayer.transportIn;
-        tn.in++ <-- networkLayer.transportOut;
+        tn.out++ --> nl.in++;
+        tn.in++ <-- nl.out++;
+        
+        ipv4.ifIn <-- nl.out++ if hasIpv4;
+        ipv4.ifOut --> nl.in++ if hasIpv4;
+
+        ipv6.ifIn <-- nl.out++ if hasIpv6;
+        ipv6.ifOut --> nl.in++ if hasIpv6;
+        
+        // lteNic.upperLayerOut --> nl.in++;
+        // lteNic.upperLayerIn <-- nl.out++;
 }
