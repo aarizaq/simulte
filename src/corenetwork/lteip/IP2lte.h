@@ -13,6 +13,7 @@
 #include <omnetpp.h>
 //#include <inet/networklayer/ipv4/IPv4Datagram.h>
 #include <inet4_compat/networklayer/ipv4/IPv4Datagram.h>
+#include <inet/networklayer/common/InterfaceEntry.h>
 
 #include "common/LteControlInfo.h"
 #include "common/LteControlInfo.h"
@@ -45,6 +46,9 @@ class IP2lte : public omnetpp::cSimpleModule
 
     // MAC node id of this node
     MacNodeId nodeId_;
+
+    // corresponding entry for our interface
+    inet::InterfaceEntry interfaceEntry;
 
     /*
      * Handover support

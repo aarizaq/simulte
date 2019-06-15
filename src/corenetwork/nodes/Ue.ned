@@ -88,6 +88,15 @@ module Ue
             parameters:
                 @display("p=675,226");
         }
+        // network layer
+        ipv4: <default("Ipv4NetworkLayer")> like INetworkLayer if hasIpv4 {
+            parameters:
+                @display("p=375,376;q=queue");
+        }
+        ipv6: <default("Ipv6NetworkLayer")> like INetworkLayer if hasIpv6 {
+            parameters:
+                @display("p=525,376;q=queue");
+        }
         lteNic: <nicType> like ILteNic {
             nodeType = nodeType;
             d2dCapable = d2dCapable;
@@ -108,16 +117,13 @@ module Ue
             parameters:
                 @display("p=750,446;b=1000,5,,,,1");
         }
-        // network layer
-        ipv4: <default("Ipv4NetworkLayer")> like INetworkLayer if hasIpv4 {
-            parameters:
-                @display("p=375,376;q=queue");
-        }
-        ipv6: <default("Ipv6NetworkLayer")> like INetworkLayer if hasIpv6 {
-            parameters:
-                @display("p=525,376;q=queue");
-        }
     connections allowunconnected:
+        //# LTE Nic 
+        lteNic.radioIn <-- radioIn;
+
+        lteNic.upperLayerOut --> nl.in++;
+        lteNic.upperLayerIn <-- nl.out++;
+        
         //# 
         //# Internal TCP/UDP applications connections with transport layer
         //#
@@ -139,6 +145,7 @@ module Ue
         //# 
 		//# Internal transport layer connections to network layer
 		//# 
+	
         udp.ipOut --> tn.in++ if hasUdp;
         udp.ipIn <-- tn.out++ if hasUdp;
 
@@ -147,18 +154,22 @@ module Ue
 
         sctp.ipOut --> tn.in++ if hasSctp;
         tn.out++ --> sctp.ipIn if hasSctp;
-
-        lteNic.radioIn <-- radioIn;
-
-        lteNic.upperLayerOut --> nl.in++;
-        lteNic.upperLayerIn <-- nl.out++;
+           
+        ipv4.ifIn <-- nl.out++ if hasIpv4;
+        ipv4.ifOut --> nl.in++ if hasIpv4;
         
+        ipv4.transportIn <-- tn.out++ if hasIpv4;
+        ipv4.transportOut --> tn.in++ if hasIpv4;
+
+        ipv6.ifIn <-- nl.out++ if hasIpv6;
+        ipv6.ifOut --> nl.in++ if hasIpv6;    
+        
+        ipv6.transportIn <-- tn.out++ if hasIpv6;
+        ipv6.transportOut --> tn.in++ if hasIpv6;
+      
         tn.out++ --> nl.in++;
         tn.in++ <-- nl.out++;
         
-        ipv4.ifIn <-- nl.out++ if hasIpv4;
-        ipv4.ifOut --> nl.in++ if hasIpv4;
-
-        ipv6.ifIn <-- nl.out++ if hasIpv6;
-        ipv6.ifOut --> nl.in++ if hasIpv6;
+        at.out++ --> tn.in++;
+        at.in++ <-- tn.out++;
 }

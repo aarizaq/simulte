@@ -15,6 +15,7 @@
 #include <inet4_compat/networklayer/ipv4/IPv4Route.h>
 #include <inet/networklayer/common/InterfaceEntry.h>
 #include <inet4_compat/networklayer/ipv4/IIPv4RoutingTable.h>
+#include <inet/common/IInterfaceRegistrationListener.h>
 
 #include "corenetwork/lteip/IP2lte.h"
 #include "corenetwork/binder/LteBinder.h"
@@ -326,23 +327,26 @@ void IP2lte::printControlInfo(FlowControlInfo* ci)
 
 void IP2lte::registerInterface()
 {
-    InterfaceEntry * interfaceEntry;
     IInterfaceTable *ift = getModuleFromPar<IInterfaceTable>(par("interfaceTableModule"), this);
     if (!ift)
         return;
 
-    interfaceEntry = new InterfaceEntry();
-    interfaceEntry->setInterfaceName("wlan");
+    interfaceEntry.setInterfaceName("wlan");
     // TODO configure MTE size from NED
-    interfaceEntry->setMtu(1500);
+    interfaceEntry.setMtu(1500);
     // enable broadcast/multicast
-    interfaceEntry->setBroadcast(true);
+    interfaceEntry.setBroadcast(true);
+    interfaceEntry.setLoopback(false);
+
 
     // FIXME: this is a hack required to work with the HostAutoConfigurator in INET 3
     // since the HostAutoConfigurator tries to add us to all default multicast groups.
     // once this problem has been fixed, we should set multicast to false here
-    interfaceEntry->setMulticast(true);
-    ift->addInterface(interfaceEntry);
+    interfaceEntry.setMulticast(true);
+
+    // TODO: check that this is the correct way to register the interface
+    inet::registerInterface(interfaceEntry, gate("upperLayerIn"), gate("stackLte$o"));
+    ift->addInterface(&interfaceEntry);
 }
 
 void IP2lte::registerMulticastGroups()

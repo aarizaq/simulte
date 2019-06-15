@@ -99,25 +99,7 @@ module eNodeB
         x2ppp[sizeof(x2)]: PppInterface {
             @display("p=683,363");
         }
-
-	    // message dispatcher for SAP to transport layer
-        at: MessageDispatcher {
-            parameters:
-                @display("p=750,146;b=1000,5,,,,1");
-        }
         
-        // message dispatcher for SAP to network layer
-        tn: MessageDispatcher {
-            parameters:
-                @display("p=750,146;b=1000,5,,,,1");
-        }
-       
-        // message dispatcher for SAP to link layer
-        nl: MessageDispatcher {
-            parameters:
-                @display("p=750,446;b=1000,5,,,,1");
-        }
-       
         //#
         //# Network layer module
         //#
@@ -166,6 +148,26 @@ module eNodeB
         gtpUserX2: GtpUserX2 {
             @display("p=410,363");
         }
+
+	    // message dispatcher for SAP to transport layer
+        at: MessageDispatcher {
+            parameters:
+                @display("p=750,146;b=1000,5,,,,1");
+        }
+        
+        // message dispatcher for SAP to network layer
+        tn: MessageDispatcher {
+            parameters:
+                @display("p=750,146;b=1000,5,,,,1");
+        }
+       
+        // message dispatcher for SAP to link layer
+        nl: MessageDispatcher {
+            parameters:
+                @display("p=750,446;b=1000,5,,,,1");
+        }
+       
+        
 
     connections allowunconnected:
 
@@ -242,15 +244,24 @@ module eNodeB
 
         sctp.ipOut --> tn.in++ if hasSctp;
         tn.out++ --> sctp.ipIn if hasSctp;
+    
+        ipv4.ifIn <-- nl.out++ if hasIpv4;
+        ipv4.ifOut --> nl.in++ if hasIpv4;
+        
+        ipv4.transportIn <-- tn.out++ if hasIpv4;
+        ipv4.transportOut --> tn.in++ if hasIpv4;
 
+        ipv6.ifIn <-- nl.out++ if hasIpv6;
+        ipv6.ifOut --> nl.in++ if hasIpv6;    
+        
+        ipv6.transportIn <-- tn.out++ if hasIpv6;
+        ipv6.transportOut --> tn.in++ if hasIpv6;
+        
         tn.out++ --> nl.in++;
         tn.in++ <-- nl.out++;
         
-        ipv4.ifIn <-- nl.out++ if hasIpv4;
-        ipv4.ifOut --> nl.in++ if hasIpv4;
-
-        ipv6.ifIn <-- nl.out++ if hasIpv6;
-        ipv6.ifOut --> nl.in++ if hasIpv6;
+        at.out++ --> tn.in++;
+        at.in++ <-- tn.out++;
         
         // lteNic.upperLayerOut --> nl.in++;
         // lteNic.upperLayerIn <-- nl.out++;
