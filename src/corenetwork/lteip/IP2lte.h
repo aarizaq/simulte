@@ -48,7 +48,7 @@ class IP2lte : public omnetpp::cSimpleModule
     MacNodeId nodeId_;
 
     // corresponding entry for our interface
-    inet::InterfaceEntry interfaceEntry;
+    inet::InterfaceEntry* interfaceEntry;
 
     /*
      * Handover support

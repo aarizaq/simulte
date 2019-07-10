@@ -17,40 +17,53 @@ import lte.epc.TrafficFlowFilter;
 import inet.transportlayer.udp.Udp;
 
 //
-// Implements an EPC PDN Gateway (P-GW)
+// Base Module for a EPC PDN Gateway (P-GW)
 //
-module PgwStandard extends NetworkLayerNodeBase
+// Note: Does not include a traffic flow filter or gtp user
+//       since those of them are defined in the derived modules.
+//
+module PgwBase extends NetworkLayerNodeBase
 {
     parameters:
         string nodeType; // must be one between ENB and PGW
-        @display("bgb=920,462;i=device/mainframe");
+        @display("bgb=1571.955,755.37;i=device/mainframe");
+        forwarding = default(true);
+        multicastForwarding = default(true);
+        // numPppInterfaces = 1;
+        
     gates:
         inout filterGate @labels(PPPFrame-conn);
 
     submodules:
-        trafficFlowFilter: TrafficFlowFilter {
-            ownerType = nodeType;
-            @display("p=813,206");
-        }
-        pppInterface: PppInterface {
+        pppIf: PppInterface {
             @display("p=727,386");
         }
         udp: Udp {
             @display("p=329,206");
         }
-        gtp_user: GtpUser {
-            @display("p=591,206");
-        }
         tn: MessageDispatcher {
             parameters:
                 @display("p=750,296;b=1000,5,,,,1");
         }
+        at: MessageDispatcher {
+            parameters:
+                @display("p=750,146;b=1000,5,,,,1");
+        }
+        
+        
     connections:
+        
+        // at dispatcher to transport layer connections
+        at.out++ --> udp.appIn;
+		at.in++ <-- udp.appOut;
+        
+        // transport layer to tn dispatcher connections
         udp.ipOut --> tn.in++;
         udp.ipIn <-- tn.out++;
-        
-        tn.out++ --> ipv4.transportIn; //if hasIpv4;   //FIXME: set parameter
-        tn.in++ <-- ipv4.transportOut; // if hasIpv4;
+
+        // tn dispatcher to network layer connections
+        tn.out++ --> ipv4.transportIn if hasIpv4;
+        tn.in++ <-- ipv4.transportOut if hasIpv4;
 
         tn.out++ --> ipv6.transportIn if hasIpv6;
         tn.in++ <-- ipv6.transportOut if hasIpv6;
@@ -61,55 +74,51 @@ module PgwStandard extends NetworkLayerNodeBase
         tn.out++ --> nl.in++;
         tn.in++ <-- nl.out++;
         
-        pppInterface.upperLayerOut --> trafficFlowFilter.internetFilterGateIn;
-        pppInterface.upperLayerIn <-- gtp_user.pppGate;
-        pppInterface.phys <--> filterGate;
-
-        //udp.appOut++ --> gtp_user.socketIn;
-        //gtp_user.socketOut --> udp.appIn++;
-        udp.appOut --> gtp_user.socketIn;
-        gtp_user.socketOut --> udp.appIn;
-        trafficFlowFilter.gtpUserGateOut --> gtp_user.trafficFlowFilterGate;
+        pppIf.upperLayerOut --> nl.in++;
+        pppIf.upperLayerIn <-- nl.out++;      
+        
+        pppIf.phys <--> filterGate;  
 }
 
 //
-// Implements a simplified version of the EPC PDN Gateway (P-GW)
+// Implements an EPC PDN Gateway (P-GW)
 //
-module PgwStandardSimplified extends NetworkLayerNodeBase
+module PgwStandard extends PgwBase 
 {
     parameters:
-        string nodeType; // must be one between ENB and PGW
-        @display("bgb=920,462;i=device/mainframe");
-    gates:
-        inout filterGate @labels(PPPFrame-conn);
-
     submodules:
-        trafficFlowFilter: TrafficFlowFilterSimplified {
+        trafficFlowFilter: TrafficFlowFilter {
             ownerType = nodeType;
             @display("p=813,206");
         }
-        pppInterface: PppInterface {
-            @display("p=727,386");
+        gtp_user: GtpUser {
+            @display("p=591,206");
         }
-        udp: Udp {
-            @display("p=329,206");
+
+	connections:
+	    gtp_user.socketOut --> at.in++;
+        gtp_user.socketIn <-- at.out++;
+	    
+	    trafficFlowFilter.gtpUserGateOut --> gtp_user.trafficFlowFilterGate;
+}    
+
+//
+// Implements a simplified EPC PDN Gateway (P-GW)
+//
+module PgwStandardSimplified extends PgwBase 
+{
+    parameters:
+	submodules:
+        trafficFlowFilter: TrafficFlowFilterSimplified {
+            ownerType = nodeType;
+            @display("p=813,206");
         }
         gtp_user: GtpUserSimplified {
             @display("p=591,206");
         }
     connections:
-        //udp.ipOut --> networkLayer.transportIn++;
-        //udp.ipIn <-- networkLayer.transportOut++;
-        udp.ipOut --> ipv4.transportIn;
-        udp.ipIn <-- ipv4.transportOut;
-
-        pppInterface.upperLayerOut --> trafficFlowFilter.internetFilterGateIn;
-        pppInterface.upperLayerIn <-- gtp_user.pppGate;
-        pppInterface.phys <--> filterGate;
-
-        //udp.appOut++ --> gtp_user.socketIn;
-        //gtp_user.socketOut --> udp.appIn++;
-        udp.appOut --> gtp_user.socketIn;
-        gtp_user.socketOut --> udp.appIn;
-        trafficFlowFilter.gtpUserGateOut --> gtp_user.trafficFlowFilterGate;
+        gtp_user.socketOut --> at.in++;
+        gtp_user.socketIn <-- at.out++;
+        
+	    trafficFlowFilter.gtpUserGateOut --> gtp_user.trafficFlowFilterGate;
 }

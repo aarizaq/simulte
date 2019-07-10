@@ -31,9 +31,12 @@ import lte.epc.TrafficFlowFilterSimplified;
 import lte.epc.gtp.GtpUserX2;
 
 // 
-// eNodeB Module
+// eNodeB Base Module
+// 
+// Base module for eNodeB functionality - except for gtpuser and trafficflow,
+// which are defined in the derived submodules.
 //
-module eNodeB
+module eNodeBBase
 {
     parameters:
         @networkNode();
@@ -52,6 +55,8 @@ module eNodeB
         bool hasIpv6 = default(false);
         *.interfaceTableModule = default(absPath(".interfaceTable"));
         *.routingTableModule = default("^.ipv4.routingTable");
+        *.forwarding = true;
+        *.multicastForwarding = false;
 
         //# Apps
         // FIXME: generic IApp interface - simulation inifiles need to be adapted!
@@ -61,7 +66,7 @@ module eNodeB
         int numX2Apps = default(0);   // no of X2 apps. Specify the app types in INI file with x2App[0..1].typename="X2AppClient" syntax
         
         //# Transport layer
-        bool hasUdp = default(firstAvailableOrEmpty("Udp") != "");
+        bool hasUdp = true;
         bool hasTcp = default(firstAvailableOrEmpty("Tcp", "TcpLwip", "TcpNsc") != "");
         bool hasSctp = default(false);
 
@@ -91,7 +96,7 @@ module eNodeB
             d2dCapable = d2dCapable;
             @display("p=250,407");
         }
-
+        
         pppIf: PppInterface {
             @display("p=501,363");
         }
@@ -134,21 +139,6 @@ module eNodeB
             @display("p=275,148");
         }
 
-        //# 
-        //# Simplified EPC
-        //# 
-        trafficFlowFilter: TrafficFlowFilterSimplified {
-            ownerType = nodeType;
-            @display("p=330,48");
-        }
-        gtpUser: GtpUserSimplified {
-            @display("p=434,48");
-        }
-
-        gtpUserX2: GtpUserX2 {
-            @display("p=410,363");
-        }
-
 	    // message dispatcher for SAP to transport layer
         at: MessageDispatcher {
             parameters:
@@ -175,27 +165,13 @@ module eNodeB
         //# LTE stack to PHY and network layer
         //#        
         lteNic.radioIn <-- radioIn;
-        lteNic.upperLayerOut --> trafficFlowFilter.internetFilterGateIn;
-        lteNic.upperLayerIn <-- gtpUser.pppGate;
-        trafficFlowFilter.gtpUserGateOut --> gtpUser.trafficFlowFilterGate;
-        gtpUser.socketOut --> at.in++;
-        gtpUser.socketIn <-- at.out++;
-
 
         //#
         //# PPP interface to network layer connections
         //#    
         pppIf.phys <--> ppp;
         pppIf.upperLayerOut --> nl.in++;
-        pppIf.upperLayerIn <-- nl.out++;
-
-
-        gtpUserX2.lteStackOut --> lteNic.x2$i++;
-        gtpUserX2.lteStackIn <-- lteNic.x2$o++;
-        gtpUserX2.socketOut --> at.in++;
-        gtpUserX2.socketIn <-- at.out++;
-        
-        
+        pppIf.upperLayerIn <-- nl.out++;        
 
         //#
         //# X2 interface to network layer connections
@@ -263,6 +239,41 @@ module eNodeB
         at.out++ --> tn.in++;
         at.in++ <-- tn.out++;
         
-        // lteNic.upperLayerOut --> nl.in++;
-        // lteNic.upperLayerIn <-- nl.out++;
+        lteNic.upperLayerOut --> nl.in++;
+        lteNic.upperLayerIn <-- nl.out++;
+}
+
+
+// eNodeB with simplified gtpuser and trafficflow
+//
+module eNodeB extends eNodeBBase
+{
+    submodules:
+        //# 
+        //# Simplified EPC
+        //# 
+        trafficFlowFilter: TrafficFlowFilterSimplified {
+            ownerType = nodeType;
+            @display("p=330,48");
+        }
+        gtpUser: GtpUserSimplified {
+            @display("p=434,48");
+        }
+
+        gtpUserX2: GtpUserX2 {
+            @display("p=410,363");
+        }
+    connections:
+        nl.out++ --> trafficFlowFilter.internetFilterGateIn;
+        nl.in++ <-- gtpUser.pppGate;
+        trafficFlowFilter.gtpUserGateOut --> gtpUser.trafficFlowFilterGate;
+        gtpUser.socketOut --> at.in++;
+        gtpUser.socketIn <-- at.out++;
+        
+	    // connections for the X2 interface
+        gtpUserX2.lteStackOut --> lteNic.x2$i++;
+        gtpUserX2.lteStackIn <-- lteNic.x2$o++;
+        gtpUserX2.socketOut --> at.in++;
+        gtpUserX2.socketIn <-- at.out++;
+    
 }

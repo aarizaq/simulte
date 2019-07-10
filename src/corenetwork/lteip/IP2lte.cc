@@ -62,6 +62,7 @@ void IP2lte::initialize(int stage)
             nodeId_ = binder_->registerNode(ue, nodeType_, ue->par("masterId"));
             registerInterface();
 
+            // TODO: shift to routing stage
             // if the UE has been created dynamically, we need to manually add a default route having "wlan" as output interface
             // otherwise we are not able to reach devices outside the cellular network
             if (NOW > 0) {
@@ -330,23 +331,13 @@ void IP2lte::registerInterface()
     IInterfaceTable *ift = getModuleFromPar<IInterfaceTable>(par("interfaceTableModule"), this);
     if (!ift)
         return;
-
-    interfaceEntry.setInterfaceName("wlan");
+    interfaceEntry = getContainingNicModule(this);
+    interfaceEntry->setInterfaceName("wlan");
     // TODO configure MTE size from NED
-    interfaceEntry.setMtu(1500);
+    interfaceEntry->setMtu(1500);
     // enable broadcast/multicast
-    interfaceEntry.setBroadcast(true);
-    interfaceEntry.setLoopback(false);
-
-
-    // FIXME: this is a hack required to work with the HostAutoConfigurator in INET 3
-    // since the HostAutoConfigurator tries to add us to all default multicast groups.
-    // once this problem has been fixed, we should set multicast to false here
-    interfaceEntry.setMulticast(true);
-
-    // TODO: check that this is the correct way to register the interface
-    inet::registerInterface(interfaceEntry, gate("upperLayerIn"), gate("stackLte$o"));
-    ift->addInterface(&interfaceEntry);
+    interfaceEntry->setBroadcast(true);
+    interfaceEntry->setLoopback(false);
 }
 
 void IP2lte::registerMulticastGroups()
