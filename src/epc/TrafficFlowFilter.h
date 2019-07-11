@@ -11,6 +11,9 @@
 #define _LTE_TRAFFICFLOWFILTER_H_
 
 #include <omnetpp.h>
+
+#include <inet/common/packet/Packet.h>
+
 //#include "trafficFlowTemplateMsg_m.h"
 #include "epc/gtp/TftControlInfo.h"
 #include "epc/gtp_common.h"

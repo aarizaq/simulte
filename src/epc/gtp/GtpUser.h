@@ -12,7 +12,6 @@
 
 #include <omnetpp.h>
 #include <inet4_compat/transportlayer/contract/udp/UDPSocket.h>
-#include <inet4_compat/networklayer/ipv4/IPv4Datagram.h>
 #include <inet/networklayer/common/L3AddressResolver.h>
 #include "epc/gtp/TftControlInfo.h"
 #include "epc/gtp/GtpUserMsg_m.h"
@@ -98,7 +97,7 @@ class GtpUser : public omnetpp::cSimpleModule
     virtual void handleMessage(omnetpp::cMessage *msg) override;
 
     // receive and IP Datagram from the traffic filter, encapsulates it in a GTP-U packet than forwards it to the proper next hop
-    void handleFromTrafficFlowFilter(inet::IPv4Datagram * datagram);
+    void handleFromTrafficFlowFilter(inet::Packet * packet);
 
     // receive a GTP-U packet from UDP, reads the TEID and decides whether performing label switching or removal
     void handleFromUdp(GtpUserMsg * gtpMsg);

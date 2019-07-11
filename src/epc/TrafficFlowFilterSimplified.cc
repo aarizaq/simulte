@@ -8,9 +8,8 @@
 //
 
 #include "epc/TrafficFlowFilterSimplified.h"
-#include <inet4_compat/networklayer/contract/ipv4/IPv4ControlInfo.h>
-#include <inet4_compat/networklayer/ipv4/IPv4Datagram.h>
 #include <inet/networklayer/common/L3AddressResolver.h>
+#include <inet/networklayer/ipv4/Ipv4Header_m.h>
 
 Define_Module(TrafficFlowFilterSimplified);
 
@@ -49,14 +48,16 @@ void TrafficFlowFilterSimplified::handleMessage(cMessage *msg)
     EV << "TrafficFlowFilterSimplified::handleMessage - Received Packet:" << endl;
     EV << "name: " << msg->getFullName() << endl;
 
+    Packet* pkt = check_and_cast<Packet *>(msg);
+
     // receive and read IP datagram
-    IPv4Datagram * datagram = check_and_cast<IPv4Datagram *>(msg);
-    const IPv4Address &destAddr = datagram->getDestAddress();
-    const IPv4Address &srcAddr = datagram->getSrcAddress();
+    const auto& ipv4Header = pkt->peekAtFront<Ipv4Header>();
+    const Ipv4Address &destAddr = ipv4Header->getDestAddress();
+    const Ipv4Address &srcAddr = ipv4Header->getSrcAddress();
 
     // TODO check for source and dest port number
 
-    EV << "TrafficFlowFilterSimplified::handleMessage - Received datagram : " << datagram->getName() << " - src[" << srcAddr << "] - dest[" << destAddr << "]\n";
+    EV << "TrafficFlowFilterSimplified::handleMessage - Received datagram : " << pkt->getName() << " - src[" << srcAddr << "] - dest[" << destAddr << "]\n";
 
     // run packet filter and associate a flowId to the connection (default bearer?)
     // search within tftTable the proper entry for this destination
@@ -73,12 +74,12 @@ void TrafficFlowFilterSimplified::handleMessage(cMessage *msg)
         // add control info to the normal ip datagram. This info will be read by the GTP-U application
         TftControlInfo * tftInfo = new TftControlInfo();
         tftInfo->setTft(tftId);
-        datagram->setControlInfo(tftInfo);
+        pkt->setControlInfo(tftInfo);
 
         EV << "TrafficFlowFilterSimplified::handleMessage - setting tft=" << tftId << endl;
 
         // send the datagram to the GTP-U module
-        send(datagram,"gtpUserGateOut");
+        send(pkt,"gtpUserGateOut");
     }
 }
 

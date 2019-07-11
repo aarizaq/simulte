@@ -8,8 +8,8 @@
 //
 
 #include "epc/gtp/GtpUserSimplified.h"
-#include <inet4_compat/networklayer/contract/ipv4/IPv4ControlInfo.h>
 #include <inet/networklayer/common/L3AddressResolver.h>
+#include <inet/networklayer/ipv4/Ipv4Header_m.h>
 #include <iostream>
 
 Define_Module(GtpUserSimplified);
@@ -57,9 +57,8 @@ void GtpUserSimplified::handleMessage(cMessage *msg)
     if (strcmp(msg->getArrivalGate()->getFullName(), "trafficFlowFilterGate") == 0)
     {
         EV << "GtpUserSimplified::handleMessage - message from trafficFlowFilter" << endl;
-        // obtain the encapsulated IPv4 datagram
-        IPv4Datagram * datagram = check_and_cast<IPv4Datagram*>(msg);
-        handleFromTrafficFlowFilter(datagram);
+        // forward the encapsulated IPv4 datagram
+        handleFromTrafficFlowFilter(check_and_cast<Packet *>(msg));
     }
     else if(strcmp(msg->getArrivalGate()->getFullName(),"socketIn")==0)
     {
@@ -70,7 +69,7 @@ void GtpUserSimplified::handleMessage(cMessage *msg)
     }
 }
 
-void GtpUserSimplified::handleFromTrafficFlowFilter(IPv4Datagram * datagram)
+void GtpUserSimplified::handleFromTrafficFlowFilter(Packet * datagram)
 {
     // extract control info from the datagram
     TftControlInfo * tftInfo = check_and_cast<TftControlInfo *>(datagram->removeControlInfo());
@@ -115,12 +114,13 @@ void GtpUserSimplified::handleFromUdp(GtpUserMsg * gtpMsg)
     EV << "GtpUserSimplified::handleFromUdp - Decapsulating and sending to local connection." << endl;
 
     // obtain the original IP datagram and send it to the local network
-    IPv4Datagram * datagram = check_and_cast<IPv4Datagram*>(gtpMsg->decapsulate());
+    Packet * datagram = check_and_cast<Packet*>(gtpMsg->decapsulate());
     delete(gtpMsg);
 
     if (ownerType_ == PGW)
     {
-        const IPv4Address& destAddr = datagram->getDestAddress();
+        const auto& hdr = gtpMsg->peekAtFront<Ipv4Header>();
+        const Ipv4Address& destAddr = hdr->getDestAddress();
         MacNodeId destId = binder_->getMacNodeId(destAddr);
         if (destId != 0)
         {
