@@ -119,7 +119,7 @@ void GtpUserSimplified::handleFromUdp(GtpUserMsg * gtpMsg)
 
     if (ownerType_ == PGW)
     {
-        const auto& hdr = gtpMsg->peekAtFront<Ipv4Header>();
+        const auto& hdr = datagram->peekAtFront<Ipv4Header>();
         const Ipv4Address& destAddr = hdr->getDestAddress();
         MacNodeId destId = binder_->getMacNodeId(destAddr);
         if (destId != 0)

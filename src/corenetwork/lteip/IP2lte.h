@@ -11,11 +11,9 @@
 #define __SIMULTE_IP2LTE_H_
 
 #include <omnetpp.h>
-//#include <inet/networklayer/ipv4/IPv4Datagram.h>
 #include <inet4_compat/networklayer/ipv4/IPv4Datagram.h>
 #include <inet/networklayer/common/InterfaceEntry.h>
 
-#include "common/LteControlInfo.h"
 #include "common/LteControlInfo.h"
 #include "stack/handoverManager/LteHandoverManager.h"
 #include "corenetwork/binder/LteBinder.h"
@@ -61,24 +59,24 @@ class IP2lte : public omnetpp::cSimpleModule
     // store the UEs for temporary holding of data received over X2 during handover
     std::set<MacNodeId> hoHolding_;
 
-    typedef std::list<inet::IPv4Datagram*> IpDatagramQueue;
+    typedef std::list<inet::Packet*> IpDatagramQueue;
     std::map<MacNodeId, IpDatagramQueue> hoFromX2_;
     std::map<MacNodeId, IpDatagramQueue> hoFromIp_;
 
     /**
      * Handle packets from transport layer and forward them to the stack
      */
-    void fromIpUe(inet::IPv4Datagram * datagram);
+    void fromIpUe(inet::Packet * datagram);
 
     /**
      * Manage packets received from Lte Stack
      * and forward them to transport layer.
      */
-    void toIpUe(inet::IPv4Datagram *datagram);
+    void toIpUe(inet::Packet *datagram);
 
-    void fromIpEnb(inet::IPv4Datagram * datagram);
+    void fromIpEnb(inet::Packet * datagram);
     void toIpEnb(omnetpp::cMessage * msg);
-    void toStackEnb(inet::IPv4Datagram* datagram);
+    void toStackEnb(inet::Packet* datagram);
 
     /**
      * utility: set nodeType_ field
@@ -103,8 +101,8 @@ class IP2lte : public omnetpp::cSimpleModule
   public:
     void triggerHandoverSource(MacNodeId ueId, MacNodeId targetEnb);
     void triggerHandoverTarget(MacNodeId ueId, MacNodeId sourceEnb);
-    void sendTunneledPacketOnHandover(inet::IPv4Datagram* datagram, MacNodeId targetEnb);
-    void receiveTunneledPacketOnHandover(inet::IPv4Datagram* datagram, MacNodeId sourceEnb);
+    void sendTunneledPacketOnHandover(inet::Packet* datagram, MacNodeId targetEnb);
+    void receiveTunneledPacketOnHandover(inet::Packet* datagram, MacNodeId sourceEnb);
     void signalHandoverCompleteSource(MacNodeId ueId, MacNodeId targetEnb);
     void signalHandoverCompleteTarget(MacNodeId ueId, MacNodeId sourceEnb);
     virtual ~IP2lte();

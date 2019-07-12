@@ -113,7 +113,7 @@ void LteHandoverManager::receiveHandoverCommand(MacNodeId ueId, MacNodeId enb, b
 }
 
 
-void LteHandoverManager::forwardDataToTargetEnb(IPv4Datagram* datagram, MacNodeId targetEnb)
+void LteHandoverManager::forwardDataToTargetEnb(Packet* datagram, MacNodeId targetEnb)
 {
     Enter_Method("forwardDataToTargetEnb");
     take(datagram);
@@ -136,7 +136,7 @@ void LteHandoverManager::forwardDataToTargetEnb(IPv4Datagram* datagram, MacNodeI
     send(PK(hoMsg),x2Manager_[OUT]);
 }
 
-void LteHandoverManager::receiveDataFromSourceEnb(IPv4Datagram* datagram, MacNodeId sourceEnb)
+void LteHandoverManager::receiveDataFromSourceEnb(Packet* datagram, MacNodeId sourceEnb)
 {
     EV<<NOW<<" LteHandoverManager::receiveDataFromSourceEnb - Received IP datagram from eNB " << sourceEnb << endl;
 
