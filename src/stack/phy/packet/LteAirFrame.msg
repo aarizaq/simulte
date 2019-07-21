@@ -12,7 +12,7 @@ cplusplus {{
 #include "stack/phy/packet/AirFrame_m.h"
 }}
 
-packet AirFrame;
+class AirFrame extends cPacket {@existingClass;}
 
 //
 // This is LteAirFrame.

@@ -171,20 +171,20 @@ class LteMacPdu : public LteMacPdu_Base
 
     }
 
-    virtual void setSduArraySize(unsigned int size)
+    virtual void setSduArraySize(size_t size)
     {
         ASSERT(false);
     }
 
-    virtual unsigned int getSduArraySize() const
+    virtual size_t getSduArraySize() const
     {
         return sduList_->getLength();
     }
-    virtual cPacket& getSdu(unsigned int k)
+    virtual const cPacket& getSdu(size_t k) const
     {
         return *sduList_->get(k);
     }
-    virtual void setSdu(unsigned int k, const cPacket& sdu)
+    virtual void setSdu(size_t k, const cPacket& sdu)
     {
         ASSERT(false);
     }

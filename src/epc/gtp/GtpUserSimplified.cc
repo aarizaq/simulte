@@ -10,6 +10,7 @@
 #include "epc/gtp/GtpUserSimplified.h"
 #include <inet/networklayer/common/L3AddressResolver.h>
 #include <inet/networklayer/ipv4/Ipv4Header_m.h>
+#include <inet4_compat/common/cPacketToPacket.h>
 #include <iostream>
 
 Define_Module(GtpUserSimplified);
@@ -64,15 +65,18 @@ void GtpUserSimplified::handleMessage(cMessage *msg)
     {
         EV << "GtpUserSimplified::handleMessage - message from udp layer" << endl;
 
-        GtpUserMsg * gtpMsg = check_and_cast<GtpUserMsg *>(msg);
-        handleFromUdp(gtpMsg);
+        handleFromUdp(check_and_cast<Packet *>(msg));
     }
 }
 
 void GtpUserSimplified::handleFromTrafficFlowFilter(Packet * datagram)
 {
     // extract control info from the datagram
-    TftControlInfo * tftInfo = check_and_cast<TftControlInfo *>(datagram->removeControlInfo());
+    /* TftControlInfo * tftInfo = check_and_cast<TftControlInfo *>(datagram->removeControlInfo());
+    TrafficFlowTemplateId flowId = tftInfo->getTft();
+    delete (tftInfo); */
+
+    TftControlInfo * tftInfo = datagram->removeTag<TftControlInfo>();
     TrafficFlowTemplateId flowId = tftInfo->getTft();
     delete (tftInfo);
 
@@ -87,11 +91,14 @@ void GtpUserSimplified::handleFromTrafficFlowFilter(Packet * datagram)
     else
     {
         // create a new GtpUserSimplifiedMessage
-        GtpUserMsg * gtpMsg = new GtpUserMsg();
-        gtpMsg->setName("GtpUserMessage");
+        // GtpUserMsg * gtpMsg = new GtpUserMsg();
+        // gtpMsg->setName("GtpUserMessage");
 
         // encapsulate the datagram within the GtpUserSimplifiedMessage
-        gtpMsg->encapsulate(datagram);
+        // gtpMsg->encapsulate(datagram);
+        auto gtpMsg = makeShared<GtpUserMsg>();
+        // gtpMsg->setName("GtpUserMessage");
+        datagram->insertAtFront(gtpMsg);
 
         L3Address tunnelPeerAddress;
         if (flowId == -1) // send to the PGW
@@ -105,40 +112,45 @@ void GtpUserSimplified::handleFromTrafficFlowFilter(Packet * datagram)
             const char* symbolicName = binder_->getModuleNameByMacNodeId(flowId);
             tunnelPeerAddress = L3AddressResolver().resolve(symbolicName);
         }
-        socket_.sendTo(gtpMsg, tunnelPeerAddress, tunnelPeerPort_);
+        socket_.sendTo(datagram, tunnelPeerAddress, tunnelPeerPort_);
     }
 }
 
-void GtpUserSimplified::handleFromUdp(GtpUserMsg * gtpMsg)
+void GtpUserSimplified::handleFromUdp(Packet * pkt)
 {
     EV << "GtpUserSimplified::handleFromUdp - Decapsulating and sending to local connection." << endl;
 
     // obtain the original IP datagram and send it to the local network
-    Packet * datagram = check_and_cast<Packet*>(gtpMsg->decapsulate());
-    delete(gtpMsg);
+    // Packet * datagram = check_and_cast<Packet*>(gtpMsg->decapsulate());
+    // delete(gtpMsg);
+    auto gtpUserMsg = pkt->popAtFront<GtpUserMsg>();
 
     if (ownerType_ == PGW)
     {
-        const auto& hdr = datagram->peekAtFront<Ipv4Header>();
+        const auto& hdr = pkt->peekAtFront<Ipv4Header>();
         const Ipv4Address& destAddr = hdr->getDestAddress();
         MacNodeId destId = binder_->getMacNodeId(destAddr);
         if (destId != 0)
         {
              // create a new GtpUserSimplifiedMessage
-             GtpUserMsg * gtpMsg = new GtpUserMsg();
-             gtpMsg->setName("GtpUserMessage");
+             // GtpUserMsg * gtpMsg = new GtpUserMsg();
+             // gtpMsg->setName("GtpUserMessage");
+
+             auto gtpMsg = makeShared<GtpUserMsg>();
+             // gtpMsg->setName("GtpUserMessage");
+             pkt->insertAtFront(gtpMsg);
 
              // encapsulate the datagram within the GtpUserSimplifiedMessage
-             gtpMsg->encapsulate(datagram);
+             // gtpMsg->encapsulate(datagram);
 
              MacNodeId destMaster = binder_->getNextHop(destId);
              const char* symbolicName = binder_->getModuleNameByMacNodeId(destMaster);
              L3Address tunnelPeerAddress = L3AddressResolver().resolve(symbolicName);
-             socket_.sendTo(gtpMsg, tunnelPeerAddress, tunnelPeerPort_);
+             socket_.sendTo(pkt, tunnelPeerAddress, tunnelPeerPort_);
              return;
         }
     }
 
     // destination is outside the LTE network
-    send(datagram,"pppGate");
+    send(pkt,"pppGate");
 }

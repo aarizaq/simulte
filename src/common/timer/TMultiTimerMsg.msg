@@ -11,7 +11,7 @@ cplusplus {{
 #include "common/timer/TTimerMsg_m.h"
 }};
 
-class TTimerMsg;
+class TTimerMsg extends cPacket { @existingClass; }
 
 packet TMultiTimerMsg extends TTimerMsg
 {

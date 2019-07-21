@@ -102,19 +102,19 @@ class LteSchedulingGrant : public LteSchedulingGrant_Base
         grantedBlocks = rbMap;
     }
 
-    virtual void setGrantedCwBytesArraySize(unsigned int size)
+    virtual void setGrantedCwBytesArraySize(size_t size)
     {
         grantedCwBytes.resize(size);
     }
-    virtual unsigned int getGrantedCwBytesArraySize() const
+    virtual size_t getGrantedCwBytesArraySize() const
     {
         return grantedCwBytes.size();
     }
-    virtual unsigned int getGrantedCwBytes(unsigned int k) const
+    virtual unsigned int getGrantedCwBytes(size_t k) const
     {
         return grantedCwBytes.at(k);
     }
-    virtual void setGrantedCwBytes(unsigned int k, unsigned int grantedCwBytes_var)
+    virtual void setGrantedCwBytes(size_t k, unsigned int grantedCwBytes_var)
     {
         grantedCwBytes[k] = grantedCwBytes_var;
     }

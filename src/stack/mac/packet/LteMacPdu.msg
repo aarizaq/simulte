@@ -11,7 +11,7 @@
 // This is the MAC message flowing through LTE stack.
 //
 
-packet LteMacPdu
+packet LteMacPdu extends cPacket
 {
     @customize(true);
     abstract omnetpp::cPacket sdu[];

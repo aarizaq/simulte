@@ -88,7 +88,7 @@ void VoIPReceiver::handleMessage(cMessage *msg)
 
     //emit(mFrameLossSignal,1.0);
 
-    EV << "VoIPReceiver::handleMessage - Packet received: TALK[" << pPacket->getIDtalk() << "] - FRAME[" << pPacket->getIDframe() << " size: " << (int)pPacket->getByteLength() << " bytes]\n";
+    std::cout << "VoIPReceiver::handleMessage - Packet received: TALK[" << pPacket->getIDtalk() << "] - FRAME[" << pPacket->getIDframe() << " size: " << (int)pPacket->getByteLength() << " bytes]\n";
 
     emit(voipReceivedThroughtput_, (int)pPacket->getByteLength() );
 

@@ -51,7 +51,7 @@ void GtpUser::handleMessage(cMessage *msg)
     {
         EV << "GtpUser::handleMessage - message from trafficFlowFilter" << endl;
         // forward the encapsulated IPv4 datagram
-        handleFromTrafficFlowFilter(check_and_cast<Packet *>(msg));
+        handleFromTrafficFlowFilter(check_and_cast<cPacket *>(msg));
     }
     else if(strcmp(msg->getArrivalGate()->getFullName(),"socketIn")==0)
     {
@@ -62,7 +62,7 @@ void GtpUser::handleMessage(cMessage *msg)
     }
 }
 
-void GtpUser::handleFromTrafficFlowFilter(Packet * packet)
+void GtpUser::handleFromTrafficFlowFilter(cPacket * packet)
 {
     // extract control info from the datagram
     TftControlInfo * tftInfo = check_and_cast<TftControlInfo *>(packet->removeControlInfo());
@@ -86,25 +86,31 @@ void GtpUser::handleFromTrafficFlowFilter(Packet * packet)
     nextTeid = tftIt->second.teid;
 
     // create a new gtpUserMessage
-    GtpUserMsg * gtpMsg = new GtpUserMsg();
-    gtpMsg->setName("gtpUserMessage");
+    // GtpUserMsg * gtpMsg = new GtpUserMsg();
+    // gtpMsg->setName("gtpUserMessage");
+    auto gtpMsg = makeShared<GtpUserMsg>();
+    // gtpMsg->setName("GtpUserMessage");
+    datagram->insertAtFront(gtpMsg);
+
+    // encapsulate the datagram within the gtpUserMessage
+    // gtpMsg->encapsulate(datagram);
+
 
     // assign the nextTeid
     gtpMsg->setTeid(nextTeid);
 
-    // encapsulate the datagram within the gtpUserMessage
-    gtpMsg->encapsulate(packet);
-
-    socket_.sendTo(gtpMsg, tunnelPeerAddress, tunnelPeerPort_);
+    socket_.sendTo(datagram, tunnelPeerAddress, tunnelPeerPort_);
 }
 
-void GtpUser::handleFromUdp(GtpUserMsg * gtpMsg)
+void GtpUser::handleFromUdp(GtpUserMsg * packet)
 {
     TunnelEndpointIdentifier oldTeid, nextTeid;
     L3Address nextHopAddr;
 
     // obtain the incoming TEID from message
-    oldTeid = gtpMsg->getTeid();
+    throw cRuntimeError("GtpUser: inet::Packet based handling still needs to be implemented!");
+    // oldTeid = gtpMsg->getTeid();
+    oldTeid = 0; // FIXME - only to get it compilable
 
     // obtain "ConnectionInfo" from the teidTable
     LabelTable::iterator teidIt = teidTable_.find(oldTeid);
@@ -121,9 +127,12 @@ void GtpUser::handleFromUdp(GtpUserMsg * gtpMsg)
         EV << "GtpUser::handleFromUdp - IP packet pointing to this network. Decapsulating and sending to local connection." << endl;
 
         // obtain the original IP datagram and send it to the local network
-        const auto& datagram = gtpMsg->decapsulate();
-        delete(gtpMsg);
-        send(datagram,"pppGate");
+        // const auto& datagram = gtpMsg->decapsulate();
+        // delete(gtpMsg);
+        // TftControlInfo * tftInfo = packet->removeTag<TftControlInfo>();
+        //     TrafficFlowTemplateId flowId = tftInfo->getTft();
+        //     delete (tftInfo);
+        // send(datagram,"pppGate");
     }
     else // label switching
     {
@@ -131,8 +140,8 @@ void GtpUser::handleFromUdp(GtpUserMsg * gtpMsg)
            << "] - nextHop[" << teidInfo.nextHop << "]." << endl;
         // in case of label switching, send the packet to the next tunnel
         gtpMsg->setTeid(teidInfo.teid);
-        gtpMsg->removeControlInfo();
-        socket_.sendTo(gtpMsg,teidInfo.nextHop,tunnelPeerPort_);
+        // gtpMsg->removeControlInfo();
+        // socket_.sendTo(gtpMsg,teidInfo.nextHop,tunnelPeerPort_);
     }
 }
 

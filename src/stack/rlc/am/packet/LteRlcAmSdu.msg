@@ -11,7 +11,7 @@ cplusplus {{
 #include "stack/rlc/packet/LteRlcSdu.h"
 }}
 
-packet LteRlcSdu;
+packet LteRlcSdu { @existingClass; }
 
 packet LteRlcAmSdu extends LteRlcSdu
 {

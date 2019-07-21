@@ -13,7 +13,7 @@ cplusplus {{
 #include "stack/rlc/LteRlcDefs.h"
 }}
 
-packet LteRlcPdu;
+class LteRlcPdu extends cPacket {@existingClass; }
 enum LteAmType;
 
 

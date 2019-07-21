@@ -11,7 +11,7 @@ cplusplus {{
 #include "common/LteCommon.h"
 }}
 
-class noncobject LteD2DMode;
+class LteD2DMode { @existingClass; }
 
 packet D2DModeSwitchNotification
 {

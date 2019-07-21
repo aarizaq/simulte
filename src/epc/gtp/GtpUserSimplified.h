@@ -60,7 +60,7 @@ class GtpUserSimplified : public omnetpp::cSimpleModule
     void handleFromTrafficFlowFilter(inet::Packet * datagram);
 
     // receive a GTP-U packet from UDP, reads the TEID and decides whether performing label switching or removal
-    void handleFromUdp(GtpUserMsg * gtpMsg);
+    void handleFromUdp(inet::Packet * gtpMsg);
 };
 
 #endif

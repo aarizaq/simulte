@@ -173,14 +173,14 @@ void LteIp::endService(cPacket *msg)
         {
             // message from transport: send to stack
             numForwarded_++;
-            EV << "LteIp: message from transport: send to stack" << endl;
+            std::cout << "LteIp: message from transport: send to stack" << endl;
             fromTransport(msg,stackGateOut_);
         }
         else if(msg->getArrivalGate()->isName("stackLte$i"))
         {
             // message from stack: send to transport
             numForwarded_++;
-            EV << "LteIp: message from stack: send to transport" << endl;
+            std::cout << "LteIp: message from stack: send to transport" << endl;
             toTransport(msg);
         }
         else
