@@ -28,7 +28,7 @@ module PgwBase extends NetworkLayerNodeBase
         string nodeType; // must be one between ENB and PGW
         @display("bgb=1571.955,755.37;i=device/mainframe");
         forwarding = default(true);
-        multicastForwarding = default(true);
+        multicastForwarding = default(false);
         // numPppInterfaces = 1;
         
     gates:
@@ -74,8 +74,8 @@ module PgwBase extends NetworkLayerNodeBase
         tn.out++ --> nl.in++;
         tn.in++ <-- nl.out++;
         
-        pppIf.upperLayerOut --> nl.in++;
-        pppIf.upperLayerIn <-- nl.out++;      
+        // pppIf.upperLayerOut --> nl.in++;
+        // pppIf.upperLayerIn <-- nl.out++;      
         
         pppIf.phys <--> filterGate;  
 }
@@ -96,10 +96,15 @@ module PgwStandard extends PgwBase
         }
 
 	connections:
-	    gtp_user.socketOut --> at.in++;
+        gtp_user.socketOut --> at.in++;
         gtp_user.socketIn <-- at.out++;
-	    
+        //nl.in++ <-- gtp_user.pppGate;
+        
+        pppIf.upperLayerOut --> trafficFlowFilter.internetFilterGateIn;
+        pppIf.upperLayerIn <-- gtp_user.pppGate;
+        
 	    trafficFlowFilter.gtpUserGateOut --> gtp_user.trafficFlowFilterGate;
+	    // nl.out++ --> trafficFlowFilter.internetFilterGateIn;
 }    
 
 //
@@ -119,6 +124,11 @@ module PgwStandardSimplified extends PgwBase
     connections:
         gtp_user.socketOut --> at.in++;
         gtp_user.socketIn <-- at.out++;
+        //nl.in++ <-- gtp_user.pppGate;
+        
+	    pppIf.upperLayerOut --> trafficFlowFilter.internetFilterGateIn;
+        pppIf.upperLayerIn <-- gtp_user.pppGate;
         
 	    trafficFlowFilter.gtpUserGateOut --> gtp_user.trafficFlowFilterGate;
-}
+	    // nl.out++ --> trafficFlowFilter.internetFilterGateIn;
+  }
