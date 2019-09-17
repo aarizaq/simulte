@@ -41,7 +41,7 @@ class LteRlcAmPdu : public LteRlcAmPdu_Base
     }
 
     virtual void setBitmapArraySize(unsigned int size);
-    virtual unsigned int getBitmapArraySize() const;
+    virtual size_t getBitmapArraySize() const;
     virtual bool getBitmap(unsigned int k) const;
     virtual void setBitmap(unsigned int k, bool bitmap_var);
     virtual void setBitmapVec(std::vector<bool> bitmap_vec);

@@ -15,7 +15,7 @@ LteRlcAmPdu::setBitmapArraySize(unsigned int size)
     this->bitmap_.resize(size);
 }
 
-unsigned int
+size_t
 LteRlcAmPdu::getBitmapArraySize() const
 {
     return this->bitmap_.size();

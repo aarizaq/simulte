@@ -97,7 +97,7 @@ class GtpUser : public omnetpp::cSimpleModule
     virtual void handleMessage(omnetpp::cMessage *msg) override;
 
     // receive and IP Datagram from the traffic filter, encapsulates it in a GTP-U packet than forwards it to the proper next hop
-    void handleFromTrafficFlowFilter(omnetpp::cPacket * packet);
+    void handleFromTrafficFlowFilter(inet::Packet * packet);
 
     // receive a GTP-U packet from UDP, reads the TEID and decides whether performing label switching or removal
     void handleFromUdp(GtpUserMsg * gtpMsg);

@@ -32,6 +32,6 @@ packet LteRlcAmPdu extends LteRlcPdu
     unsigned short amType enum(LteAmType);
     unsigned short txNumber;
     int firstSn;
-     int lastSn;
-     abstract bool bitmap[];
+    int lastSn;
+    abstract bool bitmap[];
 }

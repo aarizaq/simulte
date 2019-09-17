@@ -10,6 +10,7 @@
 #ifndef _LTE_LTEMACPDU_H_
 #define _LTE_LTEMACPDU_H_
 
+#include <omnetpp.h>
 #include "stack/mac/packet/LteMacPdu_m.h"
 #include "common/LteCommon.h"
 #include "common/LteControlInfo.h"
@@ -187,6 +188,16 @@ class LteMacPdu : public LteMacPdu_Base
     virtual void setSdu(size_t k, const cPacket& sdu)
     {
         ASSERT(false);
+    }
+
+    virtual void insertSdu(const omnetpp::cPacket& sdu){
+        throw omnetpp::cRuntimeError("LteMacPdu::insertSdu still needs to be implemented!");
+    }
+    virtual void insertSdu(size_t k, const omnetpp::cPacket& sdu){
+        throw omnetpp::cRuntimeError("LteMacPdu::insertSdu still needs to be implemented!");
+    }
+    virtual void eraseSdu(size_t k){
+        throw omnetpp::cRuntimeError("LteMacPdu::eraseSdu still needs to be implemented!");
     }
 
     /**

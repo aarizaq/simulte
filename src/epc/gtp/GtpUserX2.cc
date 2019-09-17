@@ -78,11 +78,14 @@ void GtpUserX2::handleFromUdp(GtpUserMsg * gtpMsg)
 {
     EV << "GtpUserX2::handleFromUdp - Decapsulating and sending to local connection." << endl;
 
-    // obtain the original X2 message and send it to the X2 Manager
+
     throw cRuntimeError("GtpUserX2: inet::Packet based handling still needs to be implemented!");
-    // LteX2Message * x2Msg = check_and_cast<LteX2Message*>(gtpMsg->decapsulate());
+
     delete(gtpMsg);
 
+    // obtain the original X2 message and send it to the X2 Manager
+    // LteX2Message * x2Msg = check_and_cast<LteX2Message*>(gtpMsg->decapsulate());
+
     // send message to the X2 Manager
-    send(x2Msg,"lteStackOut");
+    // send(x2Msg,"lteStackOut");
 }

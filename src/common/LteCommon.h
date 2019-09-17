@@ -30,14 +30,11 @@
 #include <fstream>
 #include <algorithm>
 
-//#include <omnetpp/cxmlelement.h>
-
 #include <inet/common/packet/Packet.h>
 #include <inet/common/geometry/common/Coord.h>
 
 #include "common/features.h"
-
-//using namespace omnetpp;
+#include "stack/d2dModeSelection/D2DModeSwitchNotification_m.h"
 
 class LteBinder;
 class LteDeployer;
@@ -182,14 +179,6 @@ enum LteRlcType
 
 // Attenuation vector for analogue models
 typedef std::vector<double> AttenuationVector;
-
-/// D2D Modes
-// IM = Infastructure Mode
-// DM = Direct (D2D) Mode
-enum LteD2DMode
-{
-    IM, DM
-};
 
 /*************************
  *     Applications      *
