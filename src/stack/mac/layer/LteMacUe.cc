@@ -8,7 +8,7 @@
 //
 #include <inet/networklayer/common/InterfaceEntry.h>
 #include <inet/common/ModuleAccess.h>
-#include <inet4_compat/networklayer/ipv4/IPv4InterfaceData.h>
+#include <inet4_compat/networklayer/ipv4/Ipv4InterfaceData.h>
 
 #include "stack/mac/layer/LteMacUe.h"
 #include "stack/mac/buffer/harq/LteHarqBufferRx.h"
@@ -128,7 +128,7 @@ void LteMacUe::initialize(int stage)
 
         Ipv4InterfaceData* ipv4if = interfaceEntry->getProtocolData<Ipv4InterfaceData>();
         if(ipv4if == nullptr)
-            throw new cRuntimeError("no IPv4 interface data - cannot bind node %i", nodeId_);
+            throw new cRuntimeError("no Ipv4 interface data - cannot bind node %i", nodeId_);
         binder_->setMacNodeId(ipv4if->getIPAddress(), nodeId_);
     }
 }

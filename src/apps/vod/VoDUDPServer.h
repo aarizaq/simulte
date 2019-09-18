@@ -14,8 +14,8 @@
 
 #include <omnetpp.h>
 
-#include <inet4_compat/transportlayer/contract/udp/UDPControlInfo.h>
-#include <inet4_compat/transportlayer/contract/udp/UDPSocket.h>
+#include <inet4_compat/transportlayer/contract/udp/UdpControlInfo.h>
+#include <inet4_compat/transportlayer/contract/udp/UdpSocket.h>
 #include <inet/networklayer/common/L3AddressResolver.h>
 
 #include <platdep/sockets.h>
@@ -26,7 +26,7 @@
 class VoDUDPServer : public omnetpp::cSimpleModule
 {
   protected:
-      inet::UDPSocket socket;
+      inet::UdpSocket socket;
     /* Server parameters */
 
     int serverPort;

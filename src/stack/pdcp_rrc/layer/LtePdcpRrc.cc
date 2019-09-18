@@ -112,8 +112,8 @@ void LtePdcpRrcBase::fromDataPort(cPacket *pkt)
 
     // Cid Request
     EV << "LteRrc : Received CID request for Traffic [ " << "Source: "
-       << IPv4Address(lteInfo->getSrcAddr()) << "@" << lteInfo->getSrcPort()
-       << " Destination: " << IPv4Address(lteInfo->getDstAddr()) << "@"
+       << Ipv4Address(lteInfo->getSrcAddr()) << "@" << lteInfo->getSrcPort()
+       << " Destination: " << Ipv4Address(lteInfo->getDstAddr()) << "@"
        << lteInfo->getDstPort() << " ]\n";
 
     // TODO: Since IP addresses can change when we add and remove nodes, maybe node IDs should be used instead of them

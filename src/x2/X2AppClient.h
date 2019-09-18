@@ -10,15 +10,15 @@
 #ifndef __X2APPCLIENT_H_
 #define __X2APPCLIENT_H_
 
-#include <inet4_compat/applications/sctpapp/SCTPClient.h>
+#include <inet4_compat/applications/sctpapp/SctpClient.h>
 #include "common/LteCommon.h"
 
-class SCTPAssociation;
+class SctpAssociation;
 
 /**
  * Implements the X2AppClient simple module. See the NED file for more info.
  */
-class X2AppClient : public inet::SCTPClient
+class X2AppClient : public inet::SctpClient
 {
     // reference to the gates
     omnetpp::cGate* x2ManagerOut_;

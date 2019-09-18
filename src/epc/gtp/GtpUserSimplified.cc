@@ -58,7 +58,7 @@ void GtpUserSimplified::handleMessage(cMessage *msg)
     if (strcmp(msg->getArrivalGate()->getFullName(), "trafficFlowFilterGate") == 0)
     {
         EV << "GtpUserSimplified::handleMessage - message from trafficFlowFilter" << endl;
-        // forward the encapsulated IPv4 datagram
+        // forward the encapsulated Ipv4 datagram
         handleFromTrafficFlowFilter(check_and_cast<Packet *>(msg));
     }
     else if(strcmp(msg->getArrivalGate()->getFullName(),"socketIn")==0)

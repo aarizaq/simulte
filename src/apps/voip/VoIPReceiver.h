@@ -16,13 +16,13 @@
 #include <omnetpp.h>
 
 #include <inet/networklayer/common/L3AddressResolver.h>
-#include <inet4_compat/transportlayer/contract/udp/UDPSocket.h>
+#include <inet4_compat/transportlayer/contract/udp/UdpSocket.h>
 
 #include "apps/voip/VoipPacket_m.h"
 
 class VoIPReceiver : public omnetpp::cSimpleModule
 {
-    inet::UDPSocket socket;
+    inet::UdpSocket socket;
 
     ~VoIPReceiver();
 

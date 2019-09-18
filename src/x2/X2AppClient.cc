@@ -9,16 +9,18 @@
 
 #include <omnetpp.h>
 #include <inet/networklayer/common/L3AddressResolver.h>
-#include <inet4_compat/transportlayer/sctp/SCTPAssociation.h>
-#include <inet4_compat/transportlayer/contract/sctp/SCTPCommand_m.h>
-
+#include <inet4_compat/transportlayer/sctp/SctpAssociation.h>
 #include "x2/X2AppClient.h"
+
+#include "../../compatibility/include/inet4_compat/transportlayer/contract/sctp/SctpCommand_m.h"
 #include "corenetwork/binder/LteBinder.h"
 #include "stack/mac/layer/LteMacEnb.h"
 
+/*
 namespace inet {
-    static omnetpp::simsignal_t rcvdPkSignal = omnetpp::cComponent::registerSignal("rcvdPk");
+    static omnetpp::simsignal_t packetReceivedSignal = omnetpp::cComponent::registerSignal("packetReceived");
 }
+*/
 
 Define_Module(X2AppClient);
 
@@ -28,7 +30,7 @@ using namespace inet;
 
 void X2AppClient::initialize(int stage)
 {
-    SCTPClient::initialize(stage);
+    SctpClient::initialize(stage);
     if (stage==inet::INITSTAGE_LOCAL)
     {
         x2ManagerOut_ = gate("x2ManagerOut");
@@ -60,11 +62,11 @@ void X2AppClient::socketDataArrived(int32_t, void *, cPacket *msg, bool)
 {
     packetsRcvd++;
 
-    EV << "X2AppClient::socketDataArrived - Client received packet Nr " << packetsRcvd << " from SCTP\n";
-    emit(rcvdPkSignal, msg);
+    EV << "X2AppClient::socketDataArrived - Client received packet Nr " << packetsRcvd << " from Sctp\n";
+    emit(packetReceivedSignal, msg);
     bytesRcvd += msg->getByteLength();
 
-    SCTPSimpleMessage *smsg = check_and_cast<SCTPSimpleMessage*>(msg);
+    SctpSimpleMessage *smsg = check_and_cast<SctpSimpleMessage*>(msg);
     if (smsg->getEncaps())
     {
         EV << "X2AppClient::socketDataArrived - Forwarding packet to the X2 manager" << endl;

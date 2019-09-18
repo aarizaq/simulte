@@ -20,7 +20,7 @@ import inet.transportlayer.tcp.Tcp;
 //
 
 // Node representing the Internet in the Lte network model.
-// It has TCP/UDP transport layer and related applications.
+// It has Tcp/Udp transport layer and related applications.
 // It contains an LteIp module to connect the INTERNET 
 // node to the ENODEB LteIp peer.
 //

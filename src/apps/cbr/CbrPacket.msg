@@ -11,7 +11,10 @@
 // Packet used by the ~VoPSender and ~VoIPReceiver modules.
 //
 
-packet CbrPacket {
+import inet.common.INETDefs;
+import inet.common.packet.chunk.Chunk;
+
+class CbrPacket extends inet::FieldsChunk {
     unsigned int nframes;
     unsigned int IDframe;
     simtime_t timestamp;

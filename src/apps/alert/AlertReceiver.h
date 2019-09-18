@@ -14,12 +14,12 @@
 #include <omnetpp.h>
 
 #include <inet/networklayer/common/L3AddressResolver.h>
-#include <inet4_compat/transportlayer/contract/udp/UDPSocket.h>
+#include <inet4_compat/transportlayer/contract/udp/UdpSocket.h>
 #include "apps/alert/AlertPacket_m.h"
 
 class AlertReceiver : public omnetpp::cSimpleModule
 {
-    inet::UDPSocket socket;
+    inet::UdpSocket socket;
 
     omnetpp::simsignal_t alertDelay_;
     omnetpp::simsignal_t alertRcvdMsg_;

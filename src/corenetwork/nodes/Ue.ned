@@ -38,8 +38,8 @@ module Ue
 
         //# Apps
         // FIXME: generic IApp interface - simulation inifiles need to be adapted!
-        // int numTcpApps = default(0);  // no of TCP apps. Specify the app types in INI file with tcpApp[0..1].typename="TCPEchoApp" syntax
-        // int numUdpApps = default(0);  // no of UDP apps. Specify the app types in INI file with udpApp[0..1].typename="UDPVideoStreamCli" syntax
+        // int numTcpApps = default(0);  // no of Tcp apps. Specify the app types in INI file with tcpApp[0..1].typename="TcpEchoApp" syntax
+        // int numUdpApps = default(0);  // no of Udp apps. Specify the app types in INI file with udpApp[0..1].typename="UdpVideoStreamClient" syntax
         int numApps = default(0);  // no of apps. 
         
         //# Transport layer
@@ -125,7 +125,7 @@ module Ue
         lteNic.upperLayerIn <-- nl.out++;
         
         //# 
-        //# Internal TCP/UDP applications connections with transport layer
+        //# Internal Tcp/Udp applications connections with transport layer
         //#
 
         for i=0..numApps-1 {
