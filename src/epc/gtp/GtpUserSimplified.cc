@@ -96,9 +96,14 @@ void GtpUserSimplified::handleFromTrafficFlowFilter(Packet * datagram)
 
         // encapsulate the datagram within the GtpUserSimplifiedMessage
         // gtpMsg->encapsulate(datagram);
-        auto gtpMsg = makeShared<GtpUserMsg>();
+        auto header = makeShared<GtpUserMsg>();
         // gtpMsg->setName("GtpUserMessage");
-        datagram->insertAtFront(gtpMsg);
+        header->setTeid(0);
+        header->setChunkLength(B(8));
+        auto gtpPacket = new Packet("GtpUserMsg");
+        gtpPacket->insertAtFront(header);
+        auto data = datagram->peekData();
+        gtpPacket->insertAtBack(data);
 
         L3Address tunnelPeerAddress;
         if (flowId == -1) // send to the PGW
@@ -112,7 +117,7 @@ void GtpUserSimplified::handleFromTrafficFlowFilter(Packet * datagram)
             const char* symbolicName = binder_->getModuleNameByMacNodeId(flowId);
             tunnelPeerAddress = L3AddressResolver().resolve(symbolicName);
         }
-        socket_.sendTo(datagram, tunnelPeerAddress, tunnelPeerPort_);
+        socket_.sendTo(gtpPacket, tunnelPeerAddress, tunnelPeerPort_);
     }
 }
 
@@ -123,11 +128,13 @@ void GtpUserSimplified::handleFromUdp(Packet * pkt)
     // obtain the original IP datagram and send it to the local network
     // Packet * datagram = check_and_cast<Packet*>(gtpMsg->decapsulate());
     // delete(gtpMsg);
+    auto packet = new Packet ("OriginalDatagram");
     auto gtpUserMsg = pkt->popAtFront<GtpUserMsg>();
+    packet->insertAtBack(pkt->peekData());
 
     if (ownerType_ == PGW)
     {
-        const auto& hdr = pkt->peekAtFront<Ipv4Header>();
+        const auto& hdr = packet->peekAtFront<Ipv4Header>();
         const Ipv4Address& destAddr = hdr->getDestAddress();
         MacNodeId destId = binder_->getMacNodeId(destAddr);
         if (destId != 0)
@@ -136,17 +143,23 @@ void GtpUserSimplified::handleFromUdp(Packet * pkt)
              // GtpUserMsg * gtpMsg = new GtpUserMsg();
              // gtpMsg->setName("GtpUserMessage");
 
-             auto gtpMsg = makeShared<GtpUserMsg>();
+             // auto gtpMsg = makeShared<GtpUserMsg>();
              // gtpMsg->setName("GtpUserMessage");
-             pkt->insertAtFront(gtpMsg);
+             // pkt->insertAtFront(gtpMsg);
 
              // encapsulate the datagram within the GtpUserSimplifiedMessage
              // gtpMsg->encapsulate(datagram);
+             auto header = makeShared<GtpUserMsg>();
+             // gtpMsg->setName("GtpUserMessage");
+             auto gtpPacket = new Packet("GtpUserMsg");
+             gtpPacket->insertAtFront(header);
+             auto data = packet->peekData();
+             gtpPacket->insertAtBack(data);
 
              MacNodeId destMaster = binder_->getNextHop(destId);
              const char* symbolicName = binder_->getModuleNameByMacNodeId(destMaster);
              L3Address tunnelPeerAddress = L3AddressResolver().resolve(symbolicName);
-             socket_.sendTo(pkt, tunnelPeerAddress, tunnelPeerPort_);
+             socket_.sendTo(gtpPacket, tunnelPeerAddress, tunnelPeerPort_);
              return;
         }
     }
