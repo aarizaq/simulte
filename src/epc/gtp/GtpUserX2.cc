@@ -40,7 +40,7 @@ void GtpUserX2::handleMessage(cMessage *msg)
     {
         EV << "GtpUserX2::handleMessage - message from X2 Manager" << endl;
 
-        // obtain the encapsulated IPv4 datagram
+        // obtain the encapsulated Ipv4 datagram
         LteX2Message* x2Msg = check_and_cast<LteX2Message*>(msg);
         handleFromStack(x2Msg);
     }

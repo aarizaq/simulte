@@ -13,8 +13,8 @@
 #include <omnetpp.h>
 #include <string>
 
-#include <inet4_compat/networklayer/contract/ipv4/IPv4Address.h>
-//#include <inet/networklayer/contract/ipv4/IPv4Address.h>
+#include <inet4_compat/networklayer/contract/ipv4/Ipv4Address.h>
+//#include <inet/networklayer/contract/ipv4/Ipv4Address.h>
 #include <inet/networklayer/common/L3Address.h>
 
 #include "common/LteCommon.h"
@@ -50,7 +50,7 @@ class LteBinder : public omnetpp::cSimpleModule
     typedef std::map<MacCellId, LteDeployer*> DeployerList;
 
     unsigned int numBands_;  // number of logical bands
-    std::map<inet::IPv4Address, MacNodeId> macNodeIdToIPAddress_;
+    std::map<inet::Ipv4Address, MacNodeId> macNodeIdToIPAddress_;
     std::map<MacNodeId, char*> macNodeIdToModuleName_;
     std::map<MacNodeId, LteMacBase*> macNodeIdToModule_;
     DeployerList deployersMap_;
@@ -112,7 +112,7 @@ class LteBinder : public omnetpp::cSimpleModule
     };
     /**
      * Attaches the application module to a UE module.
-     * At the moment only works with UDP
+     * At the moment only works with Udp
      *
      * @param parentModule module to which attach application
      * @param mobType application module type
@@ -265,7 +265,7 @@ class LteBinder : public omnetpp::cSimpleModule
      * @param address IP address
      * @return MacNodeId corresponding to the IP addres
      */
-    MacNodeId getMacNodeId(inet::IPv4Address address)
+    MacNodeId getMacNodeId(inet::Ipv4Address address)
     {
         if (macNodeIdToIPAddress_.find(address) == macNodeIdToIPAddress_.end())
             return 0;
@@ -278,7 +278,7 @@ class LteBinder : public omnetpp::cSimpleModule
      * @param address IP address
      * @return X2NodeId corresponding to the IP address
      */
-    X2NodeId getX2NodeId(inet::IPv4Address address)
+    X2NodeId getX2NodeId(inet::Ipv4Address address)
     {
         return getMacNodeId(address);
     }
@@ -288,7 +288,7 @@ class LteBinder : public omnetpp::cSimpleModule
      *
      * @param address IP address
      */
-    void setMacNodeId(inet::IPv4Address address, MacNodeId nodeId)
+    void setMacNodeId(inet::Ipv4Address address, MacNodeId nodeId)
     {
         macNodeIdToIPAddress_[address] = nodeId;
     }
@@ -297,7 +297,7 @@ class LteBinder : public omnetpp::cSimpleModule
      *
      * @param address IP address
      */
-    void setX2NodeId(inet::IPv4Address address, X2NodeId nodeId)
+    void setX2NodeId(inet::Ipv4Address address, X2NodeId nodeId)
     {
         setMacNodeId(address, nodeId);
     }

@@ -14,7 +14,7 @@
 #include <omnetpp.h>
 #include <math.h>
 
-#include <inet4_compat/networklayer/contract/ipv4/IPv4Address.h>
+#include <inet4_compat/networklayer/contract/ipv4/Ipv4Address.h>
 
 #include "stack/phy/das/RemoteAntennaSet.h"
 #include "corenetwork/binder/LteBinder.h"
@@ -190,7 +190,7 @@ class LteDeployer : public omnetpp::cSimpleModule
      * @param mobType mobility module to be used for this user, configured via NED string between
      *        3 values: static, circular, linear
      * @param appType is the application type configured via NED. At the
-     *        moment only available are: UDPBasicApp, UDPSink
+     *        moment only available are: UdpBasicApp, UdpSink
      * @param centerX x coordinate of the UE
      * @param centerY y coordinate of the UE
      * @param masterId ID of the master node
@@ -241,7 +241,7 @@ class LteDeployer : public omnetpp::cSimpleModule
      * @param mobType mobility module to be used for this user, configured via NED string between
      *        3 values: static, circular, linear
      * @param appType is the application type configured via NED. At the
-     *        moment only availables are: UDPBasicApp, UDPSink
+     *        moment only availables are: UdpBasicApp, UdpSink
      * @param range distance between center and UEs
      * @param masterId MacNodeId of the master of this UE
      */

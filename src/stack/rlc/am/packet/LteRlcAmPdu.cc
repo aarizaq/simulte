@@ -10,7 +10,7 @@
 #include "stack/rlc/am/packet/LteRlcAmPdu.h"
 
 void
-LteRlcAmPdu::setBitmapArraySize(unsigned int size)
+LteRlcAmPdu::setBitmapArraySize(size_t size)
 {
     this->bitmap_.resize(size);
 }
@@ -22,13 +22,13 @@ LteRlcAmPdu::getBitmapArraySize() const
 }
 
 bool
-LteRlcAmPdu::getBitmap(unsigned int k) const
+LteRlcAmPdu::getBitmap(size_t k) const
     {
     return this->bitmap_.at(k);
 }
 
 void
-LteRlcAmPdu::setBitmap(unsigned int k, bool bitmap_)
+LteRlcAmPdu::setBitmap(size_t k, bool bitmap_)
 {
     this->bitmap_[k] = bitmap_;
 }
@@ -43,6 +43,16 @@ std::vector<bool>
 LteRlcAmPdu::getBitmapVec()
 {
     return this->bitmap_;
+}
+
+void LteRlcAmPdu::insertBitmap(size_t k, bool bitmap){
+    bitmap_.insert(bitmap_.begin()+k, bitmap);
+}
+void LteRlcAmPdu::insertBitmap(bool bitmap){
+    bitmap_.insert(bitmap_.end(), bitmap);
+}
+void LteRlcAmPdu::eraseBitmap(size_t k){
+    bitmap_.erase(bitmap_.begin()+k);
 }
 
 bool

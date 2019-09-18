@@ -11,8 +11,8 @@
 #define __SIMULTE_IP2LTE_H_
 
 #include <omnetpp.h>
-#include <inet4_compat/networklayer/ipv4/IPv4Datagram.h>
 #include <inet/networklayer/common/InterfaceEntry.h>
+#include "../../../compatibility/include/inet4_compat/networklayer/ipv4/Ipv4Datagram.h"
 
 #include "common/LteControlInfo.h"
 #include "stack/handoverManager/LteHandoverManager.h"
@@ -21,7 +21,7 @@
 class LteHandoverManager;
 
 // a sort of five-tuple with only two elements (a two-tuple...), src and dst addresses
-typedef std::pair<inet::IPv4Address, inet::IPv4Address> AddressPair;
+typedef std::pair<inet::Ipv4Address, inet::Ipv4Address> AddressPair;
 
 /**
  *

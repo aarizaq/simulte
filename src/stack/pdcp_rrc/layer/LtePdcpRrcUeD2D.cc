@@ -29,7 +29,7 @@ void LtePdcpRrcUeD2D::fromDataPort(cPacket *pkt)
     headerCompress(pkt, lteInfo->getHeaderSize()); // header compression
 
     // get destination info
-    IPv4Address destAddr = IPv4Address(lteInfo->getDstAddr());
+    Ipv4Address destAddr = Ipv4Address(lteInfo->getDstAddr());
     MacNodeId destId;
 
     // the direction of the incoming connection is a D2D_MULTI one if the application is of the same type,
@@ -42,7 +42,7 @@ void LtePdcpRrcUeD2D::fromDataPort(cPacket *pkt)
         // multicast IP addresses are 224.0.0.0/4.
         // We consider the host part of the IP address (the remaining 28 bits) as identifier of the group,
         // so as it is univocally determined for the whole network
-        uint32 address = IPv4Address(lteInfo->getDstAddr()).getInt();
+        uint32 address = Ipv4Address(lteInfo->getDstAddr()).getInt();
         uint32 mask = ~((uint32)255 << 28);      // 0000 1111 1111 1111
         uint32 groupId = address & mask;
         lteInfo->setMulticastGroupId((int32)groupId);
@@ -88,7 +88,7 @@ void LtePdcpRrcUeD2D::fromDataPort(cPacket *pkt)
 
     // Cid Request
     EV << NOW << " LtePdcpRrcUeD2D : Received CID request for Traffic [ " << "Source: "
-       << IPv4Address(lteInfo->getSrcAddr()) << "@" << lteInfo->getSrcPort()
+       << Ipv4Address(lteInfo->getSrcAddr()) << "@" << lteInfo->getSrcPort()
        << " Destination: " << destAddr << "@" << lteInfo->getDstPort()
        << " , Direction: " << dirToA((Direction)lteInfo->getDirection()) << " ]\n";
 

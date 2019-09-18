@@ -10,7 +10,7 @@
 #ifndef __X2APPSERVER_H_
 #define __X2APPSERVER_H_
 
-#include <inet4_compat/applications/sctpapp/SCTPServer.h>
+#include <inet4_compat/applications/sctpapp/SctpServer.h>
 #include "common/LteCommon.h"
 #include "corenetwork/binder/LteBinder.h"
 
@@ -18,7 +18,7 @@
 /**
  * Implements the X2AppServer simple module. See the NED file for more info.
  */
-class X2AppServer : public inet::SCTPServer
+class X2AppServer : public inet::SctpServer
 {
         // reference to the gate
     omnetpp::cGate* x2ManagerIn_;

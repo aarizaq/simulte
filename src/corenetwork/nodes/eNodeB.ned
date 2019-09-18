@@ -60,8 +60,8 @@ module eNodeBBase
 
         //# Apps
         // FIXME: generic IApp interface - simulation inifiles need to be adapted!
-        // int numTcpApps = default(0);  // no of TCP apps. Specify the app types in INI file with tcpApp[0..1].typename="TCPEchoApp" syntax
-        // int numUdpApps = default(0);  // no of UDP apps. Specify the app types in INI file with udpApp[0..1].typename="UDPVideoStreamCli" syntax
+        // int numTcpApps = default(0);  // no of Tcp apps. Specify the app types in INI file with tcpApp[0..1].typename="TcpEchoApp" syntax
+        // int numUdpApps = default(0);  // no of Udp apps. Specify the app types in INI file with udpApp[0..1].typename="UdpVideoStreamClient" syntax
         int numApps = default(0);     // no of apps. 
         int numX2Apps = default(0);   // no of X2 apps. Specify the app types in INI file with x2App[0..1].typename="X2AppClient" syntax
         
@@ -120,7 +120,7 @@ module eNodeBBase
         //#
         //# Transport layer modules and corresponding application modules
         //#
-		// =============== UDP ============== //
+		// =============== Udp ============== //
         app[numApps]: <> like IApp {
             @display("p=555,48,row");
         }
@@ -167,7 +167,7 @@ module eNodeBBase
         lteNic.radioIn <-- radioIn;
 
         //#
-        //# PPP interface to network layer connections
+        //# Ppp interface to network layer connections
         //#    
         pppIf.phys <--> ppp;
         pppIf.upperLayerOut --> nl.in++;

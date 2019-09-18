@@ -32,7 +32,7 @@ module PgwBase extends NetworkLayerNodeBase
         // numPppInterfaces = 1;
         
     gates:
-        inout filterGate @labels(PPPFrame-conn);
+        inout filterGate @labels(PppFrame-conn);
 
     submodules:
         pppIf: PppInterface {

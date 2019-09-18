@@ -7,14 +7,33 @@
 // and cannot be removed from it.
 //
 
+import stack.rlc.packet.LteRlcPdu;
 
 cplusplus {{
-#include "stack/rlc/packet/LteRlcPdu.h"
-#include "stack/rlc/LteRlcDefs.h"
+  #include "stack/rlc/packet/LteRlcPdu.h"
+  #include "stack/rlc/LteRlcDefs.h"
 }}
+//
+//class LteRlcPdu extends cPacket {@existingClass; }
+//enum LteAmType;
 
-class LteRlcPdu extends cPacket {@existingClass; }
-enum LteAmType;
+// *
+// * LTE RLC AM Types
+// *
+enum LteAmType
+{
+    //! Data packet
+    DATA = 0;
+    // control packets:
+    //! ACK
+    ACK = 1;
+    //! Move Receiver Window
+    MRW = 2;
+    //! Move Receiver Window ACK
+    MRW_ACK = 3;
+//! BITMAP
+//BITMAP = 4
+};
 
 
 // Rlc Am Control fields for AM control PDUs

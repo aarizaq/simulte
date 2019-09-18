@@ -53,7 +53,7 @@ void CbrReceiver::handleMessage(cMessage *msg)
 
     numReceived_++;
     totFrames_ = pPacket->getNframes(); // XXX this value can be written just once
-    int pktSize = (int)pPacket->getByteLength();
+    int pktSize = (int)pPacket->getSize();
 
     // just to make sure we do not update recvBytes AND we avoid dividing by 0
     if( simTime() > getSimulation()->getWarmupPeriod() )

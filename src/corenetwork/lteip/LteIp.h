@@ -12,13 +12,14 @@
 
 #include <stdlib.h>
 #include <omnetpp.h>
-#include <inet4_compat/networklayer/contract/ipv4/IPv4ControlInfo.h>
-#include <inet4_compat/networklayer/ipv4/IPv4Datagram.h>
+#include <inet4_compat/networklayer/contract/ipv4/Ipv4ControlInfo.h>
 #include <inet4_compat/common/ProtocolMap.h>
 #include <inet4_compat/networklayer/common/IPProtocolId_m.h>
-#include <inet4_compat/transportlayer/tcp_common/TCPSegment.h>
-#include <inet4_compat/transportlayer/udp/UDPPacket.h>
-#include <inet4_compat/transportlayer/udp/UDP.h>
+#include <inet4_compat/transportlayer/tcp_common/TcpSegment.h>
+#include <inet4_compat/transportlayer/udp/Udp.h>
+
+#include "../../../compatibility/include/inet4_compat/networklayer/ipv4/Ipv4Datagram.h"
+#include "../../../compatibility/include/inet4_compat/transportlayer/udp/UdpPacket.h"
 #include "common/LteControlInfo.h"
 #include "common/LteControlInfo.h"
 

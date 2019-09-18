@@ -12,7 +12,7 @@
 
 #include <inet/networklayer/common/InterfaceEntry.h>
 #include <inet/networklayer/configurator/ipv4/Ipv4NetworkConfigurator.h>
-#include <inet4_compat/networklayer/ipv4/IPv4InterfaceData.h>
+#include <inet4_compat/networklayer/ipv4/Ipv4InterfaceData.h>
 
 #include "x2/LteX2Manager.h"
 

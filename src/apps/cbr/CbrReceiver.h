@@ -5,15 +5,15 @@
 #include <omnetpp.h>
 
 #include <inet/common/INETDefs.h>
-//#include <inet/transportlayer/contract/udp/UDPSocket.h>
-#include <inet4_compat/transportlayer/contract/udp/UDPSocket.h>
+//#include <inet/transportlayer/contract/udp/UdpSocket.h>
+#include <inet4_compat/transportlayer/contract/udp/UdpSocket.h>
 #include <inet/networklayer/common/L3AddressResolver.h>
 
 #include "CbrPacket_m.h"
 
 class CbrReceiver : public omnetpp::cSimpleModule
 {
-    inet::UDPSocket socket;
+    inet::UdpSocket socket;
 
     ~CbrReceiver();
 

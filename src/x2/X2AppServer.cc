@@ -7,10 +7,10 @@
 // and cannot be removed from it.
 //
 
-#include <inet4_compat/transportlayer/contract/sctp/SCTPCommand_m.h>
-#include <inet4_compat/transportlayer/sctp/SCTPMessage_m.h>
-
 #include "x2/X2AppServer.h"
+
+#include "../../compatibility/include/inet4_compat/transportlayer/contract/sctp/SctpCommand_m.h"
+#include "../../compatibility/include/inet4_compat/transportlayer/sctp/SctpMessage_m.h"
 
 Define_Module(X2AppServer);
 
@@ -19,7 +19,7 @@ using namespace inet;
 
 void X2AppServer::initialize(int stage)
 {
-    SCTPServer::initialize(stage);
+    SctpServer::initialize(stage);
     if (stage==inet::INITSTAGE_LOCAL)
     {
         x2ManagerIn_ = gate("x2ManagerIn");
@@ -42,7 +42,7 @@ void X2AppServer::generateAndSend(cPacket* pkt)
      * line 956
      */
     Packet* cmsg = new Packet("CMSG");
-    SCTPSimpleMessage* msg = new SCTPSimpleMessage("Server");
+    SctpSimpleMessage* msg = new SctpSimpleMessage("Server");
     int numBytes = pkt->getByteLength();
     msg->setDataArraySize(numBytes);
     for (int i=0; i<numBytes; i++)
@@ -57,7 +57,7 @@ void X2AppServer::generateAndSend(cPacket* pkt)
     msg->setBitLength(numBytes * 8);
     cmsg->encapsulate(msg);
     auto command = cmsg->addTagIfAbsent<SctpSendReq>();
-    //SCTPSendInfo *cmd = new SCTPSendInfo("Send1");
+    //SctpSendInfo *cmd = new SctpSendInfo("Send1");
     //command->setAssocId(assocId);
     //
     // import from inet
@@ -75,7 +75,7 @@ void X2AppServer::generateAndSend(cPacket* pkt)
     //command->setPrimary(PrimaryPath.isUnspecified());                   
     //command->setRemoteAddr(PrimaryPath);                                
     //command->setPrValue(1);                                             
-    //command->setPrMethod( (sendUnreliable == true) ? 2 : 0 );   // PR-SCTP policy: RTX
+    //command->setPrMethod( (sendUnreliable == true) ? 2 : 0 );   // PR-Sctp policy: RTX
 
 
 
@@ -105,16 +105,16 @@ void X2AppServer::handleMessage(cMessage *msg)
         EV << "X2AppServer::handleMessage - Received message from x2 manager" << endl;
         EV << "X2AppServer::handleMessage - Forwarding to X2 interface" << endl;
 
-        // generate a SCTP packet and sent to lower layer
+        // generate a Sctp packet and sent to lower layer
         generateAndSend(pkt);
     }
     else
     {
-        SCTPServer::handleMessage(msg);
+        SctpServer::handleMessage(msg);
     }
 }
 
 void X2AppServer::handleTimer(cMessage *msg)
 {
-    SCTPServer::handleTimer(msg);
+    SctpServer::handleTimer(msg);
 }
