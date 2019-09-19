@@ -20,7 +20,7 @@ namespace inet {
      *
      * Assumption: input packet encapsulates an inet::Packet
      */
-    inet::Packet* convertToInetPacket(omnetpp::cPacket* &in){
+    inline inet::Packet* convertToInetPacket(omnetpp::cPacket* &in){
         // std::cout << "convertToInetPacket converting packet: " << in->getName() << endl;
 
         Packet* outPacket = check_and_cast<Packet*>(in->decapsulate());
@@ -38,7 +38,7 @@ namespace inet {
      * In order to be able to convert the cPacket back to Packet lateron,
      * we encapsulate the original Packet within the cPacket
      */
-    omnetpp::cPacket* convertTocPacket(inet::Packet* &in, FlowControlInfo * controlInfo){
+    inline omnetpp::cPacket* convertTocPacket(inet::Packet* &in, omnetpp::cObject * controlInfo){
         // std::cout << "convertTocPacket converting packet: " << in->getName() << endl;
         // std::cout << "convertTocPacket      input packet: " << in->str() << endl;
         // TODO: get rid of control info and use inet::Packet instead

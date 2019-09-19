@@ -37,7 +37,7 @@ moduleinterface ILteNic extends IWirelessInterface
 // 
 // Base module for the LTE Stack.
 //
-// TODO: implement IWirelessNic
+// TODO: implement IWirelessInterface
 module LteNicBase extends InterfaceEntry like ILteNic
 {
     parameters:

@@ -161,13 +161,14 @@ void VoIPSender::sendVoIPPacket()
     if (destAddress_.isUnspecified())
         destAddress_ = L3AddressResolver().resolve(par("destAddress"));
 
-    VoipPacket* packet = new VoipPacket("VoIP");
-    packet->setIDtalk(iDtalk_ - 1);
-    packet->setNframes(nframes_);
-    packet->setIDframe(iDframe_);
-    packet->setTimestamp(simTime());
-    //packet->setSize(size);
-    packet->setByteLength(size_);
+    Packet* packet = new inet::Packet("VoIP");
+    auto voip = makeShared<VoipPacket>();
+    voip->setIDtalk(iDtalk_ - 1);
+    voip->setNframes(nframes_);
+    voip->setIDframe(iDframe_);
+    voip->setTimestamp(simTime());
+    voip->setChunkLength(B(size_));
+    packet->insertAtBack(voip);
     EV << "VoIPSender::sendVoIPPacket - Talkspurt[" << iDtalk_-1 << "] - Sending frame[" << iDframe_ << "]\n";
 
     socket.sendTo(packet, destAddress_, destPort_);

@@ -20,6 +20,7 @@ class TftControlInfo : public omnetpp::cObject
 
   public:
     TftControlInfo();
+    TftControlInfo(TftControlInfo* source);
     virtual ~TftControlInfo();
 
     void setTft(unsigned int tft)
@@ -30,6 +31,7 @@ class TftControlInfo : public omnetpp::cObject
     {
         return tft_;
     }
+    virtual TftControlInfo *dup() const override {return new TftControlInfo(*this);}
 };
 
 #endif

@@ -7,7 +7,7 @@
 // and cannot be removed from it.
 //
 
-#include <inet4_compat/networklayer/contract/ipv4/IPv4ControlInfo.h>
+#include <inet4_compat/networklayer/contract/ipv4/Ipv4ControlInfo.h>
 #include <inet/common/ModuleAccess.h>
 #include <inet/networklayer/ipv4/Ipv4InterfaceData.h>
 
@@ -110,13 +110,13 @@ void LteIp::endService(cPacket *msg)
             // TODO: KLUDGE: copied over from function fromTransport
             unsigned short srcPort = 0;
             unsigned short dstPort = 0;
-            int headerSize = 0;//IP_HEADER_BYTES;
+            B headerSize = B(0);//IP_HEADER_BYTES;
 
             switch(ipDatagram->getTransportProtocol())
             {
                 case IP_PROT_TCP:
-                    inet::tcp::TCPSegment* tcpseg;
-                    tcpseg = check_and_cast<inet::tcp::TCPSegment*>(transportPacket);
+                    inet::tcp::TcpHeader* tcpseg;
+                    tcpseg = check_and_cast<inet::tcp::TcpHeader*>(transportPacket);
                     srcPort = tcpseg->getSrcPort();
                     dstPort = tcpseg->getDestPort();
                     headerSize += tcpseg->getHeaderLength();
@@ -126,7 +126,7 @@ void LteIp::endService(cPacket *msg)
                     udppacket = check_and_cast<UDPPacket*>(transportPacket);
                     srcPort = (unsigned short)udppacket->getSourcePort();
                     dstPort = (unsigned short)udppacket->getDestinationPort();
-                    headerSize += UDP_HEADER_BYTES;
+                    headerSize += B(UDP_HEADER_BYTES);
                     break;
                 default :
                     throw std::runtime_error("LteIP::endService() case not implemented");
@@ -138,8 +138,8 @@ void LteIp::endService(cPacket *msg)
             controlInfo->setSrcPort(srcPort);
             controlInfo->setDstPort(dstPort);
             controlInfo->setSequenceNumber(seqNum_++);
-            controlInfo->setHeaderSize(headerSize);
-            MacNodeId destId = getBinder()->getMacNodeId(IPv4Address(controlInfo->getDstAddr()));
+            controlInfo->setHeaderSize(headerSize.get());
+            MacNodeId destId = getBinder()->getMacNodeId(Ipv4Address(controlInfo->getDstAddr()));
             // master of this ue (myself or a relay)
             // TODO: KLUDGE:
             MacNodeId master = getBinder()->getNextHop(destId);
@@ -173,14 +173,14 @@ void LteIp::endService(cPacket *msg)
         {
             // message from transport: send to stack
             numForwarded_++;
-            EV << "LteIp: message from transport: send to stack" << endl;
+            std::cout << "LteIp: message from transport: send to stack" << endl;
             fromTransport(msg,stackGateOut_);
         }
         else if(msg->getArrivalGate()->isName("stackLte$i"))
         {
             // message from stack: send to transport
             numForwarded_++;
-            EV << "LteIp: message from stack: send to transport" << endl;
+            std::cout << "LteIp: message from stack: send to transport" << endl;
             toTransport(msg);
         }
         else
@@ -204,7 +204,7 @@ void LteIp::fromTransport(cPacket * transportPacket, cGate *outputgate)
      * used and available. Might not work after 'fixing'
      */
     // Remove control info from transport packet
-    //IPv4ControlInfo *ipControlInfo = check_and_cast<IPv4ControlInfo*>(transportPacket->removeControlInfo());
+    //Ipv4ControlInfo *ipControlInfo = check_and_cast<Ipv4ControlInfo*>(transportPacket->removeControlInfo());
     auto packetTmp = check_and_cast<inet::Packet*>(transportPacket);
     auto ipControlInfo = make_shared<Ipv4Header>(*(packetTmp->popAtFront<Ipv4Header>()));
 
@@ -223,11 +223,11 @@ void LteIp::fromTransport(cPacket * transportPacket, cGate *outputgate)
     datagram->encapsulate(transportPacket);
 
     // set destination address
-    IPv4Address dest = ipControlInfo->getDestAddress();
+    Ipv4Address dest = ipControlInfo->getDestAddress();
     datagram->setDestAddress(dest);
 
     // set source address
-    IPv4Address src = ipControlInfo->getSrcAddress();
+    Ipv4Address src = ipControlInfo->getSrcAddress();
 
     // when source address was given, use it; otherwise use local Addr
     if (src.isUnspecified())
@@ -261,13 +261,13 @@ void LteIp::fromTransport(cPacket * transportPacket, cGate *outputgate)
     //** Add control info for stack **
     unsigned short srcPort = 0;
     unsigned short dstPort = 0;
-    int headerSize = IP_HEADER_BYTES;
+    B headerSize = B(IP_HEADER_BYTES);
 
     switch (ipControlInfo->getProtocolId())
     {
         case IP_PROT_TCP:
-            inet::tcp::TCPSegment* tcpseg;
-            tcpseg = check_and_cast<inet::tcp::TCPSegment*>(transportPacket);
+            inet::tcp::TcpHeader* tcpseg;
+            tcpseg = check_and_cast<inet::tcp::TcpHeader*>(transportPacket);
             srcPort = tcpseg->getSrcPort();
             dstPort = tcpseg->getDestPort();
             headerSize += tcpseg->getHeaderLength();
@@ -277,7 +277,7 @@ void LteIp::fromTransport(cPacket * transportPacket, cGate *outputgate)
             udppacket = check_and_cast<inet::UDPPacket*>(transportPacket);
             srcPort = (unsigned short) udppacket->getSourcePort();
             dstPort = (unsigned short) udppacket->getDestinationPort();
-            headerSize += UDP_HEADER_BYTES;
+            headerSize += B(UDP_HEADER_BYTES);
             break;
         default:
             std::string errormessage = "";
@@ -295,7 +295,7 @@ void LteIp::fromTransport(cPacket * transportPacket, cGate *outputgate)
     controlInfo->setSrcPort(srcPort);
     controlInfo->setDstPort(dstPort);
     controlInfo->setSequenceNumber(seqNum_++);
-    controlInfo->setHeaderSize(headerSize);
+    controlInfo->setHeaderSize(headerSize.get());
     printControlInfo(controlInfo);
 
     datagram->setControlInfo(controlInfo);
@@ -369,8 +369,8 @@ void LteIp::setNodeType(std::string s)
 
 void LteIp::printControlInfo(FlowControlInfo* ci)
 {
-    EV << "Src IP : " << IPv4Address(ci->getSrcAddr()) << endl;
-    EV << "Dst IP : " << IPv4Address(ci->getDstAddr()) << endl;
+    EV << "Src IP : " << Ipv4Address(ci->getSrcAddr()) << endl;
+    EV << "Dst IP : " << Ipv4Address(ci->getDstAddr()) << endl;
     EV << "Src Port : " << ci->getSrcPort() << endl;
     EV << "Dst Port : " << ci->getDstPort() << endl;
     EV << "Seq Num  : " << ci->getSequenceNumber() << endl;
@@ -381,7 +381,7 @@ void LteIp::handleMessageWhenUp(cMessage *msg)
 {
     throw cRuntimeError(" handleMessageWhenUp method not implemented");
 
-    /*  note: this is the implementation in the IPv4-Layer
+    /*  note: this is the implementation in the Ipv4-Layer
      * TODO: check if it can be adapted/applied hiere
      *
     if (msg->arrivedOn("transportIn")) {    //TODO packet->getArrivalGate()->getBaseId() == transportInGateBaseId

@@ -10,6 +10,7 @@
 #include "epc/TrafficFlowFilter.h"
 #include <inet/networklayer/common/L3AddressResolver.h>
 #include <inet/networklayer/ipv4/Ipv4Header_m.h>
+#include <inet4_compat/common/cPacketToPacket.h>
 
 using namespace inet;
 
@@ -85,9 +86,11 @@ void TrafficFlowFilter::handleMessage(cMessage *msg)
     error("TrafficFlowFilter::handleMessage - Cannot find corresponding tftId. Aborting...");
 
     // add control info to the normal ip datagram. This info will be read by the GTP-U application
-    TftControlInfo * tftInfo = new TftControlInfo();
-    tftInfo->setTft(tftId);
-    pkt->setControlInfo(tftInfo);
+    // TftControlInfo * tftInfo = new TftControlInfo();
+    // tftInfo->setTft(tftId);
+
+    auto trafficFlowInfo = pkt->addTag<TftControlInfo>();
+    trafficFlowInfo->setTft(tftId);
 
     EV << "TrafficFlowFilter::handleMessage - setting tft=" << tftId << endl;
 

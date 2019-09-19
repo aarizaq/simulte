@@ -8,7 +8,7 @@
 //
 #include <inet/networklayer/common/InterfaceEntry.h>
 #include <inet/common/ModuleAccess.h>
-#include <inet4_compat/networklayer/ipv4/IPv4InterfaceData.h>
+#include <inet4_compat/networklayer/ipv4/Ipv4InterfaceData.h>
 
 #include "stack/mac/layer/LteMacUeRealistic.h"
 #include "stack/mac/buffer/harq/LteHarqBufferRx.h"

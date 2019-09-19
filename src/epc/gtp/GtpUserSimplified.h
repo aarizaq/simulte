@@ -11,8 +11,11 @@
 #define _LTE_GTP_USER_SIMPLIFIED_H_
 
 #include <omnetpp.h>
-#include <inet4_compat/transportlayer/contract/udp/UDPSocket.h>
+#include <inet4_compat/transportlayer/contract/udp/UdpSocket.h>
+#include "inet/common/ModuleAccess.h"
 #include <inet/networklayer/common/L3AddressResolver.h>
+#include "inet/linklayer/common/InterfaceTag_m.h"
+#include "inet/networklayer/common/InterfaceEntry.h"
 #include "epc/gtp/TftControlInfo.h"
 #include "epc/gtp/GtpUserMsg_m.h"
 #include "corenetwork/binder/LteBinder.h"
@@ -23,12 +26,12 @@
  * GtpUserSimplified is used for building data tunnels between GTP peers.
  * GtpUserSimplified can receive two kind of packets:
  * a) IP datagram from a trafficFilter. Those packets are labeled with a tftId
- * b) GtpUserSimplifiedMsg from UDP-IP layers.
+ * b) GtpUserSimplifiedMsg from Udp-IP layers.
  *
  */
 class GtpUserSimplified : public omnetpp::cSimpleModule
 {
-    inet::UDPSocket socket_;
+    inet::UdpSocket socket_;
     int localPort_;
 
     // reference to the LTE Binder module
@@ -37,7 +40,7 @@ class GtpUserSimplified : public omnetpp::cSimpleModule
      * This table contains mapping between TrafficFlowTemplate (TFT) identifiers and the IP address
      * of the destination eNodeB. This table is populated by the eNodeBs at the beginning of the simulation
      */
-    std::map<TrafficFlowTemplateId, inet::IPv4Address> tftTable_;
+    std::map<TrafficFlowTemplateId, inet::Ipv4Address> tftTable_;
 
     // the GTP protocol Port
     unsigned int tunnelPeerPort_;
@@ -50,6 +53,8 @@ class GtpUserSimplified : public omnetpp::cSimpleModule
 
     EpcNodeType selectOwnerType(const char * type);
 
+    inet::InterfaceEntry *ie;
+
   protected:
 
     virtual int numInitStages() const override { return inet::NUM_INIT_STAGES; }
@@ -59,8 +64,11 @@ class GtpUserSimplified : public omnetpp::cSimpleModule
     // receive and IP Datagram from the traffic filter, encapsulates it in a GTP-U packet than forwards it to the proper next hop
     void handleFromTrafficFlowFilter(inet::Packet * datagram);
 
-    // receive a GTP-U packet from UDP, reads the TEID and decides whether performing label switching or removal
-    void handleFromUdp(GtpUserMsg * gtpMsg);
+    // receive a GTP-U packet from Udp, reads the TEID and decides whether performing label switching or removal
+    void handleFromUdp(inet::Packet * gtpMsg);
+
+    // detect outgoing interface name (LteNic)
+    inet::InterfaceEntry *detectInterface();
 };
 
 #endif

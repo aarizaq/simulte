@@ -110,11 +110,14 @@ void CbrSender::initTraffic()
 
 void CbrSender::sendCbrPacket()
 {
-    CbrPacket* packet = new CbrPacket("Cbr");
-    packet->setNframes(nframes_);
-    packet->setIDframe(iDframe_);
-    packet->setTimestamp(simTime());
-    packet->setByteLength(size_);
+    Packet* packet = new Packet("CBR");
+    auto cbr = makeShared<CbrPacket>();
+    cbr->setNframes(nframes_);
+    cbr->setIDframe(iDframe_);
+    cbr->setTimestamp(simTime());
+    cbr->setSize(size_);
+    cbr->setChunkLength(B(size_));
+    packet->insertAtBack(cbr);
 
     EV << "CbrSender::sendCbrPacket - Sending frame[" << iDframe_ << "/" << nframes_ << "], next packet at "<< simTime() + sampling_time << endl;
 

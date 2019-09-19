@@ -12,7 +12,7 @@
 
 #include <map>
 #include <omnetpp.h>
-#include <inet4_compat/transportlayer/contract/udp/UDPSocket.h>
+#include <inet4_compat/transportlayer/contract/udp/UdpSocket.h>
 #include "epc/gtp/GtpUserMsg_m.h"
 #include "corenetwork/binder/LteBinder.h"
 #include "x2/packet/LteX2Message.h"
@@ -22,12 +22,12 @@
  * GtpUserX2 is used for building data tunnels between GTP peers over X2, for handover procedure.
  * GtpUserX2 can receive two kind of packets:
  * a) LteX2Message from the X2 Manager. Those packets encapsulate an IP datagram
- * b) GtpUserX2Msg from UDP-IP layers.
+ * b) GtpUserX2Msg from Udp-IP layers.
  *
  */
 class GtpUserX2 : public omnetpp::cSimpleModule
 {
-    inet::UDPSocket socket_;
+    inet::UdpSocket socket_;
     int localPort_;
 
     // reference to the LTE Binder module
@@ -45,7 +45,7 @@ class GtpUserX2 : public omnetpp::cSimpleModule
     // receive an X2 Message from the X2 Manager, encapsulates it in a GTP-U packet than forwards it to the proper next hop
     void handleFromStack(LteX2Message * x2Msg);
 
-    // receive a GTP-U packet from UDP, detunnel it and send it to the X2 Manager
+    // receive a GTP-U packet from Udp, detunnel it and send it to the X2 Manager
     void handleFromUdp(GtpUserMsg * gtpMsg);
 };
 

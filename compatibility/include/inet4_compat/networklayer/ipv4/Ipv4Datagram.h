@@ -5,7 +5,7 @@
 #include <inet/common/packet/Packet.h>
 #include <inet/networklayer/ipv4/Ipv4Header_m.h>
 #include <inet/transportlayer/common/L4Tools.h>
-#include <inet4_compat/networklayer/contract/ipv4/IPv4Address.h>
+#include <inet4_compat/networklayer/contract/ipv4/Ipv4Address.h>
 
 namespace inet {
     constexpr int IP_HEADER_BYTES = 20;

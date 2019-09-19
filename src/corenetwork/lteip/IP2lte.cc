@@ -7,19 +7,21 @@
 // and cannot be removed from it.
 //
 #include <iostream>
-#include <inet4_compat/transportlayer/tcp_common/TCPSegment.h>
-#include <inet4_compat/transportlayer/udp/UDPPacket.h>
-#include <inet4_compat/transportlayer/udp/UDP.h>
+#include <inet4_compat/transportlayer/tcp_common/TcpSegment.h>
+#include <inet4_compat/transportlayer/udp/Udp.h>
 #include <inet4_compat/common/cPacketToPacket.h>
 #include <inet/common/ModuleAccess.h>
-#include <inet4_compat/networklayer/ipv4/IPv4InterfaceData.h>
-#include <inet4_compat/networklayer/ipv4/IPv4Route.h>
+#include <inet4_compat/networklayer/ipv4/Ipv4InterfaceData.h>
+#include <inet4_compat/networklayer/ipv4/Ipv4Route.h>
 #include <inet/networklayer/common/InterfaceEntry.h>
-#include <inet4_compat/networklayer/ipv4/IIPv4RoutingTable.h>
+#include <inet/linklayer/common/InterfaceTag_m.h>
+#include <inet4_compat/networklayer/ipv4/IIpv4RoutingTable.h>
 #include <inet/common/IInterfaceRegistrationListener.h>
 #include <inet/transportlayer/tcp_common/TcpHeader.h>
 
 #include "corenetwork/lteip/IP2lte.h"
+
+#include "../../../compatibility/include/inet4_compat/transportlayer/udp/UdpPacket.h"
 #include "corenetwork/binder/LteBinder.h"
 #include "corenetwork/deployer/LteDeployer.h"
 
@@ -71,18 +73,14 @@ void IP2lte::initialize(int stage)
                 /**
                  * TODO:might need a bit more care, if interface has changed, the query might, too
                  */
-                IIPv4RoutingTable *irt = getModuleFromPar<IIPv4RoutingTable>(
+                IIpv4RoutingTable *irt = getModuleFromPar<IIpv4RoutingTable>(
                         par("routingTableModule"), this);
-                IPv4Route * defaultRoute = new IPv4Route();
+                Ipv4Route * defaultRoute = new Ipv4Route();
                 defaultRoute->setDestination(
-                        IPv4Address(inet::IPv4Address::UNSPECIFIED_ADDRESS));
+                        Ipv4Address(inet::Ipv4Address::UNSPECIFIED_ADDRESS));
                 defaultRoute->setNetmask(
-                        IPv4Address(inet::IPv4Address::UNSPECIFIED_ADDRESS));
+                        Ipv4Address(inet::Ipv4Address::UNSPECIFIED_ADDRESS));
 
-                IInterfaceTable *ift = getModuleFromPar<IInterfaceTable>(
-                        par("interfaceTableModule"), this);
-                InterfaceEntry * interfaceEntry = ift->getInterfaceByName(
-                        "wlan");
                 defaultRoute->setInterface(interfaceEntry);
 
                 irt->addRoute(defaultRoute);
@@ -157,15 +155,17 @@ void IP2lte::fromIpUe(Packet * datagram)
     std::cout << "IP2lte::fromIpUe received " << datagram->str() << std::endl;
     // Remove control info from IP datagram
     delete(datagram->removeControlInfo());
+    // Remove InterfaceReq Tag (we already are on an interface now)
+    datagram->removeTagIfPresent<InterfaceReq>();
 
     // 5-Tuple infos
     unsigned short srcPort = 0;
     unsigned short dstPort = 0;
-    // TODO Add support to IPv6
+    // TODO Add support to Ipv6
     const auto& ipHdr = datagram->removeAtFront<Ipv4Header>();
     int transportProtocol = ipHdr->getProtocolId();
-    // TODO Add support to IPv6
-    IPv4Address srcAddr  = ipHdr->getSrcAddress() ,
+    // TODO Add support to Ipv6
+    Ipv4Address srcAddr  = ipHdr->getSrcAddress() ,
                 destAddr = ipHdr->getDestAddress();
 
     // if needed, create a new structure for the flow
@@ -226,6 +226,12 @@ void IP2lte::fromIpUe(Packet * datagram)
 void IP2lte::toIpUe(Packet *datagram)
 {
     EV << "IP2lte::toIpUe - message from stack: send to IP layer" << endl;
+    // add DispatchProtocolRequest so that the packet is handled by the IPv4 layer
+    const Protocol *payloadProtocol = &Protocol::ipv4;
+    datagram->addTagIfAbsent<DispatchProtocolReq>()->setProtocol(payloadProtocol);
+    datagram->addTagIfAbsent<PacketProtocolTag>()->setProtocol(payloadProtocol);
+    // add Interface-Indication to indicate which interface this packet was received from
+    datagram->addTagIfAbsent<InterfaceInd>()->setInterfaceId(interfaceEntry->getInterfaceId());
     send(datagram,ipGateOut_);
 }
 
@@ -235,7 +241,10 @@ void IP2lte::fromIpEnb(Packet * datagram)
     // Remove control info from IP datagram
     delete(datagram->removeControlInfo());
 
-    // TODO Add support to IPv6
+    // Remove InterfaceReq Tag (we already are on an interface now)
+    datagram->removeTagIfPresent<InterfaceReq>();
+
+    // TODO Add support to Ipv6
     const auto& hdr = datagram->peekAtFront<Ipv4Header>();
     const Ipv4Address& destAddr = hdr->getDestAddress();
 
@@ -282,7 +291,7 @@ void IP2lte::toStackEnb(Packet* datagram)
     unsigned short dstPort = 0;
     auto& iphdr = datagram->removeAtFront<Ipv4Header>();
     int transportProtocol = iphdr->getProtocolId();
-    IPv4Address srcAddr  = iphdr->getSrcAddress(),
+    Ipv4Address srcAddr  = iphdr->getSrcAddress(),
                 destAddr = iphdr->getDestAddress();
     MacNodeId destId = binder_->getMacNodeId(destAddr);
 
@@ -346,8 +355,8 @@ void IP2lte::toStackEnb(Packet* datagram)
 
 void IP2lte::printControlInfo(FlowControlInfo* ci)
 {
-    EV << "Src IP : " << IPv4Address(ci->getSrcAddr()) << endl;
-    EV << "Dst IP : " << IPv4Address(ci->getDstAddr()) << endl;
+    EV << "Src IP : " << Ipv4Address(ci->getSrcAddr()) << endl;
+    EV << "Dst IP : " << Ipv4Address(ci->getDstAddr()) << endl;
     EV << "Src Port : " << ci->getSrcPort() << endl;
     EV << "Dst Port : " << ci->getDstPort() << endl;
     EV << "Seq Num  : " << ci->getSequenceNumber() << endl;
@@ -361,7 +370,7 @@ void IP2lte::registerInterface()
     if (!ift)
         return;
     interfaceEntry = getContainingNicModule(this);
-    interfaceEntry->setInterfaceName("wlan");
+    interfaceEntry->setInterfaceName("wlan");           // FIXME: user different name for lte interfaces
     // TODO configure MTE size from NED
     interfaceEntry->setMtu(1500);
     // enable broadcast/multicast
@@ -383,7 +392,7 @@ void IP2lte::registerMulticastGroups()
 
     for (unsigned int i=0; i<numOfAddresses; ++i)
     {
-        IPv4Address addr = interfaceEntry->getProtocolData<Ipv4InterfaceData>()->getJoinedMulticastGroup(i);
+        Ipv4Address addr = interfaceEntry->getProtocolData<Ipv4InterfaceData>()->getJoinedMulticastGroup(i);
         // get the group id and add it to the binder
         uint32 address = addr.getInt();
         uint32 mask = ~((uint32)255 << 28);      // 0000 1111 1111 1111

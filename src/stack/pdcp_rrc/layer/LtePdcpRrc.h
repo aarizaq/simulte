@@ -11,8 +11,8 @@
 #define _LTE_LTEPDCPRRC_H_
 
 #include <omnetpp.h>
-#include <inet4_compat/networklayer/ipv4/IPv4Datagram.h>
-#include <inet4_compat/networklayer/contract/ipv4/IPv4Address.h>
+#include <inet4_compat/networklayer/contract/ipv4/Ipv4Address.h>
+#include "../../../../compatibility/include/inet4_compat/networklayer/ipv4/Ipv4Datagram.h"
 
 #include "corenetwork/binder/LteBinder.h"
 #include "common/LteCommon.h"
@@ -318,7 +318,7 @@ class LtePdcpRrcEnb : public LtePdcpRrcBase
     MacNodeId getDestId(FlowControlInfo* lteInfo)
     {
         // dest id
-        MacNodeId destId = binder_->getMacNodeId(inet::IPv4Address(lteInfo->getDstAddr()));
+        MacNodeId destId = binder_->getMacNodeId(inet::Ipv4Address(lteInfo->getDstAddr()));
         // master of this ue (myself or a relay)
         MacNodeId master = binder_->getNextHop(destId);
         if (master != nodeId_)
@@ -348,7 +348,7 @@ class LtePdcpRrcRelayEnb : public LtePdcpRrcBase
     MacNodeId getDestId(FlowControlInfo* lteInfo)
     {
         // packet arriving from eNB, send to UE given the IP address
-        return getBinder()->getMacNodeId(inet::IPv4Address(lteInfo->getDstAddr()));
+        return getBinder()->getMacNodeId(inet::Ipv4Address(lteInfo->getDstAddr()));
     }
 
     // Relay doesn't set Traffic Information
