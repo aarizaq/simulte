@@ -108,16 +108,11 @@ void GtpUserSimplified::handleFromTrafficFlowFilter(Packet * datagram)
     else
     {
         // create a new GtpUserSimplifiedMessage
-        // GtpUserMsg * gtpMsg = new GtpUserMsg();
-        // gtpMsg->setName("GtpUserMessage");
-
-        // encapsulate the datagram within the GtpUserSimplifiedMessage
-        // gtpMsg->encapsulate(datagram);
+        // and encapsulate the datagram within the GtpUserSimplifiedMessage
         auto header = makeShared<GtpUserMsg>();
-        // gtpMsg->setName("GtpUserMessage");
         header->setTeid(0);
         header->setChunkLength(B(8));
-        auto gtpPacket = new Packet("GtpUserMsg");
+        auto gtpPacket = new Packet(datagram->getName());
         gtpPacket->insertAtFront(header);
         auto data = datagram->peekData();
         gtpPacket->insertAtBack(data);
@@ -142,10 +137,8 @@ void GtpUserSimplified::handleFromUdp(Packet * pkt)
 {
     EV << "GtpUserSimplified::handleFromUdp - Decapsulating and sending to local connection." << endl;
 
-    // obtain the original IP datagram and send it to the local network
-    // Packet * datagram = check_and_cast<Packet*>(gtpMsg->decapsulate());
-    // delete(gtpMsg);
-    auto originalPacket = new Packet ("OriginalDatagram");
+    // re-create the original IP datagram and send it to the local network
+    auto originalPacket = new Packet (pkt->getName());
     auto gtpUserMsg = pkt->popAtFront<GtpUserMsg>();
     originalPacket->insertAtBack(pkt->peekData());
 
@@ -157,18 +150,9 @@ void GtpUserSimplified::handleFromUdp(Packet * pkt)
         if (destId != 0)
         {
              // create a new GtpUserSimplifiedMessage
-             // GtpUserMsg * gtpMsg = new GtpUserMsg();
-             // gtpMsg->setName("GtpUserMessage");
-
-             // auto gtpMsg = makeShared<GtpUserMsg>();
-             // gtpMsg->setName("GtpUserMessage");
-             // pkt->insertAtFront(gtpMsg);
-
              // encapsulate the datagram within the GtpUserSimplifiedMessage
-             // gtpMsg->encapsulate(datagram);
              auto header = makeShared<GtpUserMsg>();
-             // gtpMsg->setName("GtpUserMessage");
-             auto gtpPacket = new Packet("GtpUserMsg");
+             auto gtpPacket = new Packet(originalPacket->getName());
              gtpPacket->insertAtFront(header);
              auto data = originalPacket->peekData();
              gtpPacket->insertAtBack(data);
