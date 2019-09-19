@@ -117,6 +117,8 @@ void GtpUserSimplified::handleFromTrafficFlowFilter(Packet * datagram)
         auto data = datagram->peekData();
         gtpPacket->insertAtBack(data);
 
+        delete datagram;
+
         L3Address tunnelPeerAddress;
         if (flowId == -1) // send to the PGW
         {
@@ -141,6 +143,8 @@ void GtpUserSimplified::handleFromUdp(Packet * pkt)
     auto originalPacket = new Packet (pkt->getName());
     auto gtpUserMsg = pkt->popAtFront<GtpUserMsg>();
     originalPacket->insertAtBack(pkt->peekData());
+
+    delete pkt;
 
     if (ownerType_ == PGW)
     {
