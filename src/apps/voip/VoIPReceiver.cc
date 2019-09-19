@@ -67,33 +67,38 @@ void VoIPReceiver::handleMessage(cMessage *msg)
 {
     if (msg->isSelfMessage())
         return;
-    VoipPacket* pPacket = check_and_cast<VoipPacket*>(msg);
+    Packet* pPacket = check_and_cast<Packet*>(msg);
 
     if (pPacket == 0)
     {
-        throw cRuntimeError("VoIPReceiver::handleMessage - FATAL! Error when casting to VoIP packet");
+        throw cRuntimeError("VoIPReceiver::handleMessage - FATAL! Error when casting to inet packet");
     }
+
+    // read VoIP header
+    auto voipHeader = pPacket->popAtFront<VoipPacket>();
 
     if (mInit_)
     {
-        mCurrentTalkspurt_ = pPacket->getIDtalk();
+        mCurrentTalkspurt_ = voipHeader->getIDtalk();
         mInit_ = false;
     }
 
-    if (mCurrentTalkspurt_ != pPacket->getIDtalk())
+    if (mCurrentTalkspurt_ != voipHeader->getIDtalk())
     {
         playout(false);
-        mCurrentTalkspurt_ = pPacket->getIDtalk();
+        mCurrentTalkspurt_ = voipHeader->getIDtalk();
     }
 
     //emit(mFrameLossSignal,1.0);
 
-    std::cout << "VoIPReceiver::handleMessage - Packet received: TALK[" << pPacket->getIDtalk() << "] - FRAME[" << pPacket->getIDframe() << " size: " << pPacket->getChunkLength() << " bytes]\n";
+    std::cout << "VoIPReceiver::handleMessage - Packet received: TALK[" << voipHeader->getIDtalk() << "] - FRAME[" << voipHeader->getIDframe() << " size: " << voipHeader->getChunkLength() << " bytes]\n";
 
-    emit(voipReceivedThroughtput_, pPacket->getChunkLength().get() );
+    emit(voipReceivedThroughtput_, voipHeader->getChunkLength().get() );
 
     pPacket->setArrivalTime(simTime());
-    mPacketsList_.push_back(pPacket);
+    mPacketsList_.push_back(voipHeader->dup());
+
+    delete pPacket;
 }
 
 void VoIPReceiver::playout(bool finish)
