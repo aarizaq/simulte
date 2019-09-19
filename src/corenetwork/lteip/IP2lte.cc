@@ -14,6 +14,7 @@
 #include <inet4_compat/networklayer/ipv4/Ipv4InterfaceData.h>
 #include <inet4_compat/networklayer/ipv4/Ipv4Route.h>
 #include <inet/networklayer/common/InterfaceEntry.h>
+#include <inet/linklayer/common/InterfaceTag_m.h>
 #include <inet4_compat/networklayer/ipv4/IIpv4RoutingTable.h>
 #include <inet/common/IInterfaceRegistrationListener.h>
 #include <inet/transportlayer/tcp_common/TcpHeader.h>
@@ -158,6 +159,8 @@ void IP2lte::fromIpUe(Packet * datagram)
     std::cout << "IP2lte::fromIpUe received " << datagram->str() << std::endl;
     // Remove control info from IP datagram
     delete(datagram->removeControlInfo());
+    // Remove InterfaceReq Tag (we already are on an interface now)
+    datagram->removeTagIfPresent<InterfaceReq>();
 
     // 5-Tuple infos
     unsigned short srcPort = 0;
@@ -235,6 +238,9 @@ void IP2lte::fromIpEnb(Packet * datagram)
     EV << "IP2lte::fromIpEnb - message from IP layer: send to stack" << endl;
     // Remove control info from IP datagram
     delete(datagram->removeControlInfo());
+
+    // Remove InterfaceReq Tag (we already are on an interface now)
+    datagram->removeTagIfPresent<InterfaceReq>();
 
     // TODO Add support to Ipv6
     const auto& hdr = datagram->peekAtFront<Ipv4Header>();
@@ -362,7 +368,7 @@ void IP2lte::registerInterface()
     if (!ift)
         return;
     interfaceEntry = getContainingNicModule(this);
-    interfaceEntry->setInterfaceName("wlan");
+    interfaceEntry->setInterfaceName("wlan");           // FIXME: user different name for lte interfaces
     // TODO configure MTE size from NED
     interfaceEntry->setMtu(1500);
     // enable broadcast/multicast
