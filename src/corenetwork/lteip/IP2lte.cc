@@ -81,10 +81,6 @@ void IP2lte::initialize(int stage)
                 defaultRoute->setNetmask(
                         Ipv4Address(inet::Ipv4Address::UNSPECIFIED_ADDRESS));
 
-                IInterfaceTable *ift = getModuleFromPar<IInterfaceTable>(
-                        par("interfaceTableModule"), this);
-                InterfaceEntry * interfaceEntry = ift->getInterfaceByName(
-                        "wlan");
                 defaultRoute->setInterface(interfaceEntry);
 
                 irt->addRoute(defaultRoute);
@@ -230,6 +226,12 @@ void IP2lte::fromIpUe(Packet * datagram)
 void IP2lte::toIpUe(Packet *datagram)
 {
     EV << "IP2lte::toIpUe - message from stack: send to IP layer" << endl;
+    // add DispatchProtocolRequest so that the packet is handled by the IPv4 layer
+    const Protocol *payloadProtocol = &Protocol::ipv4;
+    datagram->addTagIfAbsent<DispatchProtocolReq>()->setProtocol(payloadProtocol);
+    datagram->addTagIfAbsent<PacketProtocolTag>()->setProtocol(payloadProtocol);
+    // add Interface-Indication to indicate which interface this packet was received from
+    datagram->addTagIfAbsent<InterfaceInd>()->setInterfaceId(interfaceEntry->getInterfaceId());
     send(datagram,ipGateOut_);
 }
 
