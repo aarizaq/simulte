@@ -31,6 +31,7 @@ module eNBpp extends eNodeBBase
     submodules:
         gtp_user: GtpUser {
             @display("p=381,72");
+            ipOutInterface = "wlan";     // FIXME: we should use a different name, eg. "cellular" for the LteNic
         }
         trafficFlowFilter: TrafficFlowFilter {
             ownerType = nodeType;

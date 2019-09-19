@@ -258,6 +258,7 @@ module eNodeB extends eNodeBBase
         }
         gtpUser: GtpUserSimplified {
             @display("p=434,48");
+            ipOutInterface = "wlan";       // FIXME: we should use a different name, eg. "cellular" for the LteNic
         }
 
         gtpUserX2: GtpUserX2 {

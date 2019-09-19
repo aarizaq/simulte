@@ -39,6 +39,23 @@ void GtpUserSimplified::initialize(int stage)
     pgwAddress_ = L3AddressResolver().resolve("pgw");
 
     ownerType_ = selectOwnerType(getAncestorPar("nodeType"));
+
+    ie = detectInterface();
+}
+
+InterfaceEntry *GtpUserSimplified::detectInterface()
+{
+    IInterfaceTable *ift = getModuleFromPar<IInterfaceTable>(par("interfaceTableModule"), this);
+    const char *interfaceName = par("ipOutInterface");
+    InterfaceEntry *ie = nullptr;
+
+    if (strlen(interfaceName) > 0) {
+        ie = ift->getInterfaceByName(interfaceName);
+        if (ie == nullptr)
+            throw cRuntimeError("Interface \"%s\" does not exist", interfaceName);
+    }
+
+    return ie;
 }
 
 EpcNodeType GtpUserSimplified::selectOwnerType(const char * type)
@@ -128,13 +145,13 @@ void GtpUserSimplified::handleFromUdp(Packet * pkt)
     // obtain the original IP datagram and send it to the local network
     // Packet * datagram = check_and_cast<Packet*>(gtpMsg->decapsulate());
     // delete(gtpMsg);
-    auto packet = new Packet ("OriginalDatagram");
+    auto originalPacket = new Packet ("OriginalDatagram");
     auto gtpUserMsg = pkt->popAtFront<GtpUserMsg>();
-    packet->insertAtBack(pkt->peekData());
+    originalPacket->insertAtBack(pkt->peekData());
 
     if (ownerType_ == PGW)
     {
-        const auto& hdr = packet->peekAtFront<Ipv4Header>();
+        const auto& hdr = originalPacket->peekAtFront<Ipv4Header>();
         const Ipv4Address& destAddr = hdr->getDestAddress();
         MacNodeId destId = binder_->getMacNodeId(destAddr);
         if (destId != 0)
@@ -153,7 +170,7 @@ void GtpUserSimplified::handleFromUdp(Packet * pkt)
              // gtpMsg->setName("GtpUserMessage");
              auto gtpPacket = new Packet("GtpUserMsg");
              gtpPacket->insertAtFront(header);
-             auto data = packet->peekData();
+             auto data = originalPacket->peekData();
              gtpPacket->insertAtBack(data);
 
              MacNodeId destMaster = binder_->getNextHop(destId);
@@ -164,6 +181,10 @@ void GtpUserSimplified::handleFromUdp(Packet * pkt)
         }
     }
 
-    // destination is outside the LTE network
-    send(pkt,"pppGate");
+    // and add Interface-Request for LteNic
+    if (ie != nullptr)
+        originalPacket->addTagIfAbsent<InterfaceReq>()->setInterfaceId(ie->getInterfaceId());
+
+    // send to network layer for further processing
+    send(originalPacket,"pppGate");
 }

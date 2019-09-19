@@ -12,7 +12,10 @@
 
 #include <omnetpp.h>
 #include <inet4_compat/transportlayer/contract/udp/UdpSocket.h>
+#include "inet/common/ModuleAccess.h"
 #include <inet/networklayer/common/L3AddressResolver.h>
+#include "inet/linklayer/common/InterfaceTag_m.h"
+#include "inet/networklayer/common/InterfaceEntry.h"
 #include "epc/gtp/TftControlInfo.h"
 #include "epc/gtp/GtpUserMsg_m.h"
 #include "corenetwork/binder/LteBinder.h"
@@ -50,6 +53,8 @@ class GtpUserSimplified : public omnetpp::cSimpleModule
 
     EpcNodeType selectOwnerType(const char * type);
 
+    inet::InterfaceEntry *ie;
+
   protected:
 
     virtual int numInitStages() const override { return inet::NUM_INIT_STAGES; }
@@ -61,6 +66,9 @@ class GtpUserSimplified : public omnetpp::cSimpleModule
 
     // receive a GTP-U packet from Udp, reads the TEID and decides whether performing label switching or removal
     void handleFromUdp(inet::Packet * gtpMsg);
+
+    // detect outgoing interface name (LteNic)
+    inet::InterfaceEntry *detectInterface();
 };
 
 #endif
