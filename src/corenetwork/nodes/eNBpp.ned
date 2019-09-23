@@ -40,7 +40,7 @@ module eNBpp extends eNodeBBase
 
     connections allowunconnected:
 
-        nl.out++ --> trafficFlowFilter.internetFilterGateIn;
+        lteNic.upperLayerOut --> trafficFlowFilter.internetFilterGateIn;
         nl.in++ <-- gtp_user.pppGate;
         trafficFlowFilter.gtpUserGateOut --> gtp_user.trafficFlowFilterGate;
         gtp_user.socketOut --> at.in++;

@@ -21,14 +21,8 @@ using namespace omnetpp;
 using namespace inet;
 
 /**
- * @author: wolfgang kallies
- * TODO:this entire class has to be rewritten, since the underlying
- * mechanics in inet changed. mapping_ attribute was removed: the corresponding
- * class does not exist anymore in inet4 and the underlying mechanism of passing
- * packets has changed. 
- * (I am still struggling understanding, how, but since this thing does not 
- * compile, testing is somewhat tricky). The point being:
- * DO NOT EXPECT THIS TO WORK. And it will all end in tears (hopefully not mine).
+ * @author: wolfgang kallies, wischhof
+ * TODO:this entire class had to be rewritten/adapted to the new inet - still needs to be debugged/tested
  */
 void LteIp::initialize(int stage)
 {
@@ -198,13 +192,7 @@ void LteIp::endService(cPacket *msg)
 
 void LteIp::fromTransport(cPacket * transportPacket, cGate *outputgate)
 {
-    /**
-     * @author: wolfgang kallies
-     * TODO: this needs to be largely rewritten. IPv4Controlinfo is no longer
-     * used and available. Might not work after 'fixing'
-     */
-    // Remove control info from transport packet
-    //Ipv4ControlInfo *ipControlInfo = check_and_cast<Ipv4ControlInfo*>(transportPacket->removeControlInfo());
+
     auto packetTmp = check_and_cast<inet::Packet*>(transportPacket);
     auto ipControlInfo = make_shared<Ipv4Header>(*(packetTmp->popAtFront<Ipv4Header>()));
 

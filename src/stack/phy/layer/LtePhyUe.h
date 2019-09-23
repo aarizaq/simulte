@@ -155,6 +155,7 @@ class LtePhyUe : public LtePhyBase
             if (it->time_ == NOW)
                 return it->rbMap_[antenna][b];
         }
+        return 0;
     }
     unsigned int getPrevUsedRbs(const Remote antenna, Band b)
     {

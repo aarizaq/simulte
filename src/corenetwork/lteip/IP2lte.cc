@@ -223,15 +223,19 @@ void IP2lte::fromIpUe(Packet * datagram)
     send(pktToLte,stackGateOut_);
 }
 
-void IP2lte::toIpUe(Packet *datagram)
-{
-    EV << "IP2lte::toIpUe - message from stack: send to IP layer" << endl;
+void IP2lte::prepareForIpv4(Packet *datagram){
     // add DispatchProtocolRequest so that the packet is handled by the IPv4 layer
     const Protocol *payloadProtocol = &Protocol::ipv4;
     datagram->addTagIfAbsent<DispatchProtocolReq>()->setProtocol(payloadProtocol);
     datagram->addTagIfAbsent<PacketProtocolTag>()->setProtocol(payloadProtocol);
     // add Interface-Indication to indicate which interface this packet was received from
     datagram->addTagIfAbsent<InterfaceInd>()->setInterfaceId(interfaceEntry->getInterfaceId());
+}
+
+void IP2lte::toIpUe(Packet *datagram)
+{
+    EV << "IP2lte::toIpUe - message from stack: send to IP layer" << endl;
+    prepareForIpv4(datagram);
     send(datagram,ipGateOut_);
 }
 
@@ -275,17 +279,16 @@ void IP2lte::fromIpEnb(Packet * datagram)
     toStackEnb(datagram);
 }
 
-void IP2lte::toIpEnb(cMessage * msg)
+void IP2lte::toIpEnb(Packet* datagram)
 {
     EV << "IP2lte::toIpEnb - message from stack: send to IP layer" << endl;
-    send(msg,ipGateOut_);
+    prepareForIpv4(datagram);
+    send(datagram,ipGateOut_);
 }
 
 void IP2lte::toStackEnb(Packet* datagram)
 {
-    // LW: debug
-    std::cout << "IP2lte::toStackEnb received " << datagram->str() << std::endl;
-
+    EV << "IP2lte::toStackEnb - packet is forwarded to stack" << endl;
     // 5-Tuple infos
     unsigned short srcPort = 0;
     unsigned short dstPort = 0;

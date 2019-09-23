@@ -239,7 +239,8 @@ module eNodeBBase
         at.out++ --> tn.in++;
         at.in++ <-- tn.out++;
         
-        lteNic.upperLayerOut --> nl.in++;
+        // lteNic.upperLayerOut --> nl.in++;
+        // NO: we must directly be connected to the traffic flow filter - can only be done later
         lteNic.upperLayerIn <-- nl.out++;
 }
 
@@ -265,7 +266,7 @@ module eNodeB extends eNodeBBase
             @display("p=410,363");
         }
     connections:
-        nl.out++ --> trafficFlowFilter.internetFilterGateIn;
+        lteNic.upperLayerOut --> trafficFlowFilter.internetFilterGateIn;
         nl.in++ <-- gtpUser.pppGate;
         trafficFlowFilter.gtpUserGateOut --> gtpUser.trafficFlowFilterGate;
         gtpUser.socketOut --> at.in++;

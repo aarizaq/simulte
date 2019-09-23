@@ -88,11 +88,6 @@ void GtpUserSimplified::handleMessage(cMessage *msg)
 
 void GtpUserSimplified::handleFromTrafficFlowFilter(Packet * datagram)
 {
-    // extract control info from the datagram
-    /* TftControlInfo * tftInfo = check_and_cast<TftControlInfo *>(datagram->removeControlInfo());
-    TrafficFlowTemplateId flowId = tftInfo->getTft();
-    delete (tftInfo); */
-
     TftControlInfo * tftInfo = datagram->removeTag<TftControlInfo>();
     TrafficFlowTemplateId flowId = tftInfo->getTft();
     delete (tftInfo);
@@ -143,6 +138,7 @@ void GtpUserSimplified::handleFromUdp(Packet * pkt)
     auto originalPacket = new Packet (pkt->getName());
     auto gtpUserMsg = pkt->popAtFront<GtpUserMsg>();
     originalPacket->insertAtBack(pkt->peekData());
+    originalPacket->addTagIfAbsent<PacketProtocolTag>()->setProtocol(&Protocol::ipv4);
 
     delete pkt;
 
@@ -167,11 +163,13 @@ void GtpUserSimplified::handleFromUdp(Packet * pkt)
              socket_.sendTo(gtpPacket, tunnelPeerAddress, tunnelPeerPort_);
              return;
         }
+    } else if (ownerType_ == ENB) {
+        // add Interface-Request for LteNic
+        if (ie != nullptr)
+            originalPacket->addTagIfAbsent<InterfaceReq>()->setInterfaceId(ie->getInterfaceId());
+    } else {
+        throw cRuntimeError("Unknown ownerType_ - cannot process packet");
     }
-
-    // and add Interface-Request for LteNic
-    if (ie != nullptr)
-        originalPacket->addTagIfAbsent<InterfaceReq>()->setInterfaceId(ie->getInterfaceId());
 
     // send to network layer for further processing
     send(originalPacket,"pppGate");
