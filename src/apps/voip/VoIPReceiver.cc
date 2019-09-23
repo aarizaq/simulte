@@ -95,8 +95,9 @@ void VoIPReceiver::handleMessage(cMessage *msg)
 
     emit(voipReceivedThroughtput_, voipHeader->getChunkLength().get() );
 
-    pPacket->setArrivalTime(simTime());
-    mPacketsList_.push_back(voipHeader->dup());
+    auto packetToBeQueued = voipHeader->dup();
+    packetToBeQueued->setArrivalTime(simTime());
+    mPacketsList_.push_back(packetToBeQueued);
 
     delete pPacket;
 }
