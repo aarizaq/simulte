@@ -46,26 +46,28 @@ void IP2lte::initialize(int stage)
         hoManager_ = NULL;
 
         binder_ = getBinder();
-
+        
         if (nodeType_ == ENODEB) {
-            // TODO not so elegant (FIXME: this is interface configuration - should be in different init stage!)
             cModule *enodeb = getParentModule()->getParentModule();
             MacNodeId cellId = getBinder()->registerNode(enodeb, nodeType_);
-            LteDeployer * deployer = check_and_cast<LteDeployer*>(
-                    enodeb->getSubmodule("deployer"));
+            LteDeployer * deployer = check_and_cast<LteDeployer*>(enodeb->getSubmodule("deployer"));
             binder_->registerDeployer(deployer, cellId);
             nodeId_ = cellId;
-            registerInterface();
         }
     }
-
-    else if (stage == inet::INITSTAGE_NETWORK_INTERFACE_CONFIGURATION) {
-        if (nodeType_ == UE) {
-            // TODO not so elegant
+    else if (stage == inet::INITSTAGE_LINK_LAYER) {
+        if(nodeType_ == ENODEB) {
+            registerInterface();
+        } else if (nodeType_ == UE) {
             cModule *ue = getParentModule()->getParentModule();
             nodeId_ = binder_->registerNode(ue, nodeType_, ue->par("masterId"));
             registerInterface();
-
+        } else {
+            throw cRuntimeError("unhandled node type: %i", nodeType_);
+        }
+    }
+    else if (stage == inet::INITSTAGE_NETWORK_INTERFACE_CONFIGURATION) {
+        if (nodeType_ == UE) {
             // TODO: shift to routing stage
             // if the UE has been created dynamically, we need to manually add a default route having "wlan" as output interface
             // otherwise we are not able to reach devices outside the cellular network
