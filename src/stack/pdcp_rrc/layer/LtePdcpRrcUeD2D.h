@@ -28,15 +28,15 @@ class LtePdcpRrcUeD2D : public LtePdcpRrcUe
 
   protected:
 
-    virtual void initialize(int stage);
-    virtual void handleMessage(cMessage *msg);
+    virtual void initialize(int stage) override;
+    virtual void handleMessage(omnetpp::cMessage *msg) override;
 
-    void handleControlInfo(cPacket* upPkt, FlowControlInfo* lteInfo)
+    void handleControlInfo(omnetpp::cPacket* upPkt, FlowControlInfo* lteInfo) override
     {
         delete lteInfo;
     }
 
-    MacNodeId getDestId(FlowControlInfo* lteInfo)
+    MacNodeId getDestId(FlowControlInfo* lteInfo) override
     {
         // UE is subject to handovers: master may change
         return binder_->getNextHop(nodeId_);
@@ -53,7 +53,7 @@ class LtePdcpRrcUeD2D : public LtePdcpRrcUe
      * handler for data port
      * @param pkt incoming packet
      */
-    virtual void fromDataPort(cPacket *pkt);
+    virtual void fromDataPort(omnetpp::cPacket *pkt) override;
 
     // handler for mode switch signal
     void pdcpHandleD2DModeSwitch(MacNodeId peerId, LteD2DMode newMode);

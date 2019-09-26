@@ -19,6 +19,8 @@
 
 Define_Module(LteMacUeRealisticD2D);
 
+using namespace inet;
+
 LteMacUeRealisticD2D::LteMacUeRealisticD2D() :
     LteMacUeRealistic()
 {
@@ -45,7 +47,7 @@ void LteMacUeRealisticD2D::initialize(int stage)
         if (pdcpType.compare("LtePdcpRrcUeD2D") != 0)
             throw cRuntimeError("LteMacUeRealisticD2D::initialize - %s module found, must be LtePdcpRrcUeD2D. Aborting", pdcpType.c_str());
     }
-    if (stage == inet::INITSTAGE_NETWORK_LAYER_3)
+    if (stage == inet::INITSTAGE_NETWORK_LAYER)
     {
         // get parameters
         usePreconfiguredTxParams_ = par("usePreconfiguredTxParams");
@@ -207,7 +209,7 @@ void LteMacUeRealisticD2D::macPduMake()
                 if (mbuf_.find(destCid) == mbuf_.end())
                     throw cRuntimeError("Unable to find mac buffer for cid %d", destCid);
 
-                if (mbuf_[destCid]->empty())
+                if (mbuf_[destCid]->isEmpty())
                     throw cRuntimeError("Empty buffer for cid %d, while expected SDUs were %d", destCid, sduPerCid);
 
                 pkt = mbuf_[destCid]->popFront();

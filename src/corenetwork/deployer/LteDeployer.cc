@@ -14,6 +14,9 @@
 
 Define_Module(LteDeployer);
 
+using namespace omnetpp;
+using namespace inet;
+
 // TODO: mettere parametro numEnbAntennas da passare a LteMcs::cwMapping (@par antennas)
 
 LteDeployer::LteDeployer()

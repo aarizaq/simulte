@@ -15,6 +15,8 @@
 #include "stack/mac/buffer/harq_d2d/LteHarqBufferRxD2DMirror.h"
 #include "stack/mac/allocator/LteAllocationModule.h"
 
+using namespace omnetpp;
+
 // TODO
 bool
 LteSchedulerEnbUl::checkEligibility(MacNodeId id, Codeword& cw)

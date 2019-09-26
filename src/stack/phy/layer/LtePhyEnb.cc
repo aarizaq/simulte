@@ -14,6 +14,9 @@
 
 Define_Module(LtePhyEnb);
 
+using namespace omnetpp;
+using namespace inet;
+
 LtePhyEnb::LtePhyEnb()
 {
     das_ = NULL;
@@ -47,18 +50,16 @@ void LtePhyEnb::initialize(int stage)
         // get local id
         nodeId_ = getAncestorPar("macNodeId");
         EV << "Local MacNodeId: " << nodeId_ << endl;
-        std::cout << "Local MacNodeId: " << nodeId_ << endl;
-
         nodeType_ = ENODEB;
+        WATCH(nodeType_);
+    }
+    else if (stage == INITSTAGE_LINK_LAYER)
+    {
         deployer_ = getDeployer(nodeId_);
         deployer_->channelUpdate(nodeId_, intuniform(1, binder_->phyPisaData.maxChannel2()));
         das_ = new DasFilter(this, binder_, deployer_->getRemoteAntennaSet(), 0);
-
-        WATCH(nodeType_);
         WATCH(das_);
-    }
-    else if (stage == 1)
-    {
+
         initializeFeedbackComputation(par("feedbackComputation").xmlValue());
 
         //check eNb type and set TX power
@@ -88,6 +89,10 @@ void LtePhyEnb::initialize(int stage)
             scheduleAt(NOW, bdcStarter_);
         }
     }
+    else if (stage == INITSTAGE_LINK_LAYER)
+    {
+
+   }
 }
 
 void LtePhyEnb::handleSelfMessage(cMessage *msg)

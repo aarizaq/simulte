@@ -57,16 +57,16 @@ class LteRlcUmRealistic : public LteRlcUm
      *
      * @param nodeId Id of the node whose queues are deleted
      */
-    virtual void deleteQueues(MacNodeId nodeId);
+    virtual void deleteQueues(MacNodeId nodeId) override;
 
   protected:
 
     /**
      * Initialize watches
      */
-    virtual void initialize();
+    virtual void initialize() override;
 
-    virtual void finish()
+    virtual void finish() override
     {
     }
 
@@ -109,7 +109,7 @@ class LteRlcUmRealistic : public LteRlcUm
      *
      * @param pkt packet to process
      */
-    virtual void handleUpperMessage(cPacket *pkt);
+    virtual void handleUpperMessage(omnetpp::cPacket *pkt) override;
 
     /**
      * UM Mode
@@ -126,7 +126,7 @@ class LteRlcUmRealistic : public LteRlcUm
      *
      * @param pkt packet to process
      */
-    virtual void handleLowerMessage(cPacket *pkt);
+    virtual void handleLowerMessage(omnetpp::cPacket *pkt) override;
 
     /*
      * Data structures

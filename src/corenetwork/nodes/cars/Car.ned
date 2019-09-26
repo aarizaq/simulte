@@ -17,8 +17,8 @@ import inet.networklayer.common.InterfaceTable;
 import inet.networklayer.contract.IRoutingTable;
 import inet.networklayer.contract.INetworkLayer;
 import inet.networklayer.configurator.ipv4.HostAutoConfigurator;
-import inet.transportlayer.tcp.TCP;
-import inet.transportlayer.udp.UDP;
+import inet.transportlayer.tcp.Tcp;
+import inet.transportlayer.udp.Udp;
 import lte.stack.phy.ILteNic;
 import lte.stack.phy.LteNicUe;
 import lte.stack.phy.LteNicUeD2D;
@@ -36,8 +36,8 @@ module Car
         string mobilityType = default("VeinsInetMobility");
 
         //# Apps
-        int numTcpApps = default(0);  // no of TCP apps
-        int numUdpApps = default(0);  // no of UDP apps
+        int numTcpApps = default(0);  // no of Tcp apps
+        int numUdpApps = default(0);  // no of Udp apps
 
         //# Node specs
         string nodeType = "UE";  // DO NOT CHANGE
@@ -50,8 +50,8 @@ module Car
         string nicType = d2dCapable ? "LteNicUeD2D" : "LteNicUe";
 
         //# Network Layer specs
-        string networkLayerType = default("IPv4NetworkLayer");
-        string routingTableType = default("IPv4RoutingTable");
+        string networkLayerType = default("Ipv4NetworkLayer");
+        string routingTableType = default("Ipv4RoutingTable");
         *.interfaceTableModule = default(absPath(".interfaceTable"));
         *.routingTableModule = default(absPath(".routingTable"));
 
@@ -73,13 +73,13 @@ module Car
         tcpApp[numTcpApps]: <> like ITCPApp {
             @display("p=175,50,row");
         }
-        tcp: TCP if numTcpApps>0 {
+        tcp: Tcp if numTcpApps>0 {
             @display("p=175,150");
         }
         udpApp[numUdpApps]: <> like IUDPApp {
             @display("p=325,50,row");
         }
-        udp: UDP if numUdpApps>0 {
+        udp: Udp if numUdpApps>0 {
             @display("p=325,150");
         }
         // NOTE: instance must be named "lteNic"
@@ -98,7 +98,7 @@ module Car
         }
     connections allowunconnected:
         //# 
-        //# Internal TCP/UDP applications connections with IP stack
+        //# Internal Tcp/Udp applications connections with IP stack
         //#
 
         for i=0..numTcpApps-1 {
@@ -110,8 +110,8 @@ module Car
         tcp.ipIn <-- networkLayer.transportOut++ if numTcpApps>0;
 
         for i=0..numUdpApps-1 {
-            udpApp[i].udpOut --> udp.appIn++;
-            udpApp[i].udpIn <-- udp.appOut++;
+            udpApp[i].socketOut --> udp.appIn++;
+            udpApp[i].socketIn <-- udp.appOut++;
         }
 
         udp.ipOut --> networkLayer.transportIn++ if numUdpApps>0;

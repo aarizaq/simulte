@@ -12,6 +12,8 @@
 
 Define_Module(LteRlcUmRealisticD2D);
 
+using namespace omnetpp;
+
 void LteRlcUmRealisticD2D::handleMessage(cMessage *msg)
 {
     LteRlcUmRealistic::handleMessage(msg);

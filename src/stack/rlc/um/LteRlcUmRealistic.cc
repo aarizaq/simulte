@@ -11,6 +11,7 @@
 #include "stack/mac/packet/LteMacSduRequest.h"
 
 Define_Module(LteRlcUmRealistic);
+using namespace omnetpp;
 
 UmTxEntity* LteRlcUmRealistic::getTxBuffer(FlowControlInfo* lteInfo)
 {

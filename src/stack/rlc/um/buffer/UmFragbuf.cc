@@ -9,11 +9,13 @@
 
 #include "stack/rlc/um/buffer/UmFragbuf.h"
 
+using namespace omnetpp;
+
 bool UmFragbuf::insert(unsigned int pktId, unsigned int totFrag,
     unsigned int fragSno, unsigned int fragSize, FlowControlInfo* info)
 {
     debugCounter_++;
-    //EV << "debugCounter is now " << debugCounter_ << endl;
+    EV << "debugCounter is now " << debugCounter_ << endl;
 
     // Add fragment to buffer
     if (frags_.find(pktId) == frags_.end())

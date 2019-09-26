@@ -14,6 +14,7 @@
 #include "corenetwork/nodes/InternetMux.h"
 
 using namespace std;
+using namespace inet;
 
 Define_Module(LteBinder);
 
@@ -324,12 +325,12 @@ void LteBinder::registerDeployer(LteDeployer* pDeployer, MacCellId macCellId)
 //                        for (int i = 0; i < nAppsSameType; i++) {
 //                            uint32_t ueIp = 0; // NOTE: removed ipCounter_[2] + nDl;
 //                            nDl++;
-//                            std::string test=IPv4Address(ueIp).str();
+//                            std::string test=Ipv4Address(ueIp).str();
 //                            attachAppModule(
 //                                    ((strcasecmp(nodeName, "Ue") == 0) ?
 //                                            vUes[i] : LteInternet),
 //                                    ((strcasecmp(nodeName, "eNodeB") == 0) ?
-//                                            IPv4Address(ueIp).str() : enodeBIp),
+//                                            Ipv4Address(ueIp).str() : enodeBIp),
 //                                    attr, -1);
 //                        }
 //                    } else {
@@ -337,7 +338,7 @@ void LteBinder::registerDeployer(LteDeployer* pDeployer, MacCellId macCellId)
 //                            attachAppModule(
 //                                    ((strcasecmp(nodeName, "Ue") == 0) ?
 //                                            vUes[i] : LteInternet),
-//                                    IPv4Address(enodeBIp).str(), attr , i);
+//                                    Ipv4Address(enodeBIp).str(), attr , i);
 //                        }
 //                    }
 //                }
@@ -529,15 +530,15 @@ void LteBinder::attachAppModule(cModule *parentModule, std::string IPAddr,
     cModuleType *mt = NULL;
     cModule *module = NULL;
 
-    if (appType == "UDPSink")
+    if (appType == "UdpSink")
     {
-        mt = cModuleType::get("inet.applications.udpapp.UDPSink");
+        mt = cModuleType::get("inet.applications.udpapp.UdpSink");
         module = mt->create("udpApp", parentModule);
         transportAppAttach(parentModule, module, string("udp"));
     }
-    else if (appType == "UDPBasicApp")
+    else if (appType == "UdpBasicApp")
     {
-        mt = cModuleType::get("inet.applications.udpapp.UDPBasicApp");
+        mt = cModuleType::get("inet.applications.udpapp.UdpBasicApp");
         module = mt->create("udpApp", parentModule);
         module->par("destAddresses") = IPAddr;
         transportAppAttach(parentModule, module, string("udp"));
@@ -564,16 +565,16 @@ void LteBinder::attachAppModule(cModule *parentModule, std::string IPAddr,
         if (counter != -1) // set the appropriate port for UL direction
             setTransportAppPort(module, counter, attr);
     }
-    else if (appType == "TCPBasicClientApp")
+    else if (appType == "TcpBasicClientApp")
     {
-        mt = cModuleType::get("inet.applications.tcpapp.TCPBasicClientApp");
+        mt = cModuleType::get("inet.applications.tcpapp.TcpBasicClientApp");
         module = mt->create("tcpApp", parentModule);
         module->par("connectAddress") = IPAddr;
         transportAppAttach(parentModule, module, string("tcp"));
     }
-    else if (appType == "TCPSinkApp")
+    else if (appType == "TcpSinkApp")
     {
-        mt = cModuleType::get("inet.applications.tcpapp.TCPSinkApp");
+        mt = cModuleType::get("inet.applications.tcpapp.TcpSinkApp");
         module = mt->create("tcpApp", parentModule);
         transportAppAttach(parentModule, module, string("tcp"));
     }
@@ -634,7 +635,7 @@ void LteBinder::unregisterNode(MacNodeId id)
     if(nodeIds_.erase(id) != 1){
         EV_ERROR << "Cannot unregister node - node id \"" << id << "\" - not found";
     }
-    std::map<IPv4Address, MacNodeId>::iterator it;
+    std::map<Ipv4Address, MacNodeId>::iterator it;
     for(it = macNodeIdToIPAddress_.begin(); it != macNodeIdToIPAddress_.end(); )
     {
         if(it->second == id)
@@ -740,8 +741,8 @@ void LteBinder::initialize(int stage)
 
 std::string LteBinder::increment_address(const char* address_string)  //TODO unused function
 {
-    IPv4Address addr(address_string);
-    return IPv4Address(addr.getInt() + 1).str();
+    Ipv4Address addr(address_string);
+    return Ipv4Address(addr.getInt() + 1).str();
 }
 
 int LteBinder::getQCIPriority(int QCI)

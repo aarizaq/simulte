@@ -34,18 +34,18 @@ class LteMacUeD2D : public LteMacUe
     /**
      * Reads MAC parameters for ue and performs initialization.
      */
-    virtual void initialize(int stage);
+    virtual void initialize(int stage) override;
 
     /**
      * Main loop
      */
-    virtual void handleSelfMessage();
+    virtual void handleSelfMessage() override;
 
     /**
      * Analyze gate of incoming packet
      * and call proper handler
      */
-    virtual void handleMessage(cMessage *msg);
+    virtual void handleMessage(omnetpp::cMessage *msg) override;
 
     /**
      * macPduMake() creates MAC PDUs (one for each CID)
@@ -56,7 +56,7 @@ class LteMacUeD2D : public LteMacUe
      * On UE it also adds a BSR control element to the MAC PDU
      * containing the size of its buffer (for that CID)
      */
-    virtual void macPduMake(LteMacScheduleList* scheduleList);
+    virtual void macPduMake(LteMacScheduleList* scheduleList) override;
 
     /*
      * Build a BSR to be sent to the eNB containing the size of the buffers
@@ -67,29 +67,29 @@ class LteMacUeD2D : public LteMacUe
     /*
      * Receives and handles scheduling grants
      */
-    virtual void macHandleGrant(cPacket* pkt);
+    virtual void macHandleGrant(omnetpp::cPacket* pkt) override;
 
     /*
      * Checks RAC status
      */
-    virtual void checkRAC();
+    virtual void checkRAC() override;
 
     /*
      * Receives and handles RAC responses
      */
-    virtual void macHandleRac(cPacket* pkt);
+    virtual void macHandleRac(omnetpp::cPacket* pkt) override;
 
-    void macHandleD2DModeSwitch(cPacket* pkt);
+    void macHandleD2DModeSwitch(omnetpp::cPacket* pkt);
 
   public:
     LteMacUeD2D();
     virtual ~LteMacUeD2D();
 
-    virtual bool isD2DCapable()
+    virtual bool isD2DCapable() override
     {
         return true;
     }
-    virtual void doHandover(MacNodeId targetEnb);
+    virtual void doHandover(MacNodeId targetEnb) override;
 };
 
 #endif

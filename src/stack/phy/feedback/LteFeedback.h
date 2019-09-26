@@ -10,10 +10,13 @@
 #ifndef _LTE_LTEFEEDBACK_H_
 #define _LTE_LTEFEEDBACK_H_
 
-#include "common/LteCommon.h"
-#include "stack/mac/amc/UserTxParams.h"
 #include <map>
 #include <vector>
+
+#include <omnetpp.h>
+
+#include "common/LteCommon.h"
+#include "stack/mac/amc/UserTxParams.h"
 
 class LteFeedback;
 typedef std::vector<LteFeedback> LteFeedbackVector;
@@ -307,108 +310,111 @@ class LteFeedback
      */
     void print(MacCellId cellId, MacNodeId nodeId, Direction dir, const char* s) const
     {
-        EV << NOW << " " << s << "         LteFeedback\n";
-        EV << NOW << " " << s << " CellId: " << cellId << "\n";
-        EV << NOW << " " << s << " NodeId: " << nodeId << "\n";
-        EV << NOW << " " << s << " Antenna: " << dasToA(getAntennaId()) << "\n"; // XXX Generoso
-        EV << NOW << " " << s << " Direction: " << dirToA(dir) << "\n";
-        EV << NOW << " " << s << " -------------------------\n";
-        EV << NOW << " " << s << " TxMode: " << txModeToA(getTxMode()) << "\n";
-        EV << NOW << " " << s << " Type: " << (isPeriodicFeedback() ? "PERIODIC": "APERIODIC") << "\n";
-        EV << NOW << " " << s << " -------------------------\n";
+        /**
+         * no printing yet, fix this asap.
+         */
+        //EV << NOW << " " << s << "         LteFeedback\n";
+        //EV << NOW << " " << s << " CellId: " << cellId << "\n";
+        //EV << NOW << " " << s << " NodeId: " << nodeId << "\n";
+        //EV << NOW << " " << s << " Antenna: " << dasToA(getAntennaId()) << "\n"; // XXX Generoso
+        //EV << NOW << " " << s << " Direction: " << dirToA(dir) << "\n";
+        //EV << NOW << " " << s << " -------------------------\n";
+        //EV << NOW << " " << s << " TxMode: " << txModeToA(getTxMode()) << "\n";
+        //EV << NOW << " " << s << " Type: " << (isPeriodicFeedback() ? "PERIODIC": "APERIODIC") << "\n";
+        //EV << NOW << " " << s << " -------------------------\n";
 
-        if(isEmptyFeedback())
-        {
-            EV << NOW << " " << s << " EMPTY!\n";
-        }
+        //if(isEmptyFeedback())
+        //{
+        //    EV << NOW << " " << s << " EMPTY!\n";
+        //}
 
-        if(hasRankIndicator())
-        EV << NOW << " " << s << " RI = " << getRankIndicator() << "\n";
+        //if(hasRankIndicator())
+        //EV << NOW << " " << s << " RI = " << getRankIndicator() << "\n";
 
-        if(hasPreferredCqi())
-        {
-            CqiVector cqi = getPreferredCqi();
-            unsigned int codewords = cqi.size();
-            for(Codeword cw = 0; cw < codewords; ++cw)
-            EV << NOW << " " << s << " Preferred CQI[" << cw << "] = " << cqi.at(cw) << "\n";
-        }
+        //if(hasPreferredCqi())
+        //{
+        //    CqiVector cqi = getPreferredCqi();
+        //    unsigned int codewords = cqi.size();
+        //    for(Codeword cw = 0; cw < codewords; ++cw)
+        //    EV << NOW << " " << s << " Preferred CQI[" << cw << "] = " << cqi.at(cw) << "\n";
+        //}
 
-        if(hasWbCqi())
-        {
-            CqiVector cqi = getWbCqi();
-            unsigned int codewords = cqi.size();
-            for(Codeword cw = 0; cw < codewords; ++cw)
-            EV << NOW << " " << s << " Wideband CQI[" << cw << "] = " << cqi.at(cw) << "\n";
-        }
+        //if(hasWbCqi())
+        //{
+        //    CqiVector cqi = getWbCqi();
+        //    unsigned int codewords = cqi.size();
+        //    for(Codeword cw = 0; cw < codewords; ++cw)
+        //    EV << NOW << " " << s << " Wideband CQI[" << cw << "] = " << cqi.at(cw) << "\n";
+        //}
 
-        if(hasBandCqi())
-        {
-            std::vector<CqiVector> cqi = getBandCqi();
-            unsigned int codewords = cqi.size();
-            for(Codeword cw = 0; cw < codewords; ++cw)
-            {
-                EV << NOW << " " << s << " Band CQI[" << cw << "] = {";
-                unsigned int bands = cqi[0].size();
-                if(bands > 0)
-                {
-                    EV << cqi.at(cw).at(0);
-                    for(Band b = 1; b < bands; ++b)
-                    EV << ", " << cqi.at(cw).at(b);
-                }
-                EV << "}\n";
-            }
-        }
+        //if(hasBandCqi())
+        //{
+        //    std::vector<CqiVector> cqi = getBandCqi();
+        //    unsigned int codewords = cqi.size();
+        //    for(Codeword cw = 0; cw < codewords; ++cw)
+        //    {
+        //        EV << NOW << " " << s << " Band CQI[" << cw << "] = {";
+        //        unsigned int bands = cqi[0].size();
+        //        if(bands > 0)
+        //        {
+        //            EV << cqi.at(cw).at(0);
+        //            for(Band b = 1; b < bands; ++b)
+        //            EV << ", " << cqi.at(cw).at(b);
+        //        }
+        //        EV << "}\n";
+        //    }
+        //}
 
-        if(hasPreferredPmi())
-        {
-            Pmi pmi = getPreferredPmi();
-            EV << NOW << " " << s << " Preferred PMI = " << pmi << "\n";
-        }
+        //if(hasPreferredPmi())
+        //{
+        //    Pmi pmi = getPreferredPmi();
+        //    EV << NOW << " " << s << " Preferred PMI = " << pmi << "\n";
+        //}
 
-        if(hasWbPmi())
-        {
-            Pmi pmi = getWbPmi();
-            EV << NOW << " " << s << " Wideband PMI = " << pmi << "\n";
-        }
+        //if(hasWbPmi())
+        //{
+        //    Pmi pmi = getWbPmi();
+        //    EV << NOW << " " << s << " Wideband PMI = " << pmi << "\n";
+        //}
 
-        if(hasBandCqi())
-        {
-            PmiVector pmi = getBandPmi();
-            EV << NOW << " " << s << " Band PMI = {";
-            unsigned int bands = pmi.size();
-            if(bands > 0)
-            {
-                EV << pmi.at(0);
-                for(Band b = 1; b < bands; ++b)
-                EV << ", " << pmi.at(b);
-            }
-            EV << "}\n";
-        }
+        //if(hasBandCqi())
+        //{
+        //    PmiVector pmi = getBandPmi();
+        //    EV << NOW << " " << s << " Band PMI = {";
+        //    unsigned int bands = pmi.size();
+        //    if(bands > 0)
+        //    {
+        //        EV << pmi.at(0);
+        //        for(Band b = 1; b < bands; ++b)
+        //        EV << ", " << pmi.at(b);
+        //    }
+        //    EV << "}\n";
+        //}
 
-        if(hasPreferredCqi() || hasPreferredPmi())
-        {
-            BandSet band = getPreferredBands();
-            BandSet::iterator it = band.begin();
-            BandSet::iterator et = band.end();
-            EV << NOW << " " << s << " Preferred Bands = {";
-            if(it != et)
-            {
-                EV << *it;
-                it++;
-                for(;it != et; ++it)
-                EV << ", " << *it;
-            }
-            EV << "}\n";
-        }
+        //if(hasPreferredCqi() || hasPreferredPmi())
+        //{
+        //    BandSet band = getPreferredBands();
+        //    BandSet::iterator it = band.begin();
+        //    BandSet::iterator et = band.end();
+        //    EV << NOW << " " << s << " Preferred Bands = {";
+        //    if(it != et)
+        //    {
+        //        EV << *it;
+        //        it++;
+        //        for(;it != et; ++it)
+        //        EV << ", " << *it;
+        //    }
+        //    EV << "}\n";
+        //}
     }
 };
 
 class LteSummaryFeedback
 {
     //! confidence function lower bound
-    simtime_t confidenceLowerBound_;
+    omnetpp::simtime_t confidenceLowerBound_;
     //! confidence function upper bound
-    simtime_t confidenceUpperBound_;
+    omnetpp::simtime_t confidenceUpperBound_;
 
   protected:
 
@@ -425,20 +431,20 @@ class LteSummaryFeedback
     PmiVector pmi_;
 
     //! time elapsed from last refresh of RI.
-    simtime_t tRi_;
+    omnetpp::simtime_t tRi_;
     //! time elapsed from last refresh of CQI.
-    std::vector<std::vector<simtime_t> > tCqi_;
+    std::vector<std::vector<omnetpp::simtime_t> > tCqi_;
     //! time elapsed from last refresh of PMI.
-    std::vector<simtime_t> tPmi_;
+    std::vector<omnetpp::simtime_t> tPmi_;
     // valid flag
     bool valid_;
 
     /** Calculate the confidence factor.
      *  @param n the feedback age in tti
      */
-    double confidence(simtime_t creationTime) const
+    double confidence(omnetpp::simtime_t creationTime) const
         {
-        simtime_t delta = simTime() - creationTime;
+            omnetpp::simtime_t delta = omnetpp::simTime() - creationTime;
 
         if (delta < confidenceLowerBound_)
             return 1.0;
@@ -450,7 +456,7 @@ class LteSummaryFeedback
   public:
 
     //! Create an empty feedback message.
-    LteSummaryFeedback(unsigned char cw, unsigned int b, simtime_t lb, simtime_t ub)
+    LteSummaryFeedback(unsigned char cw, unsigned int b, omnetpp::simtime_t lb, omnetpp::simtime_t ub)
     {
         totCodewords_ = cw;
         logicalBandsTot_ = b;
@@ -463,14 +469,14 @@ class LteSummaryFeedback
     void reset()
     {
         ri_ = NORANK;
-        tRi_ = simTime();
+        tRi_ = omnetpp::simTime();
 
         cqi_ = std::vector<CqiVector>(totCodewords_, CqiVector(logicalBandsTot_, NOSIGNALCQI)); // XXX DUMMY VALUE USED FOR TESTING: replace with NOSIGNALCQI
-        tCqi_ = std::vector<std::vector<simtime_t> >(totCodewords_,
-            std::vector<simtime_t>(logicalBandsTot_, simTime()));
+        tCqi_ = std::vector<std::vector<omnetpp::simtime_t> >(totCodewords_,
+            std::vector<omnetpp::simtime_t>(logicalBandsTot_, omnetpp::simTime()));
 
         pmi_ = PmiVector(logicalBandsTot_, NOPMI);
-        tPmi_ = std::vector<simtime_t>(logicalBandsTot_, simTime());
+        tPmi_ = std::vector<omnetpp::simtime_t>(logicalBandsTot_, omnetpp::simTime());
         valid_ = false;
     }
 
@@ -482,7 +488,7 @@ class LteSummaryFeedback
     void setRi(Rank ri)
     {
         ri_ = ri;
-        tRi_ = simTime();
+        tRi_ = omnetpp::simTime();
         //set cw
         totCodewords_ = ri > 1 ? 2 : 1;
     }
@@ -492,7 +498,7 @@ class LteSummaryFeedback
     {
         // note: it is impossible to receive cqi == 0!
         cqi_[cw][band] = cqi;
-        tCqi_[cw][band] = simTime();
+        tCqi_[cw][band] = omnetpp::simTime();
         valid_ = true;
     }
 
@@ -500,7 +506,7 @@ class LteSummaryFeedback
     void setPmi(Pmi pmi, Band band)
     {
         pmi_[band] = pmi;
-        tPmi_[band] = simTime();
+        tPmi_[band] = omnetpp::simTime();
     }
 
     /*************
@@ -581,61 +587,65 @@ class LteSummaryFeedback
      */
     void print(MacCellId cellId, MacNodeId nodeId, const Direction dir, TxMode txm, const char* s) const
         {
-        EV << NOW << " " << s << "     LteSummaryFeedback\n";
-        EV << NOW << " " << s << " CellId: " << cellId << "\n";
-        EV << NOW << " " << s << " NodeId: " << nodeId << "\n";
-        EV << NOW << " " << s << " Direction: " << dirToA(dir) << "\n";
-        EV << NOW << " " << s << " TxMode: " << txModeToA(txm) << "\n";
-        EV << NOW << " " << s << " -------------------------\n";
-
-        Rank ri = getRi();
-        double c = getRiConfidence();
-        EV << NOW << " " << s << " RI = " << ri << " [" << c << "]\n";
-
-        unsigned char codewords = getTotCodewords();
-        unsigned char bands = getTotLogicalBands();
-        for(Codeword cw = 0; cw < codewords; ++cw)
-        {
-            EV << NOW << " " << s << " CQI[" << cw << "] = {";
-            if(bands > 0)
-            {
-                EV << getCqi(cw, 0);
-                for(Band b = 1; b < bands; ++b)
-                EV << ", " << getCqi(cw, b);
-            }
-            EV << "} [{";
-            if(bands > 0)
-            {
-                c = getCqiConfidence(cw, 0);
-                EV << c;
-                for(Band b = 1; b < bands; ++b)
-                {
-                    c = getCqiConfidence(cw, b);
-                    EV << ", " << c;
-                }
-            }
-            EV << "}]\n";
-        }
-
-        EV << NOW << " " << s << " PMI = {";
-        if(bands > 0)
-        {
-            EV << getPmi(0);
-            for(Band b = 1; b < bands; ++b)
-            EV << ", " << getPmi(b);
-        }
-        EV << "} [{";
-        if(bands > 0)
-        {
-            c = getPmiConfidence(0);
-            EV << c;
-            for(Band b = 1; b < bands; ++b)
-            {
-                c = getPmiConfidence(b);
-                EV << ", " << c;
-            }
-        }
-        EV << "}]\n";
+          /**
+           * TODO: enable printing
+           * no printing yet
+           */
+//            EV << NOW << " " << s << "     LteSummaryFeedback\n";
+//        EV << NOW << " " << s << " CellId: " << cellId << "\n";
+//        EV << NOW << " " << s << " NodeId: " << nodeId << "\n";
+//        EV << NOW << " " << s << " Direction: " << dirToA(dir) << "\n";
+//        EV << NOW << " " << s << " TxMode: " << txModeToA(txm) << "\n";
+//        EV << NOW << " " << s << " -------------------------\n";
+//
+//        Rank ri = getRi();
+//        double c = getRiConfidence();
+//        EV << NOW << " " << s << " RI = " << ri << " [" << c << "]\n";
+//
+//        unsigned char codewords = getTotCodewords();
+//        unsigned char bands = getTotLogicalBands();
+//        for(Codeword cw = 0; cw < codewords; ++cw)
+//        {
+//            EV << NOW << " " << s << " CQI[" << cw << "] = {";
+//            if(bands > 0)
+//            {
+//                EV << getCqi(cw, 0);
+//                for(Band b = 1; b < bands; ++b)
+//                EV << ", " << getCqi(cw, b);
+//            }
+//            EV << "} [{";
+//            if(bands > 0)
+//            {
+//                c = getCqiConfidence(cw, 0);
+//                EV << c;
+//                for(Band b = 1; b < bands; ++b)
+//                {
+//                    c = getCqiConfidence(cw, b);
+//                    EV << ", " << c;
+//                }
+//            }
+//            EV << "}]\n";
+//        }
+//
+//        EV << NOW << " " << s << " PMI = {";
+//        if(bands > 0)
+//        {
+//            EV << getPmi(0);
+//            for(Band b = 1; b < bands; ++b)
+//            EV << ", " << getPmi(b);
+//        }
+//        EV << "} [{";
+//        if(bands > 0)
+//        {
+//            c = getPmiConfidence(0);
+//            EV << c;
+//            for(Band b = 1; b < bands; ++b)
+//            {
+//                c = getPmiConfidence(b);
+//                EV << ", " << c;
+//            }
+//        }
+//        EV << "}]\n";
     }
 };
 
@@ -656,7 +666,7 @@ class LteSummaryBuffer
 
   public:
 
-    LteSummaryBuffer(unsigned char dim, unsigned char cw, unsigned int b, simtime_t lb, simtime_t ub) :
+    LteSummaryBuffer(unsigned char dim, unsigned char cw, unsigned int b, omnetpp::simtime_t lb, omnetpp::simtime_t ub) :
         cumulativeSummary_(cw, b, lb, ub)
     {
         bufferSize_ = dim;
@@ -727,17 +737,7 @@ class LteMuMimoMatrix
     {
         return muMatrix_[toIndex(id)];
     }
-    void print(const char *s)
-    {
-        EV << NOW << " " << s << " ################" << endl;
-        EV << NOW << " " << s << " LteMuMimoMatrix" << endl;
-        EV << NOW << " " << s << " ################" << endl;
-        for (unsigned int i=1025;i<maxNodeId_;i++)
-        EV << NOW << "" << i;
-        EV << endl;
-        for (unsigned int i=1025;i<maxNodeId_;i++)
-        EV << NOW << "" << muMatrix_[i];
-    }
+    void print(const char *s);
 };
 
 #endif

@@ -11,6 +11,8 @@
 #include "stack/mac/scheduler/LcgSchedulerRealistic.h"
 #include "stack/mac/buffer/LteMacBuffer.h"
 
+using namespace omnetpp;
+
 LcgSchedulerRealistic::LcgSchedulerRealistic(LteMacUe* mac)
     :LcgScheduler(mac)
 {

@@ -12,6 +12,8 @@
 #include "stack/mac/allocator/LteAllocationModule.h"
 #include "stack/mac/buffer/LteMacBuffer.h"
 
+using namespace omnetpp;
+
 LteSchedulerEnbDlRealistic::LteSchedulerEnbDlRealistic() {
     // TODO Auto-generated constructor stub
 

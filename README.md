@@ -2,14 +2,26 @@ SimuLTE
 =======
 
 LTE user plane simulation model, compatible with the INET Framework.
+edit: (not currently)
 
 Dependencies
 ------------
 
 The current master/head version requires either of
 
-- OMNeT++ 5.0 and INET 3.4
-- OMNeT++ 5.1 and INET 3.5
+once running, should work with OMNeT++ 5.4 and INET 4.0
+
+Setup
+-----
+
+- PATH variable should include omnet bin directory and inet bin directory
+- LIBRARY_PATH and LD_LIBRARY_PATH must include the location of the corresponding
+shared object libraries (in theory LD_LIBRARY_PATH should be sufficient, 
+since the build of both inet and simulte generate so files, however, it 
+fixed an error for me)
+- CPATH environment variable should include inet/4.0.0/src and 
+simulte_inet4_compat/compatibility/include directory
+
 
 Features
 --------
@@ -79,6 +91,8 @@ Limitations
 
 Using the configuration editor
 ------------------------------
+
+(edit: not sure about that)
 
 SimuLTE also contains a form-based configuration editor to edit the most 
 often used simulation parameters. To use it, right-click an Ini file, and choose

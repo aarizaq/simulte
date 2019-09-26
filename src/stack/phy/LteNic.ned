@@ -10,7 +10,8 @@
 
 package lte.stack.phy;
 
-import inet.linklayer.contract.IWirelessNic;
+import inet.linklayer.contract.IWirelessInterface;
+import inet.networklayer.common.InterfaceEntry;
 import lte.stack.mac.LteMac;
 import lte.stack.pdcp_rrc.LtePdcpRrc;
 import lte.stack.phy.feedback.LteDlFeedbackGenerator;
@@ -24,7 +25,7 @@ import lte.stack.handoverManager.LteHandoverManager;
 // 
 // Interface for the LTE Stack.
 //
-moduleinterface ILteNic extends IWirelessNic
+moduleinterface ILteNic extends IWirelessInterface
 {
         string nodeType;
         bool d2dCapable;            // inherit the value from the parent module
@@ -36,10 +37,11 @@ moduleinterface ILteNic extends IWirelessNic
 // 
 // Base module for the LTE Stack.
 //
-// TODO: implement IWirelessNic
-module LteNicBase like ILteNic
+// TODO: implement IWirelessInterface
+module LteNicBase extends InterfaceEntry like ILteNic
 {
     parameters:
+        @class(::inet::InterfaceEntry);
         @display("i=block/ifcard;bgb=250,444;bgl=3");
         string interfaceTableModule;
         string routingTableModule;

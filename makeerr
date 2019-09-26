@@ -1,0 +1,40 @@
+apps/vod/VoDUDPClient.cc: In member function ‘virtual void VoDUDPClient::initialize(int)’:
+apps/vod/VoDUDPClient.cc:30:10: warning: ignoring return value of ‘int chdir(const char*)’, declared with attribute warn_unused_result [-Wunused-result]
+     chdir("../../../VoDProject");
+     ~~~~~^~~~~~~~~~~~~~~~~~~~~~~
+apps/vod/VoDUDPClient.cc:31:11: warning: ignoring return value of ‘int system(const char*)’, declared with attribute warn_unused_result [-Wunused-result]
+     system(dir.c_str());
+     ~~~~~~^~~~~~~~~~~~~
+apps/vod/VoDUDPClient.cc:32:11: warning: ignoring return value of ‘int system(const char*)’, declared with attribute warn_unused_result [-Wunused-result]
+     system(trace.c_str());
+     ~~~~~~^~~~~~~~~~~~~~~
+apps/vod/VoDUDPClient.cc:43:10: warning: ignoring return value of ‘int chdir(const char*)’, declared with attribute warn_unused_result [-Wunused-result]
+     chdir("../workspace/lte/simulations/dynamicnetwork");
+     ~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+apps/vod/VoDUDPClient.cc: In member function ‘virtual void VoDUDPClient::finish()’:
+apps/vod/VoDUDPClient.cc:58:10: warning: ignoring return value of ‘int chdir(const char*)’, declared with attribute warn_unused_result [-Wunused-result]
+     chdir("../../../VoDProject");
+     ~~~~~^~~~~~~~~~~~~~~~~~~~~~~
+apps/vod/VoDUDPClient.cc:115:19: warning: ignoring return value of ‘int system(const char*)’, declared with attribute warn_unused_result [-Wunused-result]
+             system(par.c_str());
+             ~~~~~~^~~~~~~~~~~~~
+apps/vod/VoDUDPClient.cc:118:10: warning: ignoring return value of ‘int chdir(const char*)’, declared with attribute warn_unused_result [-Wunused-result]
+     chdir("../workspace/lte/simulations/dynamicnetwork");
+     ~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+stack/mac/scheduling_modules/LteMaxCiOptMB.cc: In member function ‘void LteMaxCiOptMB::launchProblem()’:
+stack/mac/scheduling_modules/LteMaxCiOptMB.cc:559:11: warning: ignoring return value of ‘int system(const char*)’, declared with attribute warn_unused_result [-Wunused-result]
+     system(cmd.str().c_str());
+     ~~~~~~^~~~~~~~~~~~~~~~~~~
+stack/mac/packet/LteMacPdu_m.cc: In member function ‘virtual const char* LteMacPduDescriptor::getFieldStructName(int) const’:
+stack/mac/packet/LteMacPdu_m.cc:469:53: error: ‘cPacket’ was not declared in this scope
+         case 0: return omnetpp::opp_typename(typeid(cPacket));
+                                                     ^~~~~~~
+stack/mac/packet/LteMacPdu_m.cc:469:53: note: suggested alternative:
+In file included from /home/ich/libs/omnet/omnetpp-5.4.1/include/omnetpp.h:91:0,
+                 from stack/mac/packet/LteMacPdu_m.h:11,
+                 from stack/mac/packet/LteMacPdu_m.cc:29:
+/home/ich/libs/omnet/omnetpp-5.4.1/include/omnetpp/cpacket.h:52:15: note:   ‘omnetpp::cPacket’
+ class SIM_API cPacket : public cMessage
+               ^~~~~~~
+make[1]: *** [../out/gcc-release/src/stack/mac/packet/LteMacPdu_m.o] Error 1
+make: *** [all] Error 2

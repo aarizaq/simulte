@@ -24,13 +24,13 @@ class LtePhyUe : public LtePhyBase
     MacNodeId masterId_;
 
     /** Statistic for serving cell */
-    simsignal_t servingCell_;
+    omnetpp::simsignal_t servingCell_;
 
     /** Self message to trigger handover procedure evaluation */
-    cMessage *handoverStarter_;
+    omnetpp::cMessage *handoverStarter_;
 
     /** Self message to start the handover procedure */
-    cMessage *handoverTrigger_;
+    omnetpp::cMessage *handoverTrigger_;
 
     /** RSSI received from the current serving node */
     double currentMasterRssi_;
@@ -92,23 +92,23 @@ class LtePhyUe : public LtePhyBase
     LteMacUe *mac_;
     LteRlcUm *rlcUm_;
 
-    simtime_t lastFeedback_;
+    omnetpp::simtime_t lastFeedback_;
 
     // for UL interference management
     // store the map of RBs used by the UE for transmission
     struct UsedRBs
     {
-        simtime_t time_;
+        omnetpp::simtime_t time_;
         RbMap rbMap_;
     };
     std::vector<UsedRBs> usedRbs_;
 
-    virtual void initialize(int stage);
-    virtual void handleSelfMessage(cMessage *msg);
-    virtual void handleAirFrame(cMessage* msg);
-    virtual void finish();
+    virtual void initialize(int stage) override;
+    virtual void handleSelfMessage(omnetpp::cMessage *msg) override;
+    virtual void handleAirFrame(omnetpp::cMessage* msg) override;
+    virtual void finish() override;
 
-    virtual void handleUpperMessage(cMessage* msg);
+    virtual void handleUpperMessage(omnetpp::cMessage* msg) override;
 
     /**
      * Catches host failure due to battery depletion.
@@ -142,7 +142,7 @@ class LtePhyUe : public LtePhyBase
     {
         return masterId_;
     }
-    simtime_t coherenceTime(double speed)
+    omnetpp::simtime_t coherenceTime(double speed)
     {
         double fd = (speed / SPEED_OF_LIGHT) * carrierFrequency_;
         return 0.1 / fd;
@@ -155,6 +155,7 @@ class LtePhyUe : public LtePhyBase
             if (it->time_ == NOW)
                 return it->rbMap_[antenna][b];
         }
+        return 0;
     }
     unsigned int getPrevUsedRbs(const Remote antenna, Band b)
     {

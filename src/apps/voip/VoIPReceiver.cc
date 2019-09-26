@@ -11,6 +11,9 @@
 
 Define_Module(VoIPReceiver);
 
+using namespace std;
+using namespace inet;
+
 VoIPReceiver::~VoIPReceiver()
 {
     while (!mPlayoutQueue_.empty())
@@ -46,7 +49,7 @@ void VoIPReceiver::initialize(int stage)
     EV << "VoIPReceiver::initialize - binding to port: local:" << port << endl;
     if (port != -1)
     {
-        socket.setOutputGate(gate("udpOut"));
+        socket.setOutputGate(gate("socketOut"));
         socket.bind(port);
     }
 
@@ -64,33 +67,39 @@ void VoIPReceiver::handleMessage(cMessage *msg)
 {
     if (msg->isSelfMessage())
         return;
-    VoipPacket* pPacket = check_and_cast<VoipPacket*>(msg);
+    Packet* pPacket = check_and_cast<Packet*>(msg);
 
     if (pPacket == 0)
     {
-        throw cRuntimeError("VoIPReceiver::handleMessage - FATAL! Error when casting to VoIP packet");
+        throw cRuntimeError("VoIPReceiver::handleMessage - FATAL! Error when casting to inet packet");
     }
+
+    // read VoIP header
+    auto voipHeader = pPacket->popAtFront<VoipPacket>();
 
     if (mInit_)
     {
-        mCurrentTalkspurt_ = pPacket->getIDtalk();
+        mCurrentTalkspurt_ = voipHeader->getIDtalk();
         mInit_ = false;
     }
 
-    if (mCurrentTalkspurt_ != pPacket->getIDtalk())
+    if (mCurrentTalkspurt_ != voipHeader->getIDtalk())
     {
         playout(false);
-        mCurrentTalkspurt_ = pPacket->getIDtalk();
+        mCurrentTalkspurt_ = voipHeader->getIDtalk();
     }
 
     //emit(mFrameLossSignal,1.0);
 
-    EV << "VoIPReceiver::handleMessage - Packet received: TALK[" << pPacket->getIDtalk() << "] - FRAME[" << pPacket->getIDframe() << " size: " << (int)pPacket->getByteLength() << " bytes]\n";
+    EV << "VoIPReceiver::handleMessage - Packet received: TALK[" << voipHeader->getIDtalk() << "] - FRAME[" << voipHeader->getIDframe() << " size: " << voipHeader->getChunkLength() << " bytes]\n";
 
-    emit(voipReceivedThroughtput_, (int)pPacket->getByteLength() );
+    emit(voipReceivedThroughtput_, voipHeader->getChunkLength().get() );
 
-    pPacket->setArrivalTime(simTime());
-    mPacketsList_.push_back(pPacket);
+    auto packetToBeQueued = voipHeader->dup();
+    packetToBeQueued->setArrivalTime(simTime());
+    mPacketsList_.push_back(packetToBeQueued);
+
+    delete pPacket;
 }
 
 void VoIPReceiver::playout(bool finish)
@@ -103,7 +112,7 @@ void VoIPReceiver::playout(bool finish)
     VoipPacket* pPacket = mPacketsList_.front();
 
     simtime_t firstPlayoutTime = pPacket->getArrivalTime() + mPlayoutDelay_;
-    unsigned int firstFrameId = pPacket->getIDframe();
+    // unsigned int firstFrameId = pPacket->getIDframe();
     unsigned int n_frames = pPacket->getNframes();
     unsigned int playoutLoss = 0;
     unsigned int tailDropLoss = 0;

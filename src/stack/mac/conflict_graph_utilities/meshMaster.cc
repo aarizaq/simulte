@@ -8,11 +8,15 @@
 //
 
 #include "stack/mac/conflict_graph_utilities/meshMaster.h"
-#include "stack/mac/conflict_graph_utilities/utilities.h";
+#include "stack/mac/conflict_graph_utilities/utilities.h"
 #include "stack/phy/ChannelModel/LteRealisticChannelModel.h"
 #include "stack/phy/layer/LtePhyBase.h"
 #include <iomanip>
 #define NIL -1
+
+using namespace std;
+using namespace omnetpp;
+using namespace inet;
 
 /*!
  * \fn MeshMaster()

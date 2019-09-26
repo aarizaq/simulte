@@ -21,6 +21,8 @@
 
 Define_Module(LteMacUeD2D);
 
+using namespace inet;
+
 LteMacUeD2D::LteMacUeD2D() : LteMacUe()
 {
     racD2DMulticastRequested_ = false;
@@ -39,7 +41,7 @@ void LteMacUeD2D::initialize(int stage)
         preconfiguredTxParams_ = NULL;
         usePreconfiguredTxParams_ = par("usePreconfiguredTxParams");
     }
-    if (stage == inet::INITSTAGE_NETWORK_LAYER_3)
+    if (stage == inet::INITSTAGE_NETWORK_LAYER)
     {
         // get the reference to the eNB
         enb_ = check_and_cast<LteMacEnbD2D*>(getSimulation()->getModule(binder_->getOmnetId(cellId_))->getSubmodule("lteNic")->getSubmodule("mac"));
@@ -435,7 +437,7 @@ void LteMacUeD2D::macPduMake(LteMacScheduleList* scheduleList)
                 if (mbuf_.find(destCid) == mbuf_.end())
                     throw cRuntimeError("Unable to find mac buffer for cid %d", destCid);
 
-                if (mbuf_[destCid]->empty())
+                if (mbuf_[destCid]->isEmpty())
                     throw cRuntimeError("Empty buffer for cid %d, while expected SDUs were %d", destCid, sduPerCid);
 
                 pkt = mbuf_[destCid]->popFront();

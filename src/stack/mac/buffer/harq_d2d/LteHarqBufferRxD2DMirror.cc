@@ -41,12 +41,16 @@ LteHarqBufferRxD2DMirror::~LteHarqBufferRxD2DMirror()
 
 void LteHarqBufferRxD2DMirror::checkCorrupted()
 {
-    for (unsigned int i = 0; i < numHarqProcesses_; i++)
-    {
-        for (Codeword cw = 0; cw < MAX_CODEWORDS; ++cw)
-        {
-            if( processes_[i]->status_.at(cw) == RXHARQ_PDU_CORRUPTED )
-                EV << NOW << " LteHarqBufferRxMirror::checkCorrupted - Process: " << i << " is in CORRUPTED state"<<endl;
-        }
-    }
+    /**
+     * TODO: implement this
+     * @author wolfgang kallies
+     */
+    //for (unsigned int i = 0; i < numHarqProcesses_; i++)
+    //{
+    //    for (Codeword cw = 0; cw < MAX_CODEWORDS; ++cw)
+    //    {
+    //        if( processes_[i]->status_.at(cw) == RXHARQ_PDU_CORRUPTED )
+    //            EV << NOW << " LteHarqBufferRxMirror::checkCorrupted - Process: " << i << " is in CORRUPTED state"<<endl;
+    //    }
+    //}
 }

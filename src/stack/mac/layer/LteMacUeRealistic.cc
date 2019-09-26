@@ -6,6 +6,9 @@
 // The above file and the present reference are part of the software itself,
 // and cannot be removed from it.
 //
+#include <inet/networklayer/common/InterfaceEntry.h>
+#include <inet/common/ModuleAccess.h>
+#include <inet4_compat/networklayer/ipv4/Ipv4InterfaceData.h>
 
 #include "stack/mac/layer/LteMacUeRealistic.h"
 #include "stack/mac/buffer/harq/LteHarqBufferRx.h"
@@ -15,13 +18,12 @@
 #include "stack/mac/packet/LteRac_m.h"
 #include "stack/mac/buffer/LteMacBuffer.h"
 #include "stack/mac/amc/UserTxParams.h"
-#include "inet/networklayer/common/InterfaceEntry.h"
-#include "inet/common/ModuleAccess.h"
-#include "inet/networklayer/ipv4/IPv4InterfaceData.h"
 #include "corenetwork/binder/LteBinder.h"
 #include "stack/mac/packet/LteMacSduRequest.h"
 
 Define_Module(LteMacUeRealistic);
+
+using namespace inet;
 
 LteMacUeRealistic::LteMacUeRealistic() :
     LteMacUe()
@@ -148,7 +150,7 @@ void LteMacUeRealistic::macPduMake()
             if (mbuf_.find(destCid) == mbuf_.end())
                 throw cRuntimeError("Unable to find mac buffer for cid %d", destCid);
 
-            if (mbuf_[destCid]->empty())
+            if (mbuf_[destCid]->isEmpty())
                 throw cRuntimeError("Empty buffer for cid %d, while expected SDUs were %d", destCid, sduPerCid);
 
             pkt = mbuf_[destCid]->popFront();

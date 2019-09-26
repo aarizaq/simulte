@@ -9,6 +9,8 @@
 
 #include "stack/phy/ChannelModel/LteDummyChannelModel.h"
 
+using namespace omnetpp;
+
 LteDummyChannelModel::LteDummyChannelModel(ParameterMap& params, int band) :
     LteChannelModel(band)
 {

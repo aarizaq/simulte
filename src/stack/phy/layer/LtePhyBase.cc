@@ -10,6 +10,8 @@
 #include "stack/phy/layer/LtePhyBase.h"
 #include "common/LteCommon.h"
 
+using namespace omnetpp;
+
 short LtePhyBase::airFramePriority_ = 10;
 
 LtePhyBase::LtePhyBase()
@@ -46,7 +48,7 @@ void LtePhyBase::initialize(int stage)
         WATCH(numAirFrameReceived_);
         WATCH(numAirFrameNotReceived_);
     }
-    else if (stage == inet::INITSTAGE_PHYSICAL_ENVIRONMENT_2)
+    else if (stage == inet::INITSTAGE_PHYSICAL_ENVIRONMENT)
     {
         initializeChannelModel(par("channelModel").xmlValue());
     }

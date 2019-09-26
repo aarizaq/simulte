@@ -52,31 +52,31 @@ class LteMacUe : public LteMacBase
     bool bsrTriggered_;
 
     // statistics
-    simsignal_t cqiDlSpmux0_;
-    simsignal_t cqiDlSpmux1_;
-    simsignal_t cqiDlSpmux2_;
-    simsignal_t cqiDlSpmux3_;
-    simsignal_t cqiDlSpmux4_;
-    simsignal_t cqiDlTxDiv0_;
-    simsignal_t cqiDlTxDiv1_;
-    simsignal_t cqiDlTxDiv2_;
-    simsignal_t cqiDlTxDiv3_;
-    simsignal_t cqiDlTxDiv4_;
-    simsignal_t cqiDlMuMimo0_;
-    simsignal_t cqiDlMuMimo1_;
-    simsignal_t cqiDlMuMimo2_;
-    simsignal_t cqiDlMuMimo3_;
-    simsignal_t cqiDlMuMimo4_;
-    simsignal_t cqiDlSiso0_;
-    simsignal_t cqiDlSiso1_;
-    simsignal_t cqiDlSiso2_;
-    simsignal_t cqiDlSiso3_;
-    simsignal_t cqiDlSiso4_;
+    omnetpp::simsignal_t cqiDlSpmux0_;
+    omnetpp::simsignal_t cqiDlSpmux1_;
+    omnetpp::simsignal_t cqiDlSpmux2_;
+    omnetpp::simsignal_t cqiDlSpmux3_;
+    omnetpp::simsignal_t cqiDlSpmux4_;
+    omnetpp::simsignal_t cqiDlTxDiv0_;
+    omnetpp::simsignal_t cqiDlTxDiv1_;
+    omnetpp::simsignal_t cqiDlTxDiv2_;
+    omnetpp::simsignal_t cqiDlTxDiv3_;
+    omnetpp::simsignal_t cqiDlTxDiv4_;
+    omnetpp::simsignal_t cqiDlMuMimo0_;
+    omnetpp::simsignal_t cqiDlMuMimo1_;
+    omnetpp::simsignal_t cqiDlMuMimo2_;
+    omnetpp::simsignal_t cqiDlMuMimo3_;
+    omnetpp::simsignal_t cqiDlMuMimo4_;
+    omnetpp::simsignal_t cqiDlSiso0_;
+    omnetpp::simsignal_t cqiDlSiso1_;
+    omnetpp::simsignal_t cqiDlSiso2_;
+    omnetpp::simsignal_t cqiDlSiso3_;
+    omnetpp::simsignal_t cqiDlSiso4_;
 
     /**
      * Reads MAC parameters for ue and performs initialization.
      */
-    virtual void initialize(int stage);
+    virtual void initialize(int stage) override;
 
     /**
      * macPduMake() creates MAC PDUs (one for each CID)
@@ -87,7 +87,7 @@ class LteMacUe : public LteMacBase
      * On UE it also adds a BSR control element to the MAC PDU
      * containing the size of its buffer (for that CID)
      */
-    virtual void macPduMake(LteMacScheduleList* scheduleList);
+    virtual void macPduMake(LteMacScheduleList* scheduleList) override;
 
     /**
      * macPduUnmake() extracts SDUs from a received MAC
@@ -95,22 +95,22 @@ class LteMacUe : public LteMacBase
      *
      * @param pkt container packet
      */
-    virtual void macPduUnmake(cPacket* pkt);
+    virtual void macPduUnmake(omnetpp::cPacket* pkt) override;
 
     /**
      * Main loop
      */
-    virtual void handleSelfMessage();
+    virtual void handleSelfMessage() override;
 
     /*
      * Receives and handles scheduling grants
      */
-    virtual void macHandleGrant(cPacket* pkt);
+    virtual void macHandleGrant(omnetpp::cPacket* pkt) override;
 
     /*
      * Receives and handles RAC responses
      */
-    virtual void macHandleRac(cPacket* pkt);
+    virtual void macHandleRac(omnetpp::cPacket* pkt) override;
 
     /*
      * Checks RAC status
@@ -119,7 +119,7 @@ class LteMacUe : public LteMacBase
     /*
      * Update UserTxParam stored in every lteMacPdu when an rtx change this information
      */
-    virtual void updateUserTxParam(cPacket* pkt);
+    virtual void updateUserTxParam(omnetpp::cPacket* pkt) override;
 
   public:
     LteMacUe();
@@ -165,7 +165,7 @@ class LteMacUe : public LteMacBase
      *
      * @param nodeId Id of the node whose queues are deleted
      */
-    virtual void deleteQueues(MacNodeId nodeId);
+    virtual void deleteQueues(MacNodeId nodeId) override;
 
     // update ID of the serving cell during handover
     virtual void doHandover(MacNodeId targetEnb);

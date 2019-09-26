@@ -21,6 +21,8 @@
 #include "stack/mac/buffer/LteMacBuffer.h"
 #include "assert.h"
 
+using namespace omnetpp;
+
 LteMacBase::LteMacBase()
 {
     mbuf_.clear();
@@ -233,7 +235,7 @@ void LteMacBase::deleteQueues(MacNodeId nodeId)
     {
         if (MacCidToNodeId(mit->first) == nodeId)
         {
-            while (!mit->second->empty())
+            while (!mit->second->isEmpty())
             {
                 cPacket* pkt = mit->second->popFront();
                 delete pkt;

@@ -13,14 +13,14 @@
 #include <omnetpp.h>
 #include <string>
 
+#include <inet4_compat/networklayer/contract/ipv4/Ipv4Address.h>
+//#include <inet/networklayer/contract/ipv4/Ipv4Address.h>
+#include <inet/networklayer/common/L3Address.h>
+
 #include "common/LteCommon.h"
-#include "inet/networklayer/contract/ipv4/IPv4Address.h"
-#include "inet/networklayer/common/L3Address.h"
 #include "corenetwork/binder/PhyPisaData.h"
 #include "corenetwork/nodes/ExtCell.h"
 #include "stack/mac/layer/LteMacBase.h"
-
-using namespace inet;
 
 /**
  * The LTE Binder module has one instance in the whole network.
@@ -43,14 +43,14 @@ using namespace inet;
  *
  */
 
-class LteBinder : public cSimpleModule
+class LteBinder : public omnetpp::cSimpleModule
 {
   private:
     typedef std::map<MacNodeId, std::map<MacNodeId, bool> > DeployedUesMap;
     typedef std::map<MacCellId, LteDeployer*> DeployerList;
 
     unsigned int numBands_;  // number of logical bands
-    std::map<IPv4Address, MacNodeId> macNodeIdToIPAddress_;
+    std::map<inet::Ipv4Address, MacNodeId> macNodeIdToIPAddress_;
     std::map<MacNodeId, char*> macNodeIdToModuleName_;
     std::map<MacNodeId, LteMacBase*> macNodeIdToModule_;
     DeployerList deployersMap_;
@@ -80,7 +80,7 @@ class LteBinder : public cSimpleModule
     typedef std::map<X2NodeId, std::list<int> > X2ListeningPortMap;
     X2ListeningPortMap x2ListeningPorts_;
 
-    std::map<MacNodeId, std::map<MacNodeId, L3Address> > x2PeerAddress_;
+    std::map<MacNodeId, std::map<MacNodeId, inet::L3Address> > x2PeerAddress_;
 
     /*
      * D2D Support
@@ -94,7 +94,7 @@ class LteBinder : public cSimpleModule
      * Multicast support
      */
     // register here the IDs of the multicast group where UEs participate
-    typedef std::set<uint32> MulticastGroupIdSet;
+    typedef std::set<inet::uint32> MulticastGroupIdSet;
     std::map<MacNodeId, MulticastGroupIdSet> multicastGroupMap_;
 
     /*
@@ -103,23 +103,23 @@ class LteBinder : public cSimpleModule
     // store the id of the UEs that are performing handover
     std::set<MacNodeId> ueHandoverTriggered_;
   protected:
-    virtual void initialize(int stages);
+    virtual void initialize(int stages) override;
 
-    virtual int numInitStages() const { return INITSTAGE_LAST; }
+    virtual int numInitStages() const override { return inet::INITSTAGE_LAST; }
 
-    virtual void handleMessage(cMessage *msg)
+    virtual void handleMessage(omnetpp::cMessage *msg) override
     {
-    }
+    };
     /**
      * Attaches the application module to a UE module.
-     * At the moment only works with UDP
+     * At the moment only works with Udp
      *
      * @param parentModule module to which attach application
      * @param mobType application module type
      * @param counter app index in UL direction. Always -1 in DL
      */
     void attachAppModule(cModule *parentModule, std::string IPAddr,
-        cXMLAttributeMap attr, int counter);
+        omnetpp::cXMLAttributeMap attr, int counter);
 
     /*
      * connects the application module gates to the transport layer of
@@ -141,9 +141,9 @@ class LteBinder : public cSimpleModule
      * @param counter offset to add to the basePort
      *
      */
-    void setTransportAppPort(cModule* module, unsigned int counter, cXMLAttributeMap attr);
+    void setTransportAppPort(cModule* module, unsigned int counter, omnetpp::cXMLAttributeMap attr);
 
-    void parseParam(cModule* module, cXMLAttributeMap attr);
+    void parseParam(cModule* module, omnetpp::cXMLAttributeMap attr);
 
   public:
     LteBinder()
@@ -265,7 +265,7 @@ class LteBinder : public cSimpleModule
      * @param address IP address
      * @return MacNodeId corresponding to the IP addres
      */
-    MacNodeId getMacNodeId(IPv4Address address)
+    MacNodeId getMacNodeId(inet::Ipv4Address address)
     {
         if (macNodeIdToIPAddress_.find(address) == macNodeIdToIPAddress_.end())
             return 0;
@@ -278,7 +278,7 @@ class LteBinder : public cSimpleModule
      * @param address IP address
      * @return X2NodeId corresponding to the IP address
      */
-    X2NodeId getX2NodeId(IPv4Address address)
+    X2NodeId getX2NodeId(inet::Ipv4Address address)
     {
         return getMacNodeId(address);
     }
@@ -288,7 +288,7 @@ class LteBinder : public cSimpleModule
      *
      * @param address IP address
      */
-    void setMacNodeId(IPv4Address address, MacNodeId nodeId)
+    void setMacNodeId(inet::Ipv4Address address, MacNodeId nodeId)
     {
         macNodeIdToIPAddress_[address] = nodeId;
     }
@@ -297,17 +297,17 @@ class LteBinder : public cSimpleModule
      *
      * @param address IP address
      */
-    void setX2NodeId(IPv4Address address, X2NodeId nodeId)
+    void setX2NodeId(inet::Ipv4Address address, X2NodeId nodeId)
     {
         setMacNodeId(address, nodeId);
     }
-    L3Address getX2PeerAddress(X2NodeId srcId, X2NodeId destId)
+    inet::L3Address getX2PeerAddress(X2NodeId srcId, X2NodeId destId)
     {
         return x2PeerAddress_[srcId][destId];
     }
-    void setX2PeerAddress(X2NodeId srcId, X2NodeId destId, L3Address interfAddr)
+    void setX2PeerAddress(X2NodeId srcId, X2NodeId destId, inet::L3Address interfAddr)
     {
-        std::pair<X2NodeId, L3Address> p(destId, interfAddr);
+        std::pair<X2NodeId, inet::L3Address> p(destId, interfAddr);
         x2PeerAddress_[srcId].insert(p);
     }
     /**
@@ -382,9 +382,9 @@ class LteBinder : public cSimpleModule
      * Multicast Support
      */
     // add the group to the set of multicast group of nodeId
-    void registerMulticastGroup(MacNodeId nodeId, int32 groupId);
+    void registerMulticastGroup(MacNodeId nodeId, inet::int32 groupId);
     // check if the node is enrolled in the group
-    bool isInMulticastGroup(MacNodeId nodeId, int32 groupId);
+    bool isInMulticastGroup(MacNodeId nodeId, inet::int32 groupId);
 
     /*
      *  Handover support

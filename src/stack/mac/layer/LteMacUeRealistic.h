@@ -27,13 +27,13 @@ class LteMacUeRealistic : public LteMacUe
     /**
      * Reads MAC parameters for ue and performs initialization.
      */
-    virtual void initialize(int stage);
+    virtual void initialize(int stage) override;
 
     /**
      * Analyze gate of incoming packet
      * and call proper handler
      */
-    virtual void handleMessage(cMessage *msg);
+    virtual void handleMessage(omnetpp::cMessage *msg) override;
 
     /**
      * macSduRequest() sends a message to the RLC layer
@@ -57,18 +57,18 @@ class LteMacUeRealistic : public LteMacUe
      * bufferizePacket() is called every time a packet is
      * received from the upper layer
      */
-    virtual bool bufferizePacket(cPacket* pkt);
+    virtual bool bufferizePacket(omnetpp::cPacket* pkt) override;
 
     /**
      * handleUpperMessage() is called every time a packet is
      * received from the upper layer
      */
-    virtual void handleUpperMessage(cPacket* pkt);
+    virtual void handleUpperMessage(omnetpp::cPacket* pkt) override;
 
     /**
      * Main loop
      */
-    virtual void handleSelfMessage();
+    virtual void handleSelfMessage() override;
 
     /**
      * Flush Tx H-ARQ buffers for the user

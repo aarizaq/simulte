@@ -1,0 +1,168 @@
+make[1]: Entering directory '/home/ich/libs/simulte/simulte_inet4_compat/src'
+MSGC: apps/alert/AlertPacket.msg
+MSGC: apps/cbr/CbrPacket.msg
+MSGC: apps/vod/M1Message.msg
+MSGC: apps/vod/VoDPacket.msg
+MSGC: apps/voip/VoipPacket.msg
+MSGC: common/LteControlInfo.msg
+MSGC: common/timer/TMultiTimerMsg.msg
+MSGC: common/timer/TTimerMsg.msg
+MSGC: epc/gtp/GtpUserMsg.msg
+MSGC: stack/d2dModeSelection/D2DModeSwitchNotification.msg
+MSGC: stack/mac/packet/LteHarqFeedback.msg
+MSGC: stack/mac/packet/LteMacPdu.msg
+MSGC: stack/mac/packet/LteMacSduRequest.msg
+MSGC: stack/mac/packet/LteRac.msg
+MSGC: stack/mac/packet/LteSchedulingGrant.msg
+MSGC: stack/pdcp_rrc/packet/LtePdcpPdu.msg
+MSGC: stack/phy/packet/AirFrame.msg
+MSGC: stack/phy/packet/LteAirFrame.msg
+MSGC: stack/phy/packet/LteFeedbackPkt.msg
+MSGC: stack/rlc/am/packet/LteRlcAmPdu.msg
+MSGC: stack/rlc/am/packet/LteRlcAmSdu.msg
+MSGC: stack/rlc/packet/LteRlcDataPdu.msg
+MSGC: stack/rlc/packet/LteRlcPdu.msg
+MSGC: stack/rlc/packet/LteRlcSdu.msg
+MSGC: x2/packet/LteX2Message.msg
+MSGC: x2/packet/X2ControlInfo.msg
+apps/alert/AlertReceiver.cc
+apps/alert/AlertSender.cc
+apps/cbr/CbrReceiver.cc
+apps/cbr/CbrSender.cc
+apps/vod/VoDUDPClient.cc
+apps/vod/VoDUDPServer.cc
+apps/voip/VoIPReceiver.cc
+apps/voip/VoIPSender.cc
+common/LteCommon.cc
+common/LteControlInfo.cc
+common/timer/TTimer.cc
+corenetwork/binder/LteBinder.cc
+corenetwork/binder/PhyPisaData.cc
+corenetwork/deployer/LteDeployer.cc
+corenetwork/lteip/InternetQueue.cc
+corenetwork/lteip/IP2lte.cc
+corenetwork/lteip/LteIp.cc
+corenetwork/nodes/ExtCell.cc
+corenetwork/nodes/InternetMux.cc
+corenetwork/nodes/UnUuMux.cc
+epc/gtp_common.cc
+epc/TrafficFlowFilter.cc
+epc/TrafficFlowFilterSimplified.cc
+epc/gtp/GtpUser.cc
+epc/gtp/GtpUserSimplified.cc
+epc/gtp/GtpUserX2.cc
+epc/gtp/TftControlInfo.cc
+stack/compManager/LteCompManagerBase.cc
+stack/compManager/compManagerProportional/LteCompManagerProportional.cc
+stack/d2dModeSelection/D2DModeSelectionBase.cc
+stack/d2dModeSelection/d2dModeSelectionBestCqi/D2DModeSelectionBestCqi.cc
+stack/handoverManager/LteHandoverManager.cc
+stack/mac/allocator/LteAllocationModule.cc
+stack/mac/allocator/LteAllocationModuleFrequencyReuse.cc
+stack/mac/amc/AmcPilotAuto.cc
+stack/mac/amc/AmcPilotD2D.cc
+stack/mac/amc/LteAmc.cc
+stack/mac/amc/LteMcs.cc
+stack/mac/amc/UserTxParams.cc
+stack/mac/buffer/LteMacBuffer.cc
+stack/mac/buffer/LteMacQueue.cc
+stack/mac/buffer/harq/LteHarqBufferRx.cc
+stack/mac/buffer/harq/LteHarqBufferTx.cc
+stack/mac/buffer/harq/LteHarqProcessRx.cc
+stack/mac/buffer/harq/LteHarqProcessTx.cc
+stack/mac/buffer/harq/LteHarqUnitTx.cc
+stack/mac/buffer/harq_d2d/LteHarqBufferRxD2D.cc
+stack/mac/buffer/harq_d2d/LteHarqBufferRxD2DMirror.cc
+stack/mac/buffer/harq_d2d/LteHarqBufferTxD2D.cc
+stack/mac/buffer/harq_d2d/LteHarqProcessRxD2D.cc
+stack/mac/buffer/harq_d2d/LteHarqProcessRxD2DMirror.cc
+stack/mac/buffer/harq_d2d/LteHarqProcessTxD2D.cc
+stack/mac/buffer/harq_d2d/LteHarqUnitTxD2D.cc
+stack/mac/conflict_graph_utilities/meshMaster.cc
+stack/mac/conflict_graph_utilities/utilities.cc
+stack/mac/layer/LteMacBase.cc
+stack/mac/layer/LteMacEnb.cc
+stack/mac/layer/LteMacEnbD2D.cc
+stack/mac/layer/LteMacEnbRealistic.cc
+stack/mac/layer/LteMacEnbRealisticD2D.cc
+stack/mac/layer/LteMacRelayEnb.cc
+stack/mac/layer/LteMacRelayUe.cc
+stack/mac/layer/LteMacUe.cc
+stack/mac/layer/LteMacUeD2D.cc
+stack/mac/layer/LteMacUeRealistic.cc
+stack/mac/layer/LteMacUeRealisticD2D.cc
+stack/mac/scheduler/LcgScheduler.cc
+stack/mac/scheduler/LcgSchedulerRealistic.cc
+stack/mac/scheduler/LteScheduler.cc
+stack/mac/scheduler/LteSchedulerEnb.cc
+stack/mac/scheduler/LteSchedulerEnbDl.cc
+stack/mac/scheduler/LteSchedulerEnbDlRealistic.cc
+stack/mac/scheduler/LteSchedulerEnbUl.cc
+stack/mac/scheduler/LteSchedulerUeUl.cc
+stack/mac/scheduling_modules/LteAllocatorBestFit.cc
+stack/mac/scheduling_modules/LteDrr.cc
+stack/mac/scheduling_modules/LteMaxCi.cc
+stack/mac/scheduling_modules/LteMaxCiComp.cc
+stack/mac/scheduling_modules/LteMaxCiMultiband.cc
+stack/mac/scheduling_modules/LteMaxCiOptMB.cc
+stack/mac/scheduling_modules/LtePf.cc
+stack/pdcp_rrc/ConnectionsTable.cc
+stack/pdcp_rrc/layer/LtePdcpRrc.cc
+stack/pdcp_rrc/layer/LtePdcpRrcEnbD2D.cc
+stack/pdcp_rrc/layer/LtePdcpRrcUeD2D.cc
+stack/pdcp_rrc/layer/entity/LtePdcpEntity.cc
+stack/phy/ChannelModel/LteChannelModel.cc
+stack/phy/ChannelModel/LteDummyChannelModel.cc
+stack/phy/ChannelModel/LteRealisticChannelModel.cc
+stack/phy/das/DasFilter.cc
+stack/phy/das/RemoteAntennaSet.cc
+stack/phy/feedback/LteDlFeedbackGenerator.cc
+stack/phy/feedback/LteFeedback.cc
+stack/phy/feedback/LteFeedbackComputation.cc
+stack/phy/feedback/LteFeedbackComputationDummy.cc
+stack/phy/feedback/LteFeedbackComputationRealistic.cc
+stack/phy/feedback/testFeedback/FeedbackTester.cc
+stack/phy/layer/LtePhyBase.cc
+stack/phy/layer/LtePhyEnb.cc
+stack/phy/layer/LtePhyEnbD2D.cc
+stack/phy/layer/LtePhyRelay.cc
+stack/phy/layer/LtePhyUe.cc
+stack/phy/layer/LtePhyUeD2D.cc
+stack/phy/packet/LteAirFrame.cc
+stack/phy/packet/LteFeedbackPkt.cc
+stack/rlc/LteRlcMux.cc
+stack/rlc/am/LteRlcAm.cc
+stack/rlc/am/buffer/AmRxQueue.cc
+stack/rlc/am/buffer/AmTxQueue.cc
+stack/rlc/am/packet/LteRlcAmPdu.cc
+stack/rlc/packet/LteRlcDataPdu.cc
+stack/rlc/tm/LteRlcTm.cc
+stack/rlc/um/LteRlcUm.cc
+stack/rlc/um/LteRlcUmRealistic.cc
+stack/rlc/um/LteRlcUmRealisticD2D.cc
+stack/rlc/um/buffer/UmFragbuf.cc
+stack/rlc/um/buffer/UmRxQueue.cc
+stack/rlc/um/buffer/UmTxQueue.cc
+stack/rlc/um/entity/UmRxEntity.cc
+stack/rlc/um/entity/UmTxEntity.cc
+world/radio/ChannelAccess.cc
+world/radio/ChannelControl.cc
+world/radio/LteChannelControl.cc
+x2/LteX2Manager.cc
+x2/X2AppClient.cc
+x2/X2AppServer.cc
+apps/alert/AlertPacket_m.cc
+apps/cbr/CbrPacket_m.cc
+apps/vod/M1Message_m.cc
+apps/vod/VoDPacket_m.cc
+apps/voip/VoipPacket_m.cc
+common/LteControlInfo_m.cc
+common/timer/TMultiTimerMsg_m.cc
+common/timer/TTimerMsg_m.cc
+epc/gtp/GtpUserMsg_m.cc
+stack/d2dModeSelection/D2DModeSwitchNotification_m.cc
+stack/mac/packet/LteHarqFeedback_m.cc
+stack/mac/packet/LteMacPdu_m.cc
+Makefile:290: recipe for target '../out/gcc-release/src/stack/mac/packet/LteMacPdu_m.o' failed
+make[1]: Leaving directory '/home/ich/libs/simulte/simulte_inet4_compat/src'
+Makefile:2: recipe for target 'all' failed

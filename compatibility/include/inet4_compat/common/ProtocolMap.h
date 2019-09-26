@@ -1,0 +1,4 @@
+#ifndef INET_COMPAT_PROTOCOL_MAP_H_
+#define INET_COMPAT_PROTOCOL_MAP_H_
+
+#endif

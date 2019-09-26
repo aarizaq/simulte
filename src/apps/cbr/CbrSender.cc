@@ -6,6 +6,8 @@
 #define round(x) floor((x) + 0.5)
 
 Define_Module(CbrSender);
+using namespace inet;
+using namespace std;
 
 CbrSender::CbrSender()
 {
@@ -40,7 +42,7 @@ void CbrSender::initialize(int stage)
     else if (stage == INITSTAGE_APPLICATION_LAYER)
     {
         destAddress_ = L3AddressResolver().resolve(par("destAddress").stringValue());
-        socket.setOutputGate(gate("udpOut"));
+        socket.setOutputGate(gate("socketOut"));
         socket.bind(localPort_);
 
         EV << "CbrSender::initialize - binding to port: local:" << localPort_ << " , dest:" << destPort_ << endl;
@@ -89,7 +91,7 @@ void CbrSender::initTraffic()
         delete initTraffic_;
 
         destAddress_ = inet::L3AddressResolver().resolve(par("destAddress").stringValue());
-        socket.setOutputGate(gate("udpOut"));
+        socket.setOutputGate(gate("socketOut"));
         socket.bind(localPort_);
 
         EV << simTime() << "CbrSender::initialize - binding to port: local:" << localPort_ << " , dest: " << destAddress_.str() << ":" << destPort_ << endl;
@@ -99,7 +101,7 @@ void CbrSender::initTraffic()
 
         // TODO maybe un-necesessary
         // this conversion is made in order to obtain ms-aligned start time, even in case of random generated ones
-        simtime_t offset = (round(SIMTIME_DBL(startTime)*1000)/1000);
+        // simtime_t offset = (round(SIMTIME_DBL(startTime)*1000)/1000);
 
         scheduleAt(simTime()+startTime, selfSource_);
         EV << "\t starting traffic in " << startTime << " seconds " << endl;
@@ -108,11 +110,14 @@ void CbrSender::initTraffic()
 
 void CbrSender::sendCbrPacket()
 {
-    CbrPacket* packet = new CbrPacket("Cbr");
-    packet->setNframes(nframes_);
-    packet->setIDframe(iDframe_);
-    packet->setTimestamp(simTime());
-    packet->setByteLength(size_);
+    Packet* packet = new Packet("CBR");
+    auto cbr = makeShared<CbrPacket>();
+    cbr->setNframes(nframes_);
+    cbr->setIDframe(iDframe_);
+    cbr->setTimestamp(simTime());
+    cbr->setSize(size_);
+    cbr->setChunkLength(B(size_));
+    packet->insertAtBack(cbr);
 
     EV << "CbrSender::sendCbrPacket - Sending frame[" << iDframe_ << "/" << nframes_ << "], next packet at "<< simTime() + sampling_time << endl;
 
