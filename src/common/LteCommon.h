@@ -31,6 +31,7 @@
 #include <algorithm>
 
 #include <inet/common/packet/Packet.h>
+#include <inet/common/Protocol.h>
 #include <inet/common/geometry/common/Coord.h>
 
 #include "common/features.h"
@@ -49,6 +50,13 @@ class LteControlInfo;
 class ExtCell;
 
 
+/**
+ * Lte specific protocols
+ */
+class LteProtocol {
+public:
+    static const inet::Protocol lteuu; // IP protocol on the uU interface
+};
 
 /**
  * TODO

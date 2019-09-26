@@ -72,7 +72,7 @@ class IP2lte : public omnetpp::cSimpleModule
      * Manage packets received from Lte Stack
      * and forward them to transport layer.
      */
-    void prepareForIpv4(inet::Packet *datagram);
+    void prepareForIpv4(inet::Packet *datagram, const inet::Protocol *protocol = &inet::Protocol::ipv4);
     void toIpUe(inet::Packet *datagram);
     void fromIpEnb(inet::Packet * datagram);
     void toIpEnb(inet::Packet * datagram);

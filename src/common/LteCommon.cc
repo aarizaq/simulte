@@ -12,8 +12,14 @@
 #include "corenetwork/deployer/LteDeployer.h"
 #include "stack/mac/layer/LteMacEnb.h"
 #include "common/LteControlInfo.h"
+#include "inet/common/packet/dissector/ProtocolDissectorRegistry.h"
+#include "inet/networklayer/ipv4/Ipv4ProtocolDissector.h"
 
 using namespace inet;
+
+const inet::Protocol LteProtocol::lteuu("lteuu", "IPv4 (LTE Uu)");
+Register_Protocol_Dissector(&LteProtocol::lteuu, Ipv4ProtocolDissector);
+
 
 const std::string lteTrafficClassToA(LteTrafficClass type)
 {

@@ -11,6 +11,7 @@
 #include <inet/networklayer/common/L3AddressResolver.h>
 #include <inet/networklayer/ipv4/Ipv4Header_m.h>
 #include <inet4_compat/common/cPacketToPacket.h>
+#include <inet/common/IProtocolRegistrationListener.h>
 
 using namespace inet;
 
@@ -31,6 +32,9 @@ void TrafficFlowFilter::initialize(int stage)
         error("TrafficFlowFilter::initialize - Error reading configuration from file %s", filename);
     loadFilterTable(filename);
     //=============================================
+
+    // register service processing IP-packets on the LTE Uu Link
+    registerService(LteProtocol::lteuu, gate("internetFilterGateIn"), gate("internetFilterGateIn"));
 }
 
 EpcNodeType TrafficFlowFilter::selectOwnerType(const char * type)

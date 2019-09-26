@@ -8,6 +8,7 @@
 //
 
 #include "epc/TrafficFlowFilterSimplified.h"
+#include <inet/common/IProtocolRegistrationListener.h>
 #include <inet/networklayer/common/L3AddressResolver.h>
 #include <inet/networklayer/ipv4/Ipv4Header_m.h>
 
@@ -29,6 +30,9 @@ void TrafficFlowFilterSimplified::initialize(int stage)
 
     // reading and setting owner type
     ownerType_ = selectOwnerType(par("ownerType"));
+
+    // register service processing IP-packets on the LTE Uu Link
+    registerService(LteProtocol::lteuu, gate("internetFilterGateIn"), gate("internetFilterGateIn"));
 }
 
 EpcNodeType TrafficFlowFilterSimplified::selectOwnerType(const char * type)

@@ -225,11 +225,10 @@ void IP2lte::fromIpUe(Packet * datagram)
     send(pktToLte,stackGateOut_);
 }
 
-void IP2lte::prepareForIpv4(Packet *datagram){
+void IP2lte::prepareForIpv4(Packet *datagram, const Protocol *protocol){
     // add DispatchProtocolRequest so that the packet is handled by the IPv4 layer
-    const Protocol *payloadProtocol = &Protocol::ipv4;
-    datagram->addTagIfAbsent<DispatchProtocolReq>()->setProtocol(payloadProtocol);
-    datagram->addTagIfAbsent<PacketProtocolTag>()->setProtocol(payloadProtocol);
+    datagram->addTagIfAbsent<DispatchProtocolReq>()->setProtocol(protocol);
+    datagram->addTagIfAbsent<PacketProtocolTag>()->setProtocol(protocol);
     // add Interface-Indication to indicate which interface this packet was received from
     datagram->addTagIfAbsent<InterfaceInd>()->setInterfaceId(interfaceEntry->getInterfaceId());
 }
@@ -284,7 +283,7 @@ void IP2lte::fromIpEnb(Packet * datagram)
 void IP2lte::toIpEnb(Packet* datagram)
 {
     EV << "IP2lte::toIpEnb - message from stack: send to IP layer" << endl;
-    prepareForIpv4(datagram);
+    prepareForIpv4(datagram, &LteProtocol::lteuu);
     send(datagram,ipGateOut_);
 }
 
