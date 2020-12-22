@@ -56,6 +56,7 @@ module eNodeBBase
         int macCellId = default(0);  // TODO: this is not a real parameter
         double txPower @unit(mw) = default(100mw);
         string nicType = default("LteNicEnb");
+        string interfaceName = default("cellular");
 
         //# Network Layer specs
         bool hasIpv4 = default(true);
@@ -259,10 +260,9 @@ module eNodeB extends eNodeBBase
         }
         gtpUser: GtpUserSimplified {
             parameters:
-                @display("p=199.08,45.82");
-                ipOutInterface = "wlan";       // FIXME: we should use a different name, eg. "cellular" for the LteNic
+            	@display("p=434,48");
+            	ipOutInterface = interfaceName; 
         }
-
         gtpUserX2: GtpUserX2 {
             parameters:
                 @display("p=963.195,375.2575");
